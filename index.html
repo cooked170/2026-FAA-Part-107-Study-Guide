@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Part 107">
+<meta name="theme-color" content="#0b3d66">
+<title>Part 107 Study Guide</title>
+<style>
+:root{
+  --navy:#0b3d66; --navy2:#10527f; --sky:#2f86c5; --accent:#f4a72f;
+  --bg:#f4f6f9; --card:#ffffff; --ink:#16222e; --muted:#5d6b78;
+  --line:#e2e8f0; --good:#1f9d57; --bad:#d6453d; --magenta:#b4318a; --blue:#2f6fd6;
+  --shadow:0 2px 10px rgba(16,34,46,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-text-size-adjust:100%;line-height:1.5;}
+a{color:var(--sky);}
+/* Header */
+header{position:sticky;top:0;z-index:40;background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;padding:calc(env(safe-area-inset-top) + 12px) 16px 12px;box-shadow:var(--shadow);}
+header .row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+header h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px;}
+header .sub{font-size:11px;opacity:.8;margin-top:1px;}
+.progbar{height:6px;background:rgba(255,255,255,.22);border-radius:99px;margin-top:10px;overflow:hidden;}
+.progbar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s;}
+/* Layout */
+main{padding:16px 16px 96px;max-width:760px;margin:0 auto;}
+.view{display:none;animation:fade .25s ease;}
+.view.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+h2.sec{font-size:20px;margin:4px 0 14px;}
+.lead{color:var(--muted);font-size:14px;margin:-6px 0 16px;}
+/* Cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;
+  box-shadow:var(--shadow);margin-bottom:14px;}
+.card h3{margin:0 0 8px;font-size:16px;}
+.card p{margin:8px 0;font-size:14.5px;}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 14px;
+  box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,border-color .12s;}
+.tile:active{transform:scale(.97);}
+.tile .ic{font-size:24px;}
+.tile .t{font-weight:700;margin-top:8px;font-size:15px;}
+.tile .d{color:var(--muted);font-size:12px;margin-top:3px;}
+.tile .meter{height:5px;border-radius:99px;background:var(--line);margin-top:10px;overflow:hidden;}
+.tile .meter>i{display:block;height:100%;background:var(--good);width:0;}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 16px;
+  font-size:15px;font-weight:600;cursor:pointer;width:100%;}
+.btn.alt{background:#fff;color:var(--navy);border:1.5px solid var(--navy);}
+.btn.ghost{background:#eef2f7;color:var(--ink);}
+.btn.sm{padding:9px 12px;font-size:13px;width:auto;}
+.btn:active{filter:brightness(.95);}
+.btnrow{display:flex;gap:10px;}
+/* Pills */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.pill{padding:8px 13px;border-radius:99px;background:#fff;border:1px solid var(--line);
+  font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.pill.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+/* Lessons */
+.lesson h3{color:var(--navy);border-left:4px solid var(--accent);padding-left:10px;margin-top:18px;}
+.lesson ul{padding-left:18px;margin:8px 0;}
+.lesson li{margin:5px 0;font-size:14.5px;}
+.key{background:#fff6e6;border:1px solid #f3d89a;border-radius:12px;padding:12px;margin:12px 0;font-size:14px;}
+.key b{color:#9a6a00;}
+.bridge{background:#eaf3fb;border:1px solid #c5ddf3;border-radius:12px;padding:12px;margin:14px 0;font-size:13.5px;}
+.bridge b{color:var(--navy2);}
+.exq{background:#f3f7f3;border:1px dashed #b8d6b8;border-radius:12px;padding:12px;margin:12px 0;font-size:14px;}
+.exq .lbl{font-size:11px;font-weight:700;color:var(--good);letter-spacing:.5px;text-transform:uppercase;}
+.exq .ans{display:none;margin-top:8px;color:#1c5e36;font-weight:600;}
+.exq.show .ans{display:block;}
+.exq .rev{margin-top:8px;font-size:12.5px;color:var(--sky);font-weight:700;cursor:pointer;}
+table.ref{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;}
+table.ref th,table.ref td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top;}
+table.ref th{background:#eef3f8;font-size:12px;}
+.swatch{display:inline-block;width:30px;height:0;border-radius:2px;vertical-align:middle;margin-right:4px;}
+/* Flashcards */
+.fcwrap{perspective:1200px;}
+.flashcard{position:relative;height:300px;border-radius:18px;cursor:pointer;
+  transform-style:preserve-3d;transition:transform .5s;}
+.flashcard.flip{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:22px;text-align:center;box-shadow:var(--shadow);}
+.fc-front{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;}
+.fc-back{background:#fff;border:1px solid var(--line);transform:rotateY(180deg);}
+.fc-front .q{font-size:19px;font-weight:600;}
+.fc-back .a{font-size:16px;}
+.fc-tag{position:absolute;top:12px;left:14px;font-size:11px;opacity:.8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.fc-hint{position:absolute;bottom:12px;font-size:11px;opacity:.7;}
+.fc-front .fc-hint{color:#fff;}.fc-back .fc-hint{color:var(--muted);}
+.fc-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+.fc-controls .btn{font-size:14px;}
+.box-info{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:10px 2px;}
+/* Quiz */
+.qcard .qtext{font-size:16px;font-weight:600;margin-bottom:14px;}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);
+  border-radius:12px;padding:13px 14px;margin-bottom:10px;font-size:14.5px;cursor:pointer;}
+.opt.correct{border-color:var(--good);background:#eefaf1;}
+.opt.wrong{border-color:var(--bad);background:#fdeeed;}
+.opt.disabled{pointer-events:none;}
+.expl{display:none;background:#eef3f8;border-radius:12px;padding:12px;font-size:13.5px;margin-top:6px;}
+.expl.show{display:block;}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:12px;}
+.timer{font-weight:700;color:var(--navy);}
+.scorebig{font-size:46px;font-weight:800;text-align:center;}
+.scorebig.pass{color:var(--good);}.scorebig.fail{color:var(--bad);}
+/* Bottom nav */
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;padding:6px 4px calc(env(safe-area-inset-bottom) + 6px);}
+nav.tabs button{flex:1;background:none;border:none;color:var(--muted);font-size:10.5px;font-weight:600;
+  display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 2px;}
+nav.tabs button .ic{font-size:20px;line-height:1;}
+nav.tabs button.on{color:var(--navy);}
+.back{display:inline-flex;align-items:center;gap:5px;color:var(--sky);font-weight:600;font-size:14px;
+  background:none;border:none;cursor:pointer;padding:0;margin-bottom:10px;}
+.center{text-align:center;}
+.muted{color:var(--muted);font-size:13px;}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#eef3f8;color:var(--navy2);margin-left:6px;}
+.diagram{width:100%;height:auto;display:block;margin:6px 0;}
+hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
+.kbd{background:#eef2f7;border-radius:6px;padding:1px 6px;font-size:12px;font-family:ui-monospace,Menlo,monospace;}
+</style>
+</head>
+<body>
+<header>
+  <div class="row">
+    <div>
+      <h1>FAA Part 107 — Study Guide</h1>
+      <div class="sub" id="subline">Interactive prep for the Remote Pilot exam</div>
+    </div>
+    <button class="btn sm ghost" id="resetBtn" style="width:auto">Reset</button>
+  </div>
+  <div class="progbar"><i id="overallProg"></i></div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="view active" id="view-home">
+    <h2 class="sec">Welcome back 👋</h2>
+    <p class="lead">60 questions · 2 hours · 70% to pass (42/60). Airspace, sectional charts, and weather are the highest-yield topics. Tap a module to begin.</p>
+    <div class="card">
+      <h3>Your progress</h3>
+      <p class="muted" id="homeStats">Loading…</p>
+      <div class="btnrow" style="margin-top:6px">
+        <button class="btn" onclick="go('quiz')">Daily quiz</button>
+        <button class="btn alt" onclick="go('cards')">Flashcards</button>
+      </div>
+    </div>
+    <h2 class="sec" style="margin-top:18px">Learning modules</h2>
+    <p class="lead">Built to bridge naturally — each module sets up the next.</p>
+    <div class="tiles" id="moduleTiles"></div>
+  </section>
+
+  <!-- LEARN -->
+  <section class="view" id="view-learn">
+    <h2 class="sec">Learn</h2>
+    <p class="lead">Read top to bottom — concepts build on each other. Example problems are sprinkled in; tap to reveal answers.</p>
+    <div class="tiles" id="learnTiles"></div>
+  </section>
+  <section class="view" id="view-lesson">
+    <button class="back" onclick="go('learn')">‹ Modules</button>
+    <div id="lessonBody" class="lesson"></div>
+    <div class="btnrow" style="margin-top:8px">
+      <button class="btn alt" id="lessonPrev">‹ Prev</button>
+      <button class="btn" id="lessonNext">Next ›</button>
+    </div>
+    <button class="btn ghost" style="margin-top:10px" id="lessonQuizBtn">Quiz me on this topic →</button>
+  </section>
+
+  <!-- REFERENCE -->
+  <section class="view" id="view-ref">
+    <h2 class="sec">Reference data</h2>
+    <p class="lead">Your in-pocket cheat sheets. Come back here whenever a lesson or question references a chart symbol or number.</p>
+    <div class="pills" id="refPills"></div>
+    <div id="refBody"></div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="view" id="view-cards">
+    <h2 class="sec">Flashcards</h2>
+    <p class="lead">Leitner spaced repetition: cards you miss come back sooner; cards you know move up boxes and appear less often. Repeat a deck until everything reaches the top box.</p>
+    <div class="pills" id="cardPills"></div>
+    <div class="box-info"><span id="deckLabel"></span><span id="deckCount"></span></div>
+    <div class="fcwrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="fc-face fc-front"><span class="fc-tag" id="fcTag"></span><div class="q" id="fcQ"></div><span class="fc-hint">tap to flip</span></div>
+        <div class="fc-face fc-back"><span class="fc-tag">Answer</span><div class="a" id="fcA"></div><span class="fc-hint">tap to flip back</span></div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button class="btn" style="background:var(--bad)" onclick="rateCard(false)">Missed it ↺</button>
+      <button class="btn" style="background:var(--good)" onclick="rateCard(true)">Got it ✓</button>
+    </div>
+    <div class="center" style="margin-top:12px"><span class="muted" id="masteryNote"></span></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="view" id="view-quiz">
+    <h2 class="sec">Practice & exams</h2>
+    <p class="lead">Pick a topic to drill, or simulate the real 60-question exam against the clock.</p>
+    <div class="pills" id="quizPills"></div>
+    <div id="quizStart"></div>
+    <div id="quizRun" style="display:none"></div>
+    <div id="quizResult" style="display:none"></div>
+  </section>
+
+  <!-- TIPS -->
+  <section class="view" id="view-tips">
+    <h2 class="sec">Study strategy</h2>
+    <p class="lead">Tactics that repeatedly show up among people who pass on the first try.</p>
+    <div id="tipsBody"></div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button data-go="home" class="on"><span class="ic">🏠</span>Home</button>
+  <button data-go="learn"><span class="ic">📘</span>Learn</button>
+  <button data-go="cards"><span class="ic">🃏</span>Cards</button>
+  <button data-go="quiz"><span class="ic">✅</span>Quiz</button>
+  <button data-go="ref"><span class="ic">🗺️</span>Reference</button>
+  <button data-go="tips"><span class="ic">💡</span>Tips</button>
+</nav>
+
+<script>
+/* ============================================================
+   PERSISTENCE
+============================================================ */
+const STORE='p107v1';
+let state=JSON.parse(localStorage.getItem(STORE)||'{}');
+state.cards=state.cards||{};        // id -> box (1..5)
+state.lessons=state.lessons||{};    // id -> read bool
+state.quizBest=state.quizBest||{};  // topic -> best %
+function save(){localStorage.setItem(STORE,JSON.stringify(state));renderProgress();}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+function go(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.go===v));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.getElementById('resetBtn').onclick=()=>{
+  if(confirm('Reset all progress (flashcards, quiz scores, read status)?')){
+    localStorage.removeItem(STORE);state={cards:{},lessons:{},quizBest:{}};
+    initCardState();save();renderAll();alert('Progress reset.');go('home');
+  }
+};
+
+/* ============================================================
+   CONTENT: MODULES + LESSONS
+   Each lesson: id, title, icon, blurb, html
+============================================================ */
+const MODULES=[
+ {id:'regs',icon:'📋',title:'Regulations',blurb:'Core rules, certs, registration'},
+ {id:'newreg',icon:'🆕',title:'Newer Rules',blurb:'Remote ID, ops over people, night'},
+ {id:'airspace',icon:'🛫',title:'Airspace',blurb:'Class A–G & authorization'},
+ {id:'charts',icon:'🗺️',title:'Sectional Charts',blurb:'Reading symbols & legends'},
+ {id:'weather',icon:'⛅',title:'Weather',blurb:'METAR/TAF, density altitude'},
+ {id:'loading',icon:'⚖️',title:'Loading & Performance',blurb:'Weight, balance, limits'},
+ {id:'adm',icon:'🧠',title:'ADM & CRM',blurb:'Decision-making, physiology'},
+];
+
+const LESSONS={
+regs:{title:'Regulations & Operating Limits',icon:'📋',html:`
+<p class="lead">Start here. These are the bread-and-butter rules the FAA tests constantly, usually as "what is the maximum…" or "you may operate when…" questions.</p>
+<h3>Who & what qualifies</h3>
+<ul>
+<li><b>Remote pilot certificate</b>: be at least <b>16</b>, able to read/speak/write/understand English, in a physical/mental condition to fly safely, and pass TSA vetting.</li>
+<li><b>Aircraft weight</b>: less than <b>55 lb</b> total (drone + payload) at takeoff.</li>
+<li><b>Registration</b>: required if the drone weighs <b>0.55 lb (250 g) or more</b>. $5, valid <b>3 years</b>. Mark the registration number on the exterior.</li>
+</ul>
+<div class="key"><b>Recurrent training:</b> Your knowledge stays current by completing the <b>free online training every 24 calendar months</b> (course ALC-677 on FAASafety.gov). The old in-person retest is gone.</div>
+<h3>Operating limitations (memorize the numbers)</h3>
+<ul>
+<li>Max altitude: <b>400 ft AGL</b> — or within <b>400 ft of a structure</b> you may fly up to 400 ft above its top.</li>
+<li>Max groundspeed: <b>87 knots (100 mph)</b>.</li>
+<li>Min visibility: <b>3 statute miles</b> from the control station.</li>
+<li>Cloud clearance: <b>500 ft below</b> and <b>2,000 ft horizontally</b> from clouds.</li>
+<li>Operate <b>one</b> aircraft at a time (no operating multiple simultaneously).</li>
+<li>Must <b>yield right of way</b> to all manned aircraft, always.</li>
+<li>Keep the drone within <b>visual line of sight</b> (VLOS) — unaided except for corrective lenses.</li>
+<li>No carrying hazardous materials. No flying from a moving vehicle <b>unless over a sparsely populated area</b>.</li>
+<li>No <b>careless or reckless</b> operation; no dropping objects that create a hazard.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>What is the maximum groundspeed permitted for a small UA under Part 107?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">87 knots (100 mph). Watch the units — the FAA may give you mph or knots.</div></div>
+<h3>Reporting & responsibilities</h3>
+<ul>
+<li><b>Accident report to the FAA within 10 days</b> if: serious injury / loss of consciousness, OR property damage (other than the drone) of <b>at least $500</b> to repair or replace (fair market value).</li>
+<li>The <b>remote PIC is directly responsible</b> for the operation and is the final authority.</li>
+<li>Carry your certificate and <b>present it on request</b> by FAA, NTSB, TSA, or law enforcement.</li>
+<li>Conduct a <b>preflight inspection</b> and assess the operating environment before every flight.</li>
+<li>You may <b>not</b> operate if you have a physical/mental condition that interferes with safe operation.</li>
+</ul>
+<div class="bridge"><b>Bridge →</b> These limits assume normal conditions. The next module, <b>Newer Rules</b>, covers the exceptions the FAA added recently — flying <i>at night</i>, <i>over people</i>, and the <i>Remote ID</i> broadcast requirement.</div>
+`},
+newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html:`
+<p class="lead">These are the rules most likely to trip up someone who studied a few years ago. The FAA leans on them now.</p>
+<h3>Remote ID (RID)</h3>
+<p>Think of Remote ID as a digital license plate that <b>broadcasts</b> over radio frequency so anyone nearby (and the FAA) can identify your drone in flight.</p>
+<ul>
+<li>Required for <b>all drones that must be registered</b>.</li>
+<li>It broadcasts: drone ID, drone <b>latitude/longitude/altitude</b>, drone <b>velocity</b>, the <b>control station</b> location & elevation, a <b>time mark</b>, and emergency status.</li>
+</ul>
+<div class="key"><b>Three ways to comply:</b> ① fly a <b>Standard Remote ID drone</b> (broadcasts built-in); ② attach a <b>Remote ID broadcast module</b>; ③ fly within an <b>FAA-Recognized Identification Area (FRIA)</b> — and keep the drone within VLOS.</div>
+<h3>Operations over people — the 4 categories</h3>
+<p>Whether you can fly over people depends on the <b>injury risk</b> the drone poses. Bigger/faster = stricter category.</p>
+<table class="ref"><tr><th>Cat</th><th>Key requirement</th><th>Over people?</th></tr>
+<tr><td><b>1</b></td><td>≤ 0.55 lb (250 g), no exposed rotating parts that can lacerate</td><td>Yes</td></tr>
+<tr><td><b>2</b></td><td>Injury ≤ <b>11 ft-lb</b>, no lacerating parts, FAA-accepted means of compliance</td><td>Yes</td></tr>
+<tr><td><b>3</b></td><td>Injury ≤ <b>25 ft-lb</b>, no lacerating parts</td><td>Limited — not over open-air assemblies; only closed/restricted sites or brief transit</td></tr>
+<tr><td><b>4</b></td><td>Has an airworthiness certificate, operated per its limitations</td><td>Yes</td></tr></table>
+<p><b>Over moving vehicles:</b> permitted for Cat 1–3 drones, but you may not <b>sustain</b> flight over open-air assemblies of people — only transit.</p>
+<h3>Night & civil twilight operations</h3>
+<ul>
+<li>Night flight is allowed <b>without a waiver</b> if you have completed the <b>updated recurrent/initial training</b> AND the drone has <b>anti-collision lighting visible for 3 statute miles</b> with a flash rate sufficient to avoid collision.</li>
+<li><b>Civil twilight</b> (roughly 30 min before sunrise / after sunset) operations also require that anti-collision lighting.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>To operate a small UA at night under Part 107, the aircraft must be equipped with anti-collision lighting visible for at least how far?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">3 statute miles, with a flash rate sufficient to avoid a collision.</div></div>
+<h3>Waivers & authorizations</h3>
+<ul>
+<li>Many limits (e.g., BVLOS, over people without meeting a category, ops from moving vehicle over populated areas) can be <b>waived</b> via FAA if you show you can do it safely.</li>
+<li>To fly in <b>controlled airspace</b>, get authorization — fastest is <b>LAANC</b> (near-real-time) or DroneZone.</li>
+</ul>
+<div class="bridge"><b>Bridge →</b> "Controlled airspace" just came up. To know <i>where</i> you need authorization, you need to read the sky like a pilot. Next: <b>Airspace</b>.</div>
+`},
+airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
+<p class="lead">Airspace is the single biggest topic on the exam. Goal: instantly know the class, its dimensions, and whether you need authorization.</p>
+<h3>The mental model: an upside-down wedding cake</h3>
+<p>Controlled airspace gets <i>more</i> restrictive closer to busy airports. Picture tiers stacked around the airport.</p>
+<table class="ref"><tr><th>Class</th><th>Where / dimensions</th><th>Drone authorization?</th></tr>
+<tr><td><b>A</b></td><td>18,000 ft MSL – FL600. IFR only.</td><td>N/A (you'll never be there)</td></tr>
+<tr><td><b>B</b></td><td>Busiest airports. Surface to ~10,000 MSL, layered shelves.</td><td><b>Yes</b> — ATC auth (LAANC)</td></tr>
+<tr><td><b>C</b></td><td>Surface to 4,000 ft AGL; ~5 NM core + 10 NM shelf.</td><td><b>Yes</b> — ATC auth</td></tr>
+<tr><td><b>D</b></td><td>Surface to ~2,500 ft AGL; ~4 NM radius. Has a tower.</td><td><b>Yes</b> — ATC auth</td></tr>
+<tr><td><b>E</b></td><td>Controlled airspace not A/B/C/D. Starts at surface, 700, 1,200, or 14,500 MSL.</td><td>Only in <b>surface-area E designated for an airport</b></td></tr>
+<tr><td><b>G</b></td><td>Uncontrolled. Surface up to overlying E.</td><td><b>No authorization needed</b></td></tr></table>
+<div class="key"><b>Bottom line for drones:</b> You always fly low (≤400 AGL), so the question is really "is there controlled airspace <b>down to the surface</b> here?" If yes (B, C, D, or surface E around an airport) → get authorization. If it's Class G → you're clear (still follow all other rules).</div>
+<h3>How to remember the numbers</h3>
+<ul>
+<li>Class <b>D</b> = "Dimensions to <b>2,500</b>" (and one airport with a part-time tower).</li>
+<li>Class <b>C</b> = "<b>C</b>eiling 4,000, <b>C</b>ore 5 NM."</li>
+<li>Class <b>B</b> = "<b>B</b>iggest & <b>B</b>usiest, to 10,000."</li>
+<li>When a Class D/E tower <b>closes</b>, the airspace often reverts to Class E or G.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>You want to fly your drone in Class C airspace surrounding an airport. What must you do first?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">Obtain ATC authorization (typically via LAANC) before operating. You may not just call the tower for permission on the spot.</div></div>
+<h3>Special use airspace</h3>
+<ul>
+<li><b>Prohibited (P-):</b> flight not allowed (e.g., over the White House).</li>
+<li><b>Restricted (R-):</b> hazards like artillery; need permission when active.</li>
+<li><b>MOA (Military Operations Area):</b> military training; exercise caution.</li>
+<li><b>TFR (Temporary Flight Restriction):</b> stadiums, VIP movement, wildfires — always check NOTAMs.</li>
+</ul>
+<div class="bridge"><b>Bridge →</b> All of these classes and zones are drawn on a VFR sectional chart with specific colors and line styles. Next: <b>Sectional Charts</b> — how to actually see them.</div>
+`},
+charts:{title:'Reading Sectional Charts',icon:'🗺️',html:`
+<p class="lead">The FAA shows you a chart snippet and asks "what airspace is the X at?" Learn the colors and you've won most of these points. Keep the <b>Reference → Sectional legend</b> open while you practice.</p>
+<h3>Airspace lines & colors</h3>
+<ul>
+<li><b>Class B</b> — solid <b>blue</b> lines.</li>
+<li><b>Class C</b> — solid <b>magenta</b> lines.</li>
+<li><b>Class D</b> — <b>blue dashed</b> lines.</li>
+<li><b>Class E surface</b> — <b>magenta dashed</b> lines.</li>
+<li><b>Class E starting at 700 ft AGL</b> — <b>faded/shaded magenta</b> (shaded edge on the inside).</li>
+<li><b>Class E starting at 1,200 ft AGL</b> — <b>faded/shaded blue</b>.</li>
+</ul>
+<div class="key"><b>Airport color tells you tower status:</b> <span style="color:var(--blue);font-weight:700">Blue airport symbol = has a control tower</span>. <span style="color:var(--magenta);font-weight:700">Magenta airport symbol = no tower</span>.</div>
+<h3>Numbers in the airspace</h3>
+<ul>
+<li>Class B/C/D ceilings/floors are shown as a fraction-like stack: top number = ceiling, bottom = floor (in hundreds of ft MSL). Example <span class="kbd">100 / SFC</span> means 10,000 MSL down to the surface.</li>
+<li>A floor shown with a line under it like <span class="kbd">— 30 —</span> inside a circle means that shelf floor is 3,000 MSL.</li>
+<li><b>MEF (Maximum Elevation Figure):</b> the large number in each grid quadrant = highest obstacle/terrain in that quad (in hundreds of ft MSL). Read it as "don't be surprised by anything taller than this."</li>
+</ul>
+<h3>Obstacles & terrain</h3>
+<ul>
+<li>Towers are marked with a symbol and two heights: the <b>top number is MSL</b>, the number in <b>parentheses is AGL</b>.</li>
+<li>A lightning-bolt/star around an obstacle = high-intensity lighting.</li>
+<li>Latitude/longitude tick marks let you pin an exact location the question asks about.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>On a sectional, an airport is depicted in magenta with a segmented (dashed) magenta circle around it. What does this tell you?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">The airport has no operating control tower (magenta), and the dashed magenta indicates Class E airspace beginning at the surface — so you'd need authorization to operate there.</div></div>
+<div class="bridge"><b>Bridge →</b> Charts also point you to weather sources and tell you field elevation — which feeds straight into reading conditions. Next: <b>Weather</b>.</div>
+`},
+weather:{title:'Aviation Weather',icon:'⛅',html:`
+<p class="lead">Second-biggest topic. Expect to decode a METAR or TAF, estimate cloud bases, and reason about stability and density altitude.</p>
+<h3>Decoding a METAR (current observation)</h3>
+<p>Read left to right. Example:</p>
+<p class="kbd" style="display:block;padding:8px">METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992</p>
+<ul>
+<li><b>KORD</b> station · <b>121651Z</b> = 12th day, 1651 <b>Zulu (UTC)</b>.</li>
+<li><b>18012G20KT</b> = wind from 180° at 12 kt, gusting 20.</li>
+<li><b>3SM</b> = visibility 3 statute miles · <b>BR</b> = mist.</li>
+<li><b>BKN008</b> = broken clouds 800 ft AGL · <b>OVC015</b> = overcast 1,500 ft.</li>
+<li><b>12/11</b> = temp 12°C / dewpoint 11°C · <b>A2992</b> = altimeter 29.92 inHg.</li>
+</ul>
+<div class="key"><b>Sky cover & ceiling:</b> SKC/CLR (clear), FEW, SCT (scattered), <b>BKN</b> (broken), <b>OVC</b> (overcast). <b>Ceiling = the lowest BKN or OVC layer.</b> Heights are AGL in hundreds of feet.</div>
+<h3>TAF (forecast)</h3>
+<p>Same codes, but a forecast with a valid period. <b>FM</b> = "from" a new condition, <b>TEMPO</b> = temporary, <b>PROB30</b> = 30% probability.</p>
+<h3>Temperature / dewpoint & cloud bases</h3>
+<ul>
+<li>A <b>small spread</b> between temperature and dewpoint means high humidity → expect <b>fog or low clouds</b>.</li>
+<li>Estimate cloud base: temperature and dewpoint converge about <b>4.4°F (2.5°C) per 1,000 ft</b>. So base ≈ (spread°C ÷ 2.5) × 1,000 ft.</li>
+</ul>
+<h3>Stability, fronts & hazards</h3>
+<ul>
+<li><b>Stable air</b> → stratiform clouds, smooth air, steady precip, <b>poor visibility</b>.</li>
+<li><b>Unstable air</b> → cumuliform clouds, turbulence, showers, <b>good visibility</b>.</li>
+<li><b>Temperature inversion</b> = warm air on top of cool air; very stable, traps haze → poor visibility.</li>
+<li><b>Thunderstorm stages</b>: cumulus → mature (most dangerous, rain + lightning + microbursts) → dissipating. Avoid by a wide margin.</li>
+</ul>
+<h3>Density altitude</h3>
+<p>Density altitude = pressure altitude corrected for nonstandard temperature. <b>High</b> elevation + <b>high</b> temperature + <b>high</b> humidity = <b>high density altitude</b> = thin air.</p>
+<div class="key"><b>Effect on your drone:</b> high density altitude <b>decreases propeller efficiency and overall performance</b> — slower climb, more strain, shorter flight.</div>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>What effect does high density altitude have on a UA's propeller efficiency?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">Propeller efficiency is decreased (the air is less dense, so each blade grabs less air).</div></div>
+<div class="bridge"><b>Bridge →</b> Thin air and added cargo both reduce what your aircraft can do. That's the next module: <b>Loading & Performance</b>.</div>
+`},
+loading:{title:'Loading & Performance',icon:'⚖️',html:`
+<p class="lead">Fewer questions than airspace/weather, but easy points if you understand cause and effect.</p>
+<h3>Weight</h3>
+<ul>
+<li>Adding weight (payload, heavier battery) <b>reduces performance</b>: slower climb, reduced maneuverability, shorter flight time, longer stopping/turning.</li>
+<li>Never exceed the <b>manufacturer's maximum gross weight</b>, and remember the regulatory ceiling of <b>&lt;55 lb</b> total.</li>
+</ul>
+<h3>Balance / center of gravity (CG)</h3>
+<ul>
+<li>Load must stay within CG limits. An out-of-balance drone is <b>unstable and hard to control</b>.</li>
+<li>Shifting a payload changes the CG — secure loads so they can't move in flight.</li>
+</ul>
+<h3>Environmental effects (ties back to weather)</h3>
+<ul>
+<li><b>High density altitude</b> compounds a heavy load — both reduce climb and lift.</li>
+<li>Cold drains batteries; wind increases power draw and shortens range.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>How does adding payload weight affect a small UA's performance?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">It degrades performance — reduced climb rate and maneuverability, increased power demand, and shorter flight time.</div></div>
+<div class="bridge"><b>Bridge →</b> Knowing your aircraft's limits is half the job. The other half is judging yourself and the situation. Final module: <b>ADM & CRM</b>.</div>
+`},
+adm:{title:'Decision-Making, CRM & Physiology',icon:'🧠',html:`
+<p class="lead">The "soft" topics — but the FAA tests the named models directly, so memorize the acronyms.</p>
+<h3>The 5 hazardous attitudes (and antidotes)</h3>
+<table class="ref"><tr><th>Attitude</th><th>Thought</th><th>Antidote</th></tr>
+<tr><td>Anti-authority</td><td>"Don't tell me."</td><td>Follow the rules; they're usually right.</td></tr>
+<tr><td>Impulsivity</td><td>"Do something — quickly!"</td><td>Not so fast. Think first.</td></tr>
+<tr><td>Invulnerability</td><td>"It won't happen to me."</td><td>It could happen to me.</td></tr>
+<tr><td>Macho</td><td>"I can do it."</td><td>Taking chances is foolish.</td></tr>
+<tr><td>Resignation</td><td>"What's the use?"</td><td>I'm not helpless; I can make a difference.</td></tr></table>
+<h3>Self-assessment: IMSAFE</h3>
+<p><b>I</b>llness · <b>M</b>edication · <b>S</b>tress · <b>A</b>lcohol · <b>F</b>atigue · <b>E</b>motion. If any are a problem, don't fly.</p>
+<h3>Risk assessment: PAVE & 3P</h3>
+<ul>
+<li><b>PAVE</b>: <b>P</b>ilot, <b>A</b>ircraft, en<b>V</b>ironment, <b>E</b>xternal pressures.</li>
+<li><b>3P</b>: <b>P</b>erceive the hazards, <b>P</b>rocess the risk, <b>P</b>erform the response.</li>
+</ul>
+<h3>CRM</h3>
+<p>Crew Resource Management = using <b>all available resources</b> (people, equipment, information — e.g., a visual observer, checklists, weather briefings) to make safe decisions.</p>
+<h3>Alcohol, drugs & physiology</h3>
+<ul>
+<li><b>8 hours "bottle to throttle"</b>, BAC under <b>0.04</b>, and never while impaired by alcohol or drugs.</li>
+<li><b>Fatigue, dehydration, stress, and poor vision</b> all degrade performance. Hydrate, rest, and use scanning techniques.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>A pilot says, "I can do this, I don't need a visual observer." Which hazardous attitude is this, and what's the antidote?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">Macho. Antidote: "Taking chances is foolish."</div></div>
+<div class="bridge"><b>You've completed the loop.</b> Now reinforce with <b>Flashcards</b>, prove it with the <b>Quiz/exam simulator</b>, and keep the <b>Reference</b> sheets handy.</div>
+`}
+};
+
+/* ============================================================
+   CONTENT: FLASHCARDS  (deck -> [ [q,a], ... ])
+============================================================ */
+const DECKS={
+ regs:[
+  ["Max altitude under Part 107?","400 ft AGL — or within 400 ft of a structure, up to 400 ft above its top."],
+  ["Max groundspeed?","87 knots (100 mph)."],
+  ["Minimum visibility from the control station?","3 statute miles."],
+  ["Required cloud clearance?","500 ft below and 2,000 ft horizontally."],
+  ["Minimum age for a remote pilot certificate?","16 years old."],
+  ["Weight threshold requiring registration?","0.55 lb (250 g) or more."],
+  ["Maximum total weight of a small UA?","Less than 55 lb (drone + payload)."],
+  ["How often is recurrent training required?","Every 24 calendar months (free online course)."],
+  ["When must an accident be reported to the FAA?","Within 10 days: serious injury/loss of consciousness, or ≥ $500 property damage."],
+  ["Who is the final authority for the operation?","The Remote Pilot in Command (PIC)."],
+  ["Can you fly from a moving vehicle?","Only over a sparsely populated area."],
+  ["How many aircraft can one person operate at once?","One."],
+ ],
+ newreg:[
+  ["What does Remote ID broadcast?","Drone ID, drone location/altitude, velocity, control station location/elevation, time mark, emergency status."],
+  ["Three ways to comply with Remote ID?","Standard RID drone, RID broadcast module, or fly within a FRIA."],
+  ["Category 1 ops-over-people limit?","≤ 0.55 lb (250 g) and no exposed lacerating rotating parts."],
+  ["Category 2 injury threshold?","No more than 11 ft-lb of kinetic energy on impact."],
+  ["Category 3 injury threshold?","No more than 25 ft-lb; cannot fly over open-air assemblies."],
+  ["Category 4 requirement?","Has an airworthiness certificate, operated per its limitations."],
+  ["Lighting required for night operations?","Anti-collision lighting visible for 3 statute miles."],
+  ["What is civil twilight (roughly)?","~30 min before sunrise and after sunset; also requires anti-collision lighting."],
+  ["Fastest way to get controlled-airspace authorization?","LAANC (near-real-time)."],
+ ],
+ airspace:[
+  ["Class B ceiling/where?","Busiest airports, surface to ~10,000 MSL, layered shelves. Auth required."],
+  ["Class C dimensions?","Surface to 4,000 ft AGL; ~5 NM core + 10 NM shelf. Auth required."],
+  ["Class D dimensions?","Surface to ~2,500 ft AGL; ~4 NM radius; has a tower. Auth required."],
+  ["Class E floor possibilities?","Surface, 700 ft, 1,200 ft, or 14,500 ft MSL."],
+  ["Which airspace needs NO authorization?","Class G (uncontrolled)."],
+  ["When in Class E do drones need authorization?","Surface-area Class E designated for an airport."],
+  ["What is a TFR?","Temporary Flight Restriction — check NOTAMs (stadiums, VIPs, wildfires)."],
+  ["Prohibited vs Restricted area?","Prohibited (P-): no flight. Restricted (R-): hazards; need permission when active."],
+  ["What happens when a Class D tower closes?","Airspace typically reverts to Class E or G."],
+ ],
+ charts:[
+  ["Class B line style/color?","Solid blue."],
+  ["Class C line style/color?","Solid magenta."],
+  ["Class D line style/color?","Blue dashed."],
+  ["Class E surface line?","Magenta dashed."],
+  ["Faded magenta shading means?","Class E starting at 700 ft AGL."],
+  ["Faded blue shading means?","Class E starting at 1,200 ft AGL."],
+  ["Blue airport symbol means?","Airport has a control tower."],
+  ["Magenta airport symbol means?","Airport has no control tower."],
+  ["Obstacle heights: top vs parentheses?","Top = MSL; parentheses = AGL."],
+  ["What is the MEF?","Maximum Elevation Figure — tallest obstacle/terrain in that quadrant (hundreds of ft MSL)."],
+ ],
+ weather:[
+  ["What does Z mean in a METAR time?","Zulu / UTC time."],
+  ["Decode 18012G20KT.","Wind from 180° at 12 knots, gusting to 20."],
+  ["BKN vs OVC?","Broken vs Overcast cloud cover. Ceiling = lowest BKN or OVC layer."],
+  ["What does a small temp/dewpoint spread indicate?","High humidity → fog or low clouds likely."],
+  ["Rate temp/dewpoint converge with altitude?","~4.4°F (2.5°C) per 1,000 ft."],
+  ["Stable air characteristics?","Stratiform clouds, smooth air, steady precip, poor visibility."],
+  ["Unstable air characteristics?","Cumuliform clouds, turbulence, showers, good visibility."],
+  ["Temperature inversion?","Warm air over cool air; very stable; traps haze; poor visibility."],
+  ["Most dangerous thunderstorm stage?","Mature stage (heavy rain, lightning, microbursts)."],
+  ["What causes high density altitude?","High elevation + high temperature + high humidity."],
+  ["Effect of high density altitude on a drone?","Decreased propeller efficiency and performance."],
+  ["A2992 means?","Altimeter setting 29.92 inHg."],
+ ],
+ loading:[
+  ["Effect of adding payload weight?","Reduced climb, maneuverability, and flight time; more power needed."],
+  ["Why keep loads within CG limits?","Out-of-balance aircraft is unstable and hard to control."],
+  ["Combined effect of heavy load + high density altitude?","Significantly reduced climb and lift performance."],
+  ["What can shift CG in flight?","An unsecured payload moving around."],
+ ],
+ adm:[
+  ["The 5 hazardous attitudes?","Anti-authority, Impulsivity, Invulnerability, Macho, Resignation."],
+  ["Antidote to Macho?","Taking chances is foolish."],
+  ["Antidote to Invulnerability?","It could happen to me."],
+  ["What does IMSAFE stand for?","Illness, Medication, Stress, Alcohol, Fatigue, Emotion."],
+  ["What does PAVE stand for?","Pilot, Aircraft, enVironment, External pressures."],
+  ["What does the 3P model stand for?","Perceive, Process, Perform."],
+  ["What is CRM?","Crew Resource Management — using all available resources to make safe decisions."],
+  ["Alcohol rules for flying?","8 hours bottle-to-throttle, BAC under 0.04, never while impaired."],
+ ]
+};
+
+/* ============================================================
+   CONTENT: QUIZ QUESTIONS  topic -> [{q,opts,a,e}]
+   a = index of correct option
+============================================================ */
+const QUIZ={
+ regs:[
+  {q:"The maximum allowable groundspeed for a small UA is:",opts:["87 knots","100 knots","60 knots","45 knots"],a:0,e:"87 knots (100 mph). Watch units."},
+  {q:"A small UA must be registered if it weighs at least:",opts:["0.25 lb","0.55 lb","2 lb","5 lb"],a:1,e:"0.55 lb (250 g) or more requires registration."},
+  {q:"The maximum altitude for Part 107 operations is generally:",opts:["500 ft AGL","400 ft MSL","400 ft AGL","1,000 ft AGL"],a:2,e:"400 ft AGL, or within 400 ft of a structure you may go 400 ft above its top."},
+  {q:"An accident causing $700 in property damage must be reported to the FAA within:",opts:["24 hours","10 days","30 days","No report needed"],a:1,e:"≥ $500 damage (or serious injury) → report within 10 days."},
+  {q:"Minimum flight visibility from the control station is:",opts:["1 SM","3 SM","5 SM","No minimum"],a:1,e:"3 statute miles."},
+  {q:"Recurrent knowledge currency is maintained by:",opts:["Retaking the test in person every 2 years","Completing free online training every 24 calendar months","Annual flight review","Nothing — it never expires"],a:1,e:"Free online recurrent training every 24 calendar months."},
+  {q:"Required distance from clouds under Part 107:",opts:["Clear of clouds","500 ft below, 2,000 ft horizontal","1,000 ft above, 500 ft below","Stay 1 SM away"],a:1,e:"500 ft below and 2,000 ft horizontally."},
+  {q:"You may operate a drone from a moving vehicle:",opts:["Never","Only over sparsely populated areas","Anytime under 100 mph","Only at night"],a:1,e:"Permitted only over sparsely populated areas."},
+ ],
+ newreg:[
+  {q:"To fly at night, the drone must have anti-collision lighting visible for at least:",opts:["1 SM","3 SM","5 SM","No requirement"],a:1,e:"3 statute miles, flashing to avoid collision."},
+  {q:"Which is NOT a way to comply with Remote ID?",opts:["Standard Remote ID drone","Broadcast module","Filing a NOTAM before each flight","Flying within a FRIA"],a:2,e:"The three methods are standard RID drone, broadcast module, or a FRIA."},
+  {q:"A Category 1 drone for operations over people must weigh:",opts:["≤ 0.55 lb (250 g)","≤ 2 lb","≤ 5 lb","Any weight"],a:0,e:"Cat 1 ≤ 0.55 lb with no exposed lacerating parts."},
+  {q:"Remote ID broadcasts all of the following EXCEPT:",opts:["Drone location/altitude","Control station location","Pilot's home address","Velocity & time mark"],a:2,e:"It broadcasts the control station location, not the pilot's home address."},
+  {q:"Category 3 operations over people:",opts:["Are unrestricted","Cannot be conducted over open-air assemblies","Require no compliance","Allow sustained flight over crowds"],a:1,e:"Cat 3 cannot fly over open-air assemblies; only closed sites or brief transit."},
+  {q:"Civil twilight operations require:",opts:["A waiver","Anti-collision lighting","No special equipment","A visual observer only"],a:1,e:"Anti-collision lighting visible for 3 SM, same as night."},
+ ],
+ airspace:[
+  {q:"Which airspace requires NO authorization for a drone?",opts:["Class B","Class C","Class D","Class G"],a:3,e:"Class G is uncontrolled — no authorization needed."},
+  {q:"Class C airspace typically extends upward to:",opts:["2,500 ft AGL","4,000 ft AGL","10,000 ft MSL","18,000 ft MSL"],a:1,e:"Class C tops out around 4,000 ft AGL."},
+  {q:"The fastest way to get authorization in controlled airspace is:",opts:["Call the tower at takeoff","LAANC","Mail a request to the FAA","No authorization is possible"],a:1,e:"LAANC provides near-real-time authorization."},
+  {q:"Class D airspace usually extends to about:",opts:["1,200 ft AGL","2,500 ft AGL","4,000 ft AGL","10,000 ft MSL"],a:1,e:"~2,500 ft AGL, ~4 NM radius, has a tower."},
+  {q:"A Restricted Area (R-) on a chart means:",opts:["No aircraft ever","Hazards may exist; permission needed when active","Military training only","It's always safe to fly"],a:1,e:"Restricted areas contain hazards; get permission when active."},
+  {q:"Class E airspace floors can begin at:",opts:["Only the surface","Only 1,200 ft","Surface, 700, 1,200, or 14,500 ft","Only 18,000 ft"],a:2,e:"Class E can start at surface, 700, 1,200, or 14,500 ft MSL."},
+ ],
+ charts:[
+  {q:"On a sectional, solid magenta lines depict:",opts:["Class B","Class C","Class D","Class E surface"],a:1,e:"Solid magenta = Class C."},
+  {q:"A blue airport symbol indicates the airport:",opts:["Has no tower","Is closed","Has a control tower","Is military only"],a:2,e:"Blue = has a control tower; magenta = no tower."},
+  {q:"A dashed magenta circle around an airport indicates:",opts:["Class D","Class E surface area","Class B","A TFR"],a:1,e:"Dashed magenta = Class E beginning at the surface."},
+  {q:"On an obstacle, the number in parentheses is the height:",opts:["Above mean sea level (MSL)","Above ground level (AGL)","In meters","Of the lighting"],a:1,e:"Parentheses = AGL; the other number is MSL."},
+  {q:"Faded/shaded magenta on a sectional means Class E begins at:",opts:["The surface","700 ft AGL","1,200 ft AGL","14,500 ft MSL"],a:1,e:"Faded magenta = Class E floor at 700 ft AGL."},
+  {q:"The large number in a chart quadrant (MEF) represents:",opts:["Runway length","Highest terrain/obstacle in that quad","Radio frequency","Magnetic variation"],a:1,e:"Maximum Elevation Figure — tallest obstacle/terrain in hundreds of ft MSL."},
+ ],
+ weather:[
+  {q:"In a METAR, '12/11' (temp/dewpoint) suggests:",opts:["Dry, clear skies","High humidity — fog/low clouds likely","Strong winds","High density altitude"],a:1,e:"A small spread = high humidity → fog or low clouds."},
+  {q:"High density altitude has what effect on a drone?",opts:["Increases propeller efficiency","Decreases propeller efficiency/performance","No effect","Improves battery life"],a:1,e:"Thin air decreases propeller efficiency and performance."},
+  {q:"'BKN008' in a METAR means:",opts:["Broken clouds at 800 ft AGL","Broken clouds at 8,000 ft","Visibility 8 miles","Wind 8 knots"],a:0,e:"BKN = broken; 008 = 800 ft AGL."},
+  {q:"A temperature inversion typically produces:",opts:["Excellent visibility","Poor visibility and stable air","Severe turbulence","Towering cumulus"],a:1,e:"Inversion = stable, traps haze → poor visibility."},
+  {q:"Unstable air is associated with:",opts:["Stratiform clouds and steady rain","Cumuliform clouds, turbulence, showers","Fog and smooth air","Temperature inversions"],a:1,e:"Unstable = cumuliform, turbulence, showers, good visibility."},
+  {q:"The 'Z' in '121651Z' refers to:",opts:["Local time","Zulu/UTC time","Time zone Z of the US","Daylight time"],a:1,e:"Z = Zulu (UTC)."},
+  {q:"What causes the HIGHEST density altitude?",opts:["Low elevation, cold, dry","High elevation, hot, humid","Sea level, standard day","Cold front passage"],a:1,e:"High elevation + high temp + high humidity = high DA."},
+ ],
+ loading:[
+  {q:"Adding payload weight to a drone will:",opts:["Improve climb performance","Reduce performance and flight time","Have no effect","Increase top speed"],a:1,e:"More weight = reduced climb/maneuverability and shorter flight time."},
+  {q:"Loading outside CG limits makes the aircraft:",opts:["More stable","Unstable and hard to control","Faster","More efficient"],a:1,e:"Out-of-balance = unstable and difficult to control."},
+  {q:"A heavy payload combined with high density altitude will:",opts:["Cancel each other out","Greatly reduce climb/lift performance","Improve handling","Extend flight time"],a:1,e:"Both reduce lift/climb — the effects compound."},
+ ],
+ adm:[
+  {q:"\"I can do it\" reflects which hazardous attitude?",opts:["Impulsivity","Macho","Resignation","Anti-authority"],a:1,e:"Macho. Antidote: taking chances is foolish."},
+  {q:"IMSAFE is a checklist for:",opts:["Aircraft preflight","Pilot self-assessment","Airspace check","Weather briefing"],a:1,e:"Illness, Medication, Stress, Alcohol, Fatigue, Emotion."},
+  {q:"PAVE stands for Pilot, Aircraft, enVironment, and:",opts:["Energy","External pressures","Equipment","Endurance"],a:1,e:"External pressures (e.g., 'the client is waiting')."},
+  {q:"The antidote to the 'Invulnerability' attitude is:",opts:["Follow the rules","It could happen to me","Not so fast","I'm not helpless"],a:1,e:"Invulnerability → 'It could happen to me.'"},
+  {q:"Alcohol rule for remote pilots:",opts:["No rules apply","8 hours bottle-to-throttle, BAC < 0.04","24 hours abstinence","BAC < 0.08"],a:1,e:"8 hours bottle-to-throttle and BAC under 0.04; never impaired."},
+  {q:"Crew Resource Management (CRM) means:",opts:["Flying solo always","Using all available resources for safe decisions","Managing batteries","Filing flight plans"],a:1,e:"Using all resources — people, equipment, information."},
+ ]
+};
+
+/* ============================================================
+   REFERENCE SHEETS
+============================================================ */
+const REF={
+ 'Sectional legend':`
+<div class="card"><h3>Airspace lines & airport colors</h3>
+<table class="ref">
+<tr><th>Symbol</th><th>Means</th></tr>
+<tr><td><span class="swatch" style="border-top:3px solid var(--blue)"></span>Solid blue</td><td>Class B boundary</td></tr>
+<tr><td><span class="swatch" style="border-top:3px solid var(--magenta)"></span>Solid magenta</td><td>Class C boundary</td></tr>
+<tr><td><span class="swatch" style="border-top:3px dashed var(--blue)"></span>Blue dashed</td><td>Class D boundary</td></tr>
+<tr><td><span class="swatch" style="border-top:3px dashed var(--magenta)"></span>Magenta dashed</td><td>Class E to the surface</td></tr>
+<tr><td><span class="swatch" style="border-top:6px solid #e7b8d6"></span>Faded magenta</td><td>Class E floor at 700 ft AGL</td></tr>
+<tr><td><span class="swatch" style="border-top:6px solid #b8c9e7"></span>Faded blue</td><td>Class E floor at 1,200 ft AGL</td></tr>
+<tr><td style="color:var(--blue);font-weight:700">Blue airport</td><td>Has a control tower</td></tr>
+<tr><td style="color:var(--magenta);font-weight:700">Magenta airport</td><td>No control tower</td></tr>
+</table></div>
+<div class="card"><h3>Numbers on the chart</h3>
+<table class="ref">
+<tr><th>Item</th><th>Read it as</th></tr>
+<tr><td>Stacked fraction e.g. 100/SFC</td><td>Ceiling 10,000 MSL down to surface (hundreds of ft)</td></tr>
+<tr><td>Obstacle top number</td><td>Height in MSL</td></tr>
+<tr><td>Obstacle (number)</td><td>Height in AGL</td></tr>
+<tr><td>Large quadrant number (MEF)</td><td>Tallest terrain/obstacle, hundreds of ft MSL</td></tr>
+<tr><td>★ or burst around obstacle</td><td>High-intensity lighting</td></tr>
+</table></div>`,
+
+ 'Airspace quick table':`
+<div class="card"><h3>Class A–G at a glance</h3>
+<table class="ref">
+<tr><th>Class</th><th>Dimensions</th><th>Drone auth?</th></tr>
+<tr><td>A</td><td>18,000 MSL–FL600, IFR only</td><td>N/A</td></tr>
+<tr><td>B</td><td>Sfc–~10,000 MSL, shelves</td><td>Yes</td></tr>
+<tr><td>C</td><td>Sfc–4,000 AGL, 5/10 NM</td><td>Yes</td></tr>
+<tr><td>D</td><td>Sfc–2,500 AGL, ~4 NM, tower</td><td>Yes</td></tr>
+<tr><td>E</td><td>Sfc/700/1,200/14,500</td><td>Only surface-E at an airport</td></tr>
+<tr><td>G</td><td>Uncontrolled</td><td>No</td></tr>
+</table>
+<p class="muted">Rule of thumb: controlled airspace down to the surface (B/C/D/surface-E) → authorization needed. Class G → clear.</p></div>`,
+
+ 'METAR decoder':`
+<div class="card"><h3>METAR field order</h3>
+<table class="ref">
+<tr><th>Field</th><th>Example</th><th>Meaning</th></tr>
+<tr><td>Station</td><td>KORD</td><td>Reporting airport</td></tr>
+<tr><td>Date/time</td><td>121651Z</td><td>12th, 1651 UTC (Zulu)</td></tr>
+<tr><td>Wind</td><td>18012G20KT</td><td>From 180° at 12 kt gust 20</td></tr>
+<tr><td>Visibility</td><td>3SM</td><td>3 statute miles</td></tr>
+<tr><td>Weather</td><td>BR / RA / FG</td><td>Mist / rain / fog</td></tr>
+<tr><td>Sky</td><td>BKN008 OVC015</td><td>Broken 800, overcast 1,500 AGL</td></tr>
+<tr><td>Temp/dew</td><td>12/11</td><td>°C; small spread = humid</td></tr>
+<tr><td>Altimeter</td><td>A2992</td><td>29.92 inHg</td></tr>
+</table>
+<p class="muted">Cover: SKC/CLR · FEW · SCT · BKN · OVC. Ceiling = lowest BKN/OVC layer.</p></div>`,
+
+ 'Key numbers':`
+<div class="card"><h3>Numbers the FAA loves</h3>
+<table class="ref">
+<tr><th>Limit</th><th>Value</th></tr>
+<tr><td>Max altitude</td><td>400 ft AGL (or 400 ft above a structure)</td></tr>
+<tr><td>Max groundspeed</td><td>87 kt / 100 mph</td></tr>
+<tr><td>Min visibility</td><td>3 SM</td></tr>
+<tr><td>Cloud clearance</td><td>500 ft below, 2,000 ft horizontal</td></tr>
+<tr><td>Registration weight</td><td>≥ 0.55 lb (250 g)</td></tr>
+<tr><td>Max aircraft weight</td><td>&lt; 55 lb</td></tr>
+<tr><td>Min pilot age</td><td>16</td></tr>
+<tr><td>Recurrent training</td><td>Every 24 calendar months</td></tr>
+<tr><td>Accident report</td><td>Within 10 days (≥ $500 / serious injury)</td></tr>
+<tr><td>Night lighting visible</td><td>3 SM</td></tr>
+<tr><td>Alcohol</td><td>8 hr bottle-to-throttle, BAC &lt; 0.04</td></tr>
+<tr><td>Cat 1 weight</td><td>≤ 0.55 lb</td></tr>
+<tr><td>Cat 2 / Cat 3 injury</td><td>≤ 11 ft-lb / ≤ 25 ft-lb</td></tr>
+</table></div>`,
+
+ 'Acronyms':`
+<div class="card"><h3>Decision-making models</h3>
+<table class="ref">
+<tr><th>Model</th><th>Expansion</th></tr>
+<tr><td>IMSAFE</td><td>Illness, Medication, Stress, Alcohol, Fatigue, Emotion</td></tr>
+<tr><td>PAVE</td><td>Pilot, Aircraft, enVironment, External pressures</td></tr>
+<tr><td>3P</td><td>Perceive, Process, Perform</td></tr>
+<tr><td>DECIDE</td><td>Detect, Estimate, Choose, Identify, Do, Evaluate</td></tr>
+</table>
+<h3 style="margin-top:14px">Hazardous attitudes → antidotes</h3>
+<table class="ref">
+<tr><td>Anti-authority</td><td>Follow the rules.</td></tr>
+<tr><td>Impulsivity</td><td>Not so fast.</td></tr>
+<tr><td>Invulnerability</td><td>It could happen to me.</td></tr>
+<tr><td>Macho</td><td>Taking chances is foolish.</td></tr>
+<tr><td>Resignation</td><td>I'm not helpless.</td></tr>
+</table></div>`
+};
+
+/* ============================================================
+   STUDY TIPS
+============================================================ */
+const TIPS=[
+ ["🎯","Front-load airspace & charts","Airspace + sectional-chart reading can be ~30% of the exam, and weather is the next biggest chunk. Spend most of your time here even though you already feel solid on basic regs."],
+ ["✍️","Draw the airspace 'wedding cake' from memory","People who pass repeatedly say sketching the A–G stack — with floors, ceilings, and which class needs authorization — at least three times locks it in better than re-reading."],
+ ["🔁","Use spaced repetition, not cramming","Run the Cards tab daily. Missed cards drop to Box 1 and resurface fast; known cards climb and fade. Keep going until every deck is in the top box."],
+ ["📊","Take full timed mock exams","Simulate 60 questions in one sitting (Quiz → Full Exam). Aim to consistently score 85%+ before booking — that cushion absorbs test-day nerves."],
+ ["🔢","Memorize the numbers cold","The FAA writes lots of 'what is the maximum…' questions. The Reference → Key Numbers sheet is your highest points-per-minute study target."],
+ ["🗺️","Get a real sectional and the FAA's test supplement","On the actual test you're given a chart supplement (FAA-CT-8080-2H). Practice with it so the legend and chart snippets feel familiar, not foreign."],
+ ["❓","Study your wrong answers, not your right ones","After every quiz, read the explanation for each miss and re-add that topic's deck. Your errors are a map of exactly what to review."],
+ ["🧘","Plan logistics early","You'll register for a knowledge test at a PSI testing center and need an FTN (FAA Tracking Number) from IACRA first. Set that up well before test day so it isn't a surprise."],
+ ["⏱️","Pace yourself: ~2 min/question","60 questions in 120 minutes. Flag the hard chart/weather ones, answer everything easy first, then circle back. Never leave a question blank."],
+];
+
+/* ============================================================
+   RENDERERS
+============================================================ */
+function el(id){return document.getElementById(id);}
+
+function renderModules(){
+ const home=el('moduleTiles'), learn=el('learnTiles');
+ home.innerHTML=''; learn.innerHTML='';
+ MODULES.forEach(m=>{
+  const read=LESSONS[m.id]?state.lessons[m.id]?1:0:0;
+  const tile=`<div class="tile" onclick="openLesson('${m.id}')">
+    <div class="ic">${m.icon}</div><div class="t">${m.title}</div>
+    <div class="d">${m.blurb}</div>
+    <div class="meter"><i style="width:${read?100:0}%"></i></div></div>`;
+  home.insertAdjacentHTML('beforeend',tile);
+  learn.insertAdjacentHTML('beforeend',tile);
+ });
+}
+
+let curLesson=null;
+function openLesson(id){
+ curLesson=id;
+ const L=LESSONS[id];
+ el('lessonBody').innerHTML=`<h2 class="sec">${L.icon} ${L.title}</h2>`+L.html;
+ const ids=MODULES.map(m=>m.id);const i=ids.indexOf(id);
+ el('lessonPrev').style.visibility=i>0?'visible':'hidden';
+ el('lessonNext').style.visibility=i<ids.length-1?'visible':'hidden';
+ el('lessonPrev').onclick=()=>openLesson(ids[i-1]);
+ el('lessonNext').onclick=()=>{state.lessons[id]=true;save();openLesson(ids[i+1]);};
+ el('lessonQuizBtn').onclick=()=>{state.lessons[id]=true;save();startQuiz(id);go('quiz');};
+ if(i===ids.length-1){el('lessonNext').onclick=()=>{state.lessons[id]=true;save();go('learn');};el('lessonNext').textContent='Done ✓';}
+ else el('lessonNext').textContent='Next ›';
+ state.lessons[id]=true;save();
+ go('lesson');
+}
+
+/* ---- Flashcards (Leitner) ---- */
+let curDeck='regs', curCard=null, cardFlipped=false;
+function initCardState(){
+ Object.keys(DECKS).forEach(d=>DECKS[d].forEach((c,i)=>{
+   const key=d+'_'+i; if(!(key in state.cards)) state.cards[key]=1;
+ }));
+}
+function renderCardPills(){
+ const p=el('cardPills');p.innerHTML='';
+ Object.keys(DECKS).forEach(d=>{
+  const name=MODULES.find(m=>m.id===d).title;
+  p.insertAdjacentHTML('beforeend',`<div class="pill ${d===curDeck?'on':''}" onclick="setDeck('${d}')">${name}</div>`);
+ });
+}
+function setDeck(d){curDeck=d;renderCardPills();nextCard();}
+function deckProgress(d){
+ const arr=DECKS[d];let mastered=0;
+ arr.forEach((c,i)=>{if(state.cards[d+'_'+i]>=4)mastered++;});
+ return {mastered,total:arr.length};
+}
+function pickCard(){
+ // weighted: lower box = more likely
+ const arr=DECKS[curDeck];
+ const pool=[];
+ arr.forEach((c,i)=>{const box=state.cards[curDeck+'_'+i]||1;const w=Math.max(1,6-box);for(let k=0;k<w;k++)pool.push(i);});
+ if(!pool.length)return null;
+ return pool[Math.floor(Math.random()*pool.length)];
+}
+function nextCard(){
+ cardFlipped=false;el('flashcard').classList.remove('flip');
+ const i=pickCard();curCard=i;
+ const c=DECKS[curDeck][i];
+ const name=MODULES.find(m=>m.id===curDeck).title;
+ el('fcTag').textContent=name+' · Box '+(state.cards[curDeck+'_'+i]||1);
+ el('fcQ').textContent=c[0];el('fcA').textContent=c[1];
+ const pr=deckProgress(curDeck);
+ el('deckLabel').textContent=name+' deck';
+ el('deckCount').textContent=pr.mastered+' / '+pr.total+' mastered';
+ el('masteryNote').textContent=pr.mastered===pr.total?'🎉 Deck mastered! Try another topic.':'Keep going until all cards reach Box 4+.';
+}
+function flipCard(){cardFlipped=!cardFlipped;el('flashcard').classList.toggle('flip',cardFlipped);}
+function rateCard(got){
+ const key=curDeck+'_'+curCard;
+ let box=state.cards[key]||1;
+ box=got?Math.min(5,box+1):1;
+ state.cards[key]=box;save();
+ nextCard();
+}
+
+/* ---- Quiz engine ---- */
+let quizMode='regs', quizSet=[], quizIdx=0, quizScore=0, quizTimer=null, quizSeconds=0;
+function renderQuizPills(){
+ const p=el('quizPills');p.innerHTML='';
+ p.insertAdjacentHTML('beforeend',`<div class="pill ${quizMode==='exam'?'on':''}" onclick="prepQuiz('exam')">🎓 Full Exam</div>`);
+ p.insertAdjacentHTML('beforeend',`<div class="pill ${quizMode==='mixed'?'on':''}" onclick="prepQuiz('mixed')">🔀 Mixed (20)</div>`);
+ Object.keys(QUIZ).forEach(d=>{
+  const name=MODULES.find(m=>m.id===d).title;
+  p.insertAdjacentHTML('beforeend',`<div class="pill ${quizMode===d?'on':''}" onclick="prepQuiz('${d}')">${name}</div>`);
+ });
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function allQuestions(){let all=[];Object.keys(QUIZ).forEach(d=>QUIZ[d].forEach(q=>all.push(Object.assign({topic:d},q))));return all;}
+function prepQuiz(mode){
+ quizMode=mode;renderQuizPills();
+ el('quizRun').style.display='none';el('quizResult').style.display='none';el('quizStart').style.display='block';
+ let count,label,desc;
+ if(mode==='exam'){count=Math.min(60,allQuestions().length);label='Full Exam Simulator';desc='Timed, '+count+' mixed questions. Pass mark 70%. Mirrors the real test format.';}
+ else if(mode==='mixed'){count=20;label='Mixed Quick Quiz';desc='20 random questions across all topics.';}
+ else{count=QUIZ[mode].length;label=MODULES.find(m=>m.id===mode).title+' Drill';desc=count+' questions on this topic, with explanations.';}
+ el('quizStart').innerHTML=`<div class="card center">
+   <h3>${label}</h3><p class="muted">${desc}</p>
+   <button class="btn" onclick="startQuiz('${mode}')">Start ›</button></div>`;
+}
+function startQuiz(mode){
+ quizMode=mode;
+ if(mode==='exam')quizSet=shuffle(allQuestions()).slice(0,60);
+ else if(mode==='mixed')quizSet=shuffle(allQuestions()).slice(0,20);
+ else quizSet=shuffle(QUIZ[mode].map(q=>Object.assign({topic:mode},q)));
+ quizIdx=0;quizScore=0;quizSeconds=0;
+ el('quizStart').style.display='none';el('quizResult').style.display='none';el('quizRun').style.display='block';
+ if(quizTimer)clearInterval(quizTimer);
+ if(mode==='exam'){quizSeconds=120*60;quizTimer=setInterval(()=>{quizSeconds--;updTimer();if(quizSeconds<=0)finishQuiz();},1000);}
+ renderQ();
+ renderQuizPills();
+}
+function updTimer(){
+ const t=el('qTimer');if(!t)return;
+ const m=Math.floor(quizSeconds/60),s=quizSeconds%60;
+ t.textContent=(quizMode==='exam'?'⏱ ':'')+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function renderQ(){
+ const q=quizSet[quizIdx];
+ const opts=q.opts.map((o,i)=>`<button class="opt" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+ el('quizRun').innerHTML=`<div class="card qcard">
+   <div class="qmeta"><span>Q ${quizIdx+1} / ${quizSet.length}</span><span class="timer" id="qTimer"></span></div>
+   <div class="qtext">${q.q}</div>
+   <div id="optWrap">${opts}</div>
+   <div class="expl" id="expl"></div>
+   <button class="btn" id="nextQ" style="display:none;margin-top:8px" onclick="advance()">Next ›</button>
+ </div>`;
+ if(quizMode==='exam'){updTimer();}else{el('qTimer').textContent=(quizIdx+1)+' of '+quizSet.length;}
+}
+function answer(i){
+ const q=quizSet[quizIdx];
+ const opts=document.querySelectorAll('#optWrap .opt');
+ opts.forEach(o=>o.classList.add('disabled'));
+ opts[q.a].classList.add('correct');
+ if(i===q.a){quizScore++;}else{opts[i].classList.add('wrong');}
+ if(quizMode!=='exam'){const e=el('expl');e.textContent='Why: '+q.e;e.classList.add('show');}
+ el('nextQ').style.display='block';
+ el('nextQ').textContent=(quizIdx+1<quizSet.length)?'Next ›':'See results ›';
+}
+function advance(){if(quizIdx+1<quizSet.length){quizIdx++;renderQ();}else finishQuiz();}
+function finishQuiz(){
+ if(quizTimer)clearInterval(quizTimer);
+ const pct=Math.round(100*quizScore/quizSet.length);
+ const pass=pct>=70;
+ const prev=state.quizBest[quizMode]||0;if(pct>prev)state.quizBest[quizMode]=pct;save();
+ el('quizRun').style.display='none';el('quizResult').style.display='block';
+ el('quizResult').innerHTML=`<div class="card center">
+   <div class="scorebig ${pass?'pass':'fail'}">${pct}%</div>
+   <p style="font-weight:700;margin:2px 0">${quizScore} / ${quizSet.length} correct</p>
+   <p class="muted">${pass?'✅ That\'s a passing score (70%+).':'Below the 70% pass line — review the misses and run it again.'}</p>
+   <div class="btnrow" style="margin-top:12px">
+     <button class="btn alt" onclick="prepQuiz('${quizMode}')">Retake</button>
+     <button class="btn" onclick="go('cards')">Drill cards</button>
+   </div></div>
+   <div class="card"><h3>Tip</h3><p class="muted">For each question you missed, open that module's deck in the Cards tab and run it until those facts are in the top box.</p></div>`;
+}
+
+/* ---- Reference ---- */
+let curRef=Object.keys(REF)[0];
+function renderRefPills(){
+ const p=el('refPills');p.innerHTML='';
+ Object.keys(REF).forEach(k=>p.insertAdjacentHTML('beforeend',`<div class="pill ${k===curRef?'on':''}" onclick="setRef('${k.replace(/'/g,"\\'")}')">${k}</div>`));
+}
+function setRef(k){curRef=k;renderRefPills();el('refBody').innerHTML=REF[k];}
+
+/* ---- Tips ---- */
+function renderTips(){
+ el('tipsBody').innerHTML=TIPS.map(t=>`<div class="card"><h3>${t[0]} ${t[1]}</h3><p>${t[2]}</p></div>`).join('')
+  +`<div class="card"><h3>📲 Add this to your iPhone home screen</h3><p>In Safari, tap the <b>Share</b> button → <b>Add to Home Screen</b>. It opens full-screen like an app, works offline, and your progress is saved on the device.</p></div>`;
+}
+
+/* ---- Progress ---- */
+function renderProgress(){
+ const lessonsRead=Object.keys(LESSONS).filter(id=>state.lessons[id]).length;
+ const lessonTot=Object.keys(LESSONS).length;
+ let cardsMastered=0,cardsTot=0;
+ Object.keys(DECKS).forEach(d=>{const p=deckProgress(d);cardsMastered+=p.mastered;cardsTot+=p.total;});
+ const examBest=state.quizBest['exam']||0;
+ const overall=Math.round(100*((lessonsRead/lessonTot)*0.3+(cardsMastered/cardsTot)*0.4+(examBest/100)*0.3));
+ el('overallProg').style.width=overall+'%';
+ el('subline').textContent='Overall readiness: '+overall+'%';
+ el('homeStats').innerHTML=`Modules read: <b>${lessonsRead}/${lessonTot}</b> · Cards mastered: <b>${cardsMastered}/${cardsTot}</b> · Best exam: <b>${examBest}%</b>`;
+ // update tile meters
+ document.querySelectorAll('#moduleTiles .tile .meter > i, #learnTiles .tile .meter > i').forEach((bar,idx)=>{});
+ renderModules();
+}
+
+function renderAll(){
+ renderModules();renderCardPills();nextCard();renderQuizPills();prepQuiz('exam');
+ renderRefPills();setRef(curRef);renderTips();renderProgress();
+}
+
+/* ============================================================
+   BOOT
+============================================================ */
+initCardState();save();
+renderAll();
+</script>
+</body>
+</html>
