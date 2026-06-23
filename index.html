@@ -101,6 +101,9 @@ table.ref th{background:#eef3f8;font-size:12px;}
 .box-info{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:10px 2px;}
 /* Quiz */
 .qcard .qtext{font-size:16px;font-weight:600;margin-bottom:14px;}
+.qfig{background:#fbfaf5;border:1px solid var(--line);border-radius:12px;padding:8px;margin-bottom:12px;}
+.qfig svg{width:100%;height:auto;display:block;}
+.qfig-cap{text-align:center;font-size:11px;color:var(--muted);margin-top:4px;font-style:italic;}
 .opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);
   border-radius:12px;padding:13px 14px;margin-bottom:10px;font-size:14.5px;cursor:pointer;}
 .opt.correct{border-color:var(--good);background:#eefaf1;}
@@ -265,7 +268,8 @@ const MODULES=[
  {id:'regs',icon:'📋',title:'Regulations',blurb:'Core rules, certs, registration'},
  {id:'newreg',icon:'🆕',title:'Newer Rules',blurb:'Remote ID, ops over people, night'},
  {id:'airspace',icon:'🛫',title:'Airspace',blurb:'Class A–G & authorization'},
- {id:'charts',icon:'🗺️',title:'Sectional Charts',blurb:'Reading symbols & legends'},
+ {id:'navmap',icon:'🧭',title:'Maps & Coordinates',blurb:'Direction, lat/long & DMS'},
+ {id:'charts',icon:'🗺️',title:'Sectional Charts',blurb:'Full legend & symbols'},
  {id:'weather',icon:'⛅',title:'Weather',blurb:'METAR/TAF, density altitude'},
  {id:'loading',icon:'⚖️',title:'Loading & Performance',blurb:'Weight, balance, limits'},
  {id:'adm',icon:'🧠',title:'ADM & CRM',blurb:'Decision-making, physiology'},
@@ -343,7 +347,36 @@ newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html
 airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
 <p class="lead">Airspace is the single biggest topic on the exam. Goal: instantly know the class, its dimensions, and whether you need authorization.</p>
 <h3>The mental model: an upside-down wedding cake</h3>
-<p>Controlled airspace gets <i>more</i> restrictive closer to busy airports. Picture tiers stacked around the airport.</p>
+<p>Controlled airspace gets <i>more</i> restrictive closer to busy airports. Picture tiers stacked around the airport — narrow at the surface, widening as you go up. This cross-section (altitudes in feet) is the classic FAA airspace profile:</p>
+<svg viewBox="0 0 440 330" class="diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Airspace profile cross-section showing Class A, B, C, D, E and G with altitudes">
+<rect x="44" y="78" width="388" height="204" fill="#f4e3ef"/>
+<rect x="44" y="282" width="388" height="18" fill="#eef2f6"/>
+<rect x="44" y="40" width="388" height="38" fill="#e1e7ee"/>
+<g stroke="#c3ccd6" stroke-width="1" stroke-dasharray="3 3">
+<line x1="44" y1="78" x2="432" y2="78"/><line x1="44" y1="105" x2="432" y2="105"/>
+<line x1="44" y1="150" x2="432" y2="150"/><line x1="44" y1="238" x2="432" y2="238"/>
+<line x1="44" y1="263" x2="432" y2="263"/><line x1="44" y1="282" x2="432" y2="282"/></g>
+<g font-family="sans-serif" font-size="9" fill="#5d6b78">
+<text x="2" y="81">18,000</text><text x="2" y="108">14,500</text><text x="4" y="153">10,000</text>
+<text x="12" y="241">4,000</text><text x="12" y="266">2,500</text><text x="12" y="279">1,200</text><text x="20" y="313">SFC</text></g>
+<!-- Class B stepped cake -->
+<g fill="#2f6fd6">
+<rect x="78" y="150" width="84" height="60"/><rect x="93" y="150" width="54" height="105"/><rect x="106" y="150" width="28" height="150"/></g>
+<text x="108" y="230" font-family="sans-serif" font-size="13" font-weight="700" fill="#fff">B</text>
+<!-- Class C stepped -->
+<g fill="#b4318a">
+<rect x="218" y="238" width="74" height="44"/><rect x="238" y="238" width="34" height="62"/></g>
+<text x="248" y="278" font-family="sans-serif" font-size="13" font-weight="700" fill="#fff">C</text>
+<!-- Class D -->
+<rect x="350" y="263" width="44" height="37" fill="#5b8de0"/>
+<text x="367" y="288" font-family="sans-serif" font-size="12" font-weight="700" fill="#fff">D</text>
+<!-- region labels -->
+<text x="44" y="64" font-family="sans-serif" font-size="10" font-weight="700" fill="#46586a">CLASS A — 18,000 MSL to FL600 (IFR only; not for drones)</text>
+<text x="320" y="120" font-family="sans-serif" font-size="13" font-weight="700" fill="#b4318a">E</text>
+<text x="60" y="295" font-family="sans-serif" font-size="11" font-weight="700" fill="#7a8794">G</text>
+<line x1="44" y1="300" x2="432" y2="300" stroke="#46586a" stroke-width="2"/>
+</svg>
+<p class="muted" style="margin-top:-2px">B reaches ~10,000 MSL; C tops ~4,000 AGL; D tops ~2,500 AGL. Class E (magenta) is the controlled airspace filling the gaps; Class G (grey) is uncontrolled near the surface where E doesn't reach down.</p>
 <table class="ref"><tr><th>Class</th><th>Where / dimensions</th><th>Drone authorization?</th></tr>
 <tr><td><b>A</b></td><td>18,000 ft MSL – FL600. IFR only.</td><td>N/A (you'll never be there)</td></tr>
 <tr><td><b>B</b></td><td>Busiest airports. Surface to ~10,000 MSL, layered shelves.</td><td><b>Yes</b> — ATC auth (LAANC)</td></tr>
@@ -359,48 +392,216 @@ airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
 <li>Class <b>B</b> = "<b>B</b>iggest & <b>B</b>usiest, to 10,000."</li>
 <li>When a Class D/E tower <b>closes</b>, the airspace often reverts to Class E or G.</li>
 </ul>
+
+<h3>Class-by-class details (FAA Study Guide)</h3>
+<ul>
+<li><b>Class A</b> — 18,000 ft MSL up to FL600 (60,000 ft). IFR only; not available to Part 107. Just know it exists.</li>
+<li><b>Class B</b> — surrounds the <b>busiest</b> airports; <b>surface to ~10,000 MSL</b>. Individually tailored with two or more layers (the upside-down cake). Authorization required.</li>
+<li><b>Class C</b> — operating control tower + radar service. <b>Inner core: 5 NM radius, surface to 4,000 ft AGL. Outer shelf: 5–10 NM radius, 1,200 to 4,000 ft AGL.</b> Authorization required.</li>
+<li><b>Class D</b> — operating control tower; roughly <b>4 NM radius, surface to ~2,500 ft AGL</b>. Often part-time — reverts to E or G when the tower closes. Authorization required.</li>
+<li><b>Class E</b> — all other controlled airspace. Floors at the <b>surface</b> (dashed magenta), <b>700 ft AGL</b> (faded magenta), <b>1,200 ft AGL</b> (faded blue, most of the country), or <b>14,500 MSL</b>, up to but not including 18,000. Authorization needed only for <b>surface-area E at an airport</b>.</li>
+<li><b>Class G</b> — uncontrolled; from the surface up to the base of the overlying Class E (700 or 1,200 ft), or to 14,500 in remote areas. No ATC authorization needed.</li>
+</ul>
+
+<h3>Getting authorization: LAANC & UAS Facility Maps</h3>
+<ul>
+<li>To operate in controlled airspace (B, C, D, or surface-E), you need <b>prior FAA authorization</b> — you cannot just radio the tower.</li>
+<li><b>LAANC</b> (Low Altitude Authorization and Notification Capability) gives <b>near-real-time</b> approval through FAA-approved apps.</li>
+<li>LAANC is based on <b>UAS Facility Maps (UASFM)</b> — grids around airports showing the <b>maximum altitude (in ft AGL)</b> the FAA may auto-approve in each square (e.g., 0, 50, 100, 200, 400).</li>
+<li>A grid marked <b>"0"</b> means <b>no automatic approval</b> — you must apply through <b>DroneZone</b> and may need further FAA review.</li>
+<li>Always check <b>NOTAMs and TFRs</b> the day of your flight.</li>
+</ul>
+
 <div class="exq"><span class="lbl">Example problem</span>
 <p>You want to fly your drone in Class C airspace surrounding an airport. What must you do first?</p>
 <div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
 <div class="ans">Obtain ATC authorization (typically via LAANC) before operating. You may not just call the tower for permission on the spot.</div></div>
-<h3>Special use airspace</h3>
+<h3>Special-use airspace (PHAK Ch. 15)</h3>
+<table class="ref"><tr><th>Type</th><th>What it is / what you do</th></tr>
+<tr><td><b>Prohibited (P-###)</b></td><td>Flight prohibited for security/national welfare (e.g., P-56 over the White House &amp; Capitol). Never enter.</td></tr>
+<tr><td><b>Restricted (R-###)</b></td><td>Invisible hazards — artillery, gunnery, missiles. Enter only with the controlling agency's permission, and only when inactive.</td></tr>
+<tr><td><b>Warning (W-###)</b></td><td>Same kind of hazards as restricted, but located over <b>international/coastal waters</b> (beyond 3 NM offshore).</td></tr>
+<tr><td><b>MOA</b></td><td>Military Operations Area — separates military training from IFR traffic. Use caution; check status.</td></tr>
+<tr><td><b>Alert (A-###)</b></td><td>High volume of pilot training or unusual activity. All pilots are equally responsible for see-and-avoid.</td></tr>
+<tr><td><b>CFA</b></td><td>Controlled Firing Area — activities stop when aircraft approach, so it's <b>not charted</b> and needs no action from you.</td></tr>
+<tr><td><b>NSA</b></td><td>National Security Area — you're <b>requested</b> to avoid; can be made temporarily prohibited.</td></tr>
+<tr><td><b>TFR</b></td><td>Temporary Flight Restriction — stadiums, VIP movement, wildfires, disasters. Not pre-printed; <b>check NOTAMs/apps every flight</b>.</td></tr>
+</table>
+<p class="muted">Also worth recognizing: <b>Military Training Routes (MTRs)</b>, <b>ADIZ</b> (Air Defense Identification Zone), and requests to avoid noise-sensitive or wildlife areas.</p>
+
+<div class="exq"><span class="lbl">Example problem</span>
+<p>What is the difference between a Restricted area and a Prohibited area, and may you ever enter a Restricted area?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">Prohibited = no flight, ever (security). Restricted = invisible hazards; you may enter only with the controlling agency's permission and when it's not active.</div></div>
+
+<div class="exq"><span class="lbl">Example problem</span>
+<p>A UAS Facility Map shows a grid value of "0" over your planned launch site in Class D airspace. What does that mean?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">LAANC will not auto-approve any altitude there. You must request authorization through DroneZone, which may require further FAA review.</div></div>
+
+<div class="bridge"><b>Bridge →</b> All of these classes and zones are drawn on a chart — but before you can read one, you need to know how the map is oriented and how locations are pinned down. Next: <b>Maps & Coordinates</b>.</div>
+`},
+navmap:{title:'Maps, Direction & Coordinates (DMS)',icon:'🧭',html:`
+<p class="lead">A quick, no-shame refresher. Sectional questions constantly ask "what is located at 40°45'N, 111°55'W?" or "which direction is X from Y?" Nail the fundamentals here and the chart section gets easy.</p>
+
+<h3>Which way is the map facing?</h3>
 <ul>
-<li><b>Prohibited (P-):</b> flight not allowed (e.g., over the White House).</li>
-<li><b>Restricted (R-):</b> hazards like artillery; need permission when active.</li>
-<li><b>MOA (Military Operations Area):</b> military training; exercise caution.</li>
-<li><b>TFR (Temporary Flight Restriction):</b> stadiums, VIP movement, wildfires — always check NOTAMs.</li>
+<li><b>North is up</b> on aeronautical charts, east is right, south is down, west is left — always, unless a north arrow says otherwise.</li>
+<li>Directions are given in <b>degrees of a 360° circle, measured clockwise from north</b>: North = 000°/360°, East = 090°, South = 180°, West = 270°.</li>
+<li>The in-between (intercardinal) points: NE = 045°, SE = 135°, SW = 225°, NW = 315°.</li>
 </ul>
-<div class="bridge"><b>Bridge →</b> All of these classes and zones are drawn on a VFR sectional chart with specific colors and line styles. Next: <b>Sectional Charts</b> — how to actually see them.</div>
+<svg viewBox="0 0 240 250" class="diagram" style="max-width:300px;margin:6px auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Compass rose showing degrees and directions">
+<circle cx="120" cy="120" r="92" fill="#f4f6f9" stroke="#0b3d66" stroke-width="2"/>
+<g stroke="#9aa7b4" stroke-width="1">
+<line x1="120" y1="28" x2="120" y2="212"/><line x1="28" y1="120" x2="212" y2="120"/>
+<line x1="55" y1="55" x2="185" y2="185"/><line x1="185" y1="55" x2="55" y2="185"/></g>
+<!-- North arrow -->
+<polygon points="120,30 113,58 120,50 127,58" fill="#d6453d"/>
+<g font-family="sans-serif" font-weight="700" text-anchor="middle">
+<text x="120" y="20" font-size="15" fill="#d6453d">N</text>
+<text x="120" y="46" font-size="10" fill="#16222e">000°/360°</text>
+<text x="224" y="124" font-size="15" fill="#0b3d66">E</text>
+<text x="196" y="116" font-size="10" fill="#16222e">090°</text>
+<text x="120" y="234" font-size="15" fill="#0b3d66">S</text>
+<text x="120" y="210" font-size="10" fill="#16222e">180°</text>
+<text x="12" y="124" font-size="15" fill="#0b3d66">W</text>
+<text x="44" y="116" font-size="10" fill="#16222e">270°</text>
+</g>
+<g font-family="sans-serif" font-size="9" fill="#5d6b78" text-anchor="middle">
+<text x="178" y="62">NE 045°</text><text x="178" y="184">SE 135°</text>
+<text x="62" y="184">SW 225°</text><text x="62" y="62">NW 315°</text></g>
+<circle cx="120" cy="120" r="3" fill="#0b3d66"/>
+</svg>
+<p class="muted" style="margin-top:-2px">Degrees increase clockwise. North is both 000° and 360°; each quarter-turn adds 90°.</p>
+<div class="key"><b>Reading a direction "from A to B":</b> put your finger on A (the reference point), then look toward B. The compass angle from A, measured clockwise from north, is the direction. "B is northeast of A" means B sits up-and-to-the-right of A.</div>
+
+<h3>True north vs. magnetic north</h3>
+<ul>
+<li><b>True north</b> = the geographic North Pole; it's what the chart's latitude/longitude grid lines point to.</li>
+<li><b>Magnetic north</b> = where a compass points; it differs from true north by the local <b>magnetic variation</b>.</li>
+<li><b>Isogonic lines</b> (dashed magenta lines on a sectional) connect points of equal variation. The <b>agonic line</b> is where variation is zero.</li>
+<li>Practical bits the test likes: <b>runway numbers</b> are the magnetic heading rounded to the nearest 10°, with the last zero dropped (a runway aligned to 268° magnetic is "Runway 27"). <b>METAR/forecast winds are in true</b>; <b>tower/ATIS winds are magnetic</b>.</li>
+</ul>
+
+<h3>Latitude & longitude — the address system</h3>
+<ul>
+<li><b>Latitude</b> = how far north/south. Lines run east-west (horizontal); they measure your N/S position. 0° at the equator → 90° at the poles. In the continental US, latitude runs roughly <b>25°N to 49°N</b>.</li>
+<li><b>Longitude</b> = how far east/west. Lines run north-south (vertical); they measure your E/W position. 0° at the Prime Meridian → 180°. In the continental US, longitude runs roughly <b>67°W to 125°W</b>.</li>
+<li>Order of writing: <b>latitude first, then longitude</b> — e.g., <span class="kbd">40°45'N, 111°53'W</span>.</li>
+</ul>
+<div class="bridge"><b>Memory hook:</b> <b>lat</b>itude lines are like the rungs of a <b>ladder</b> (flat, horizontal). Longitude lines are the <b>long</b> ones running pole to pole.</div>
+
+<h3>The DMS method — Degrees, Minutes, Seconds</h3>
+<p>This is the part that's easy to forget. A full circle is divided like a clock:</p>
+<ul>
+<li><b>1 degree (°)</b> = 60 <b>minutes (')</b></li>
+<li><b>1 minute (')</b> = 60 <b>seconds (")</b></li>
+</ul>
+<p>So a coordinate like <span class="kbd">40°45'30"N</span> reads as "40 degrees, 45 minutes, 30 seconds north." The minutes and seconds are <i>fractions of a degree</i>, not time — they just borrow the clock's 60-based counting.</p>
+<div class="key"><b>Converting DMS → decimal degrees:</b> divide minutes by 60, seconds by 3600, and add them up.<br>
+40°45'30" = 40 + (45 ÷ 60) + (30 ÷ 3600) = 40 + 0.75 + 0.0083 = <b>40.758°</b>.</div>
+
+<h3>Finding a point on a sectional</h3>
+<ol>
+<li>Find the <b>latitude lines</b> (labeled like 40°, 41°) along the left/right edges and the <b>longitude lines</b> (like 111°, 112°) along the top/bottom.</li>
+<li>Between the big lines are <b>tick marks every 1 minute</b>, with longer ticks usually every 5 and 10 minutes.</li>
+<li>Slide along the latitude line to the right minutes, then up/down the longitude line to the right minutes — where they cross is your point.</li>
+</ol>
+
+<div class="key"><b>Bonus that saves you on distance questions:</b> <b>1 minute of latitude = 1 nautical mile</b>. The latitude scale on the side of the chart is therefore a built-in ruler. Count the minutes between two points (vertically) and you have the distance in NM. Don't use the longitude scale for distance — those lines squeeze together as you go north.</div>
+
+<div class="exq"><span class="lbl">Example problem</span>
+<p>An airport is described as being at 39°51'N, 104°40'W. Another point of interest is directly below it on the chart at 39°36'N. Roughly how far apart are they?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">They share the same longitude, so just subtract the latitudes: 51' − 36' = 15 minutes of latitude = <b>about 15 nautical miles</b>.</div></div>
+
+<div class="exq"><span class="lbl">Example problem</span>
+<p>Convert 33°30'00" to decimal degrees.</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">30' ÷ 60 = 0.5, plus 0 seconds → 33.5°.</div></div>
+
+<div class="bridge"><b>Bridge →</b> Now that you can orient the map and pin a location, let's decode everything printed on it. Next: <b>Sectional Charts</b>.</div>
 `},
 charts:{title:'Reading Sectional Charts',icon:'🗺️',html:`
-<p class="lead">The FAA shows you a chart snippet and asks "what airspace is the X at?" Learn the colors and you've won most of these points. Keep the <b>Reference → Sectional legend</b> open while you practice.</p>
-<h3>Airspace lines & colors</h3>
+<p class="lead">This is the single highest-value section to master — chart questions are everywhere. Keep the <b>Reference → Sectional legend</b> and <b>Coordinates & DMS</b> sheets open while you work through this. A sectional is drawn at a scale of <b>1:500,000</b> (about 7 NM per inch).</p>
+
+<h3>1 · Airport symbols & color</h3>
 <ul>
-<li><b>Class B</b> — solid <b>blue</b> lines.</li>
-<li><b>Class C</b> — solid <b>magenta</b> lines.</li>
-<li><b>Class D</b> — <b>blue dashed</b> lines.</li>
-<li><b>Class E surface</b> — <b>magenta dashed</b> lines.</li>
-<li><b>Class E starting at 700 ft AGL</b> — <b>faded/shaded magenta</b> (shaded edge on the inside).</li>
-<li><b>Class E starting at 1,200 ft AGL</b> — <b>faded/shaded blue</b>.</li>
+<li><b>Color = tower status.</b> <span style="color:var(--blue);font-weight:700">Blue airport = has an operating control tower.</span> <span style="color:var(--magenta);font-weight:700">Magenta airport = no control tower.</span></li>
+<li>A plain <b>circle</b> = airport with no hard-surfaced runways (or runways under 1,500 ft). Symbols showing <b>runways</b> drawn to scale = a paved field; <b>tick marks around the circle</b> mean fuel is available and the field is attended.</li>
+<li>A small <b>"R" in a box</b> = a private/restricted-use airport. A boxed <b>"C"</b> on a magenta/blue background marks the <b>CTAF</b> (common traffic) frequency.</li>
+<li>A <b>magenta flag</b> marks a <b>visual checkpoint</b> (a landmark pilots use to report position).</li>
 </ul>
-<div class="key"><b>Airport color tells you tower status:</b> <span style="color:var(--blue);font-weight:700">Blue airport symbol = has a control tower</span>. <span style="color:var(--magenta);font-weight:700">Magenta airport symbol = no tower</span>.</div>
-<h3>Numbers in the airspace</h3>
+
+<h3>2 · The airport data block</h3>
+<p>Next to each airport is a stack of text. Common items, in order:</p>
 <ul>
-<li>Class B/C/D ceilings/floors are shown as a fraction-like stack: top number = ceiling, bottom = floor (in hundreds of ft MSL). Example <span class="kbd">100 / SFC</span> means 10,000 MSL down to the surface.</li>
-<li>A floor shown with a line under it like <span class="kbd">— 30 —</span> inside a circle means that shelf floor is 3,000 MSL.</li>
-<li><b>MEF (Maximum Elevation Figure):</b> the large number in each grid quadrant = highest obstacle/terrain in that quad (in hundreds of ft MSL). Read it as "don't be surprised by anything taller than this."</li>
+<li><b>Name</b>, then service notes.</li>
+<li><b>CT - 118.3</b> = Control Tower frequency 118.3. A <b>★</b> next to it means part-time.</li>
+<li><b>Elevation</b> (e.g., <span class="kbd">433</span>) = field elevation in feet MSL.</li>
+<li><b>L</b> = lighting (a <b>*L</b> means lighting has limitations or is pilot/part-time-activated).</li>
+<li>A number like <span class="kbd">70</span> = longest runway length in <b>hundreds of feet</b> (7,000 ft).</li>
+<li><b>122.95 / 122.8</b> etc. = UNICOM/advisory. An <b>underlined</b> frequency means "no voice transmitted on this frequency."</li>
+<li>Weather: <b>AWOS/ASOS</b> with a frequency = automated weather you can pull before flight.</li>
 </ul>
-<h3>Obstacles & terrain</h3>
+
+<h3>3 · Airspace lines & colors (the big point-getter)</h3>
+<table class="ref"><tr><th>Class</th><th>How it's drawn</th></tr>
+<tr><td><b>B</b></td><td>Solid <b>blue</b> lines (stacked shelves)</td></tr>
+<tr><td><b>C</b></td><td>Solid <b>magenta</b> lines</td></tr>
+<tr><td><b>D</b></td><td><b>Blue dashed</b> lines</td></tr>
+<tr><td><b>E to the surface</b></td><td><b>Magenta dashed</b> lines</td></tr>
+<tr><td><b>E from 700 ft AGL</b></td><td><b>Faded/shaded magenta</b> (soft edge on the inside)</td></tr>
+<tr><td><b>E from 1,200 ft AGL</b></td><td><b>Faded/shaded blue</b></td></tr>
+<tr><td><b>G</b></td><td>No special boundary — it's what's left underneath</td></tr></table>
+<div class="key"><b>The one question type to drill:</b> "What airspace is point X in?" Find the lines/shading around X, match the color/style above, then check the floor/ceiling numbers. If controlled airspace reaches the <b>surface</b> there (B, C, D, or dashed-magenta surface E), you need authorization.</div>
+
+<h3>4 · Reading the airspace numbers</h3>
 <ul>
-<li>Towers are marked with a symbol and two heights: the <b>top number is MSL</b>, the number in <b>parentheses is AGL</b>.</li>
-<li>A lightning-bolt/star around an obstacle = high-intensity lighting.</li>
-<li>Latitude/longitude tick marks let you pin an exact location the question asks about.</li>
+<li>Ceilings/floors print as a <b>stacked fraction</b>: top = ceiling, bottom = floor, in <b>hundreds of feet MSL</b>. <span class="kbd">100 / SFC</span> = 10,000 MSL down to the surface; <span class="kbd">100 / 30</span> = 10,000 down to 3,000 MSL.</li>
+<li><b>SFC</b> = surface. A <b>"T"</b> at a ceiling = the airspace tops out where the next class begins (e.g., the overlying Class B floor).</li>
+<li>Class C/D often show a number in a <b>box like <span class="kbd">[42]</span></b> = the ceiling in hundreds of feet (4,200 MSL).</li>
 </ul>
+
+<h3>5 · Special-use airspace</h3>
+<ul>
+<li><b>Prohibited (P-###)</b> and <b>Restricted (R-###)</b>: <b>blue hatched</b> lines (cross-hatching on the inside). Prohibited = never; Restricted = hazards, need permission when active.</li>
+<li><b>MOA</b> (Military Operations Area): <b>magenta hatched</b> lines.</li>
+<li><b>Warning (W-) / Alert (A-) areas</b>: also blue-hatched; check the chart panel for hours and altitudes.</li>
+<li><b>TFRs</b> aren't pre-printed — check NOTAMs/apps the day of flight (stadiums, VIPs, wildfires).</li>
+</ul>
+
+<h3>6 · Obstacles & terrain</h3>
+<ul>
+<li><b>Obstacle symbol</b> (like an inverted "V" or tower): <b>top number = MSL height</b>, the number in <b>parentheses = AGL height</b>. Example <span class="kbd">2049 (587)</span> = top is 2,049 ft MSL, 587 ft above the ground.</li>
+<li>Obstacles <b>1,000 ft AGL or taller</b> get a bolder symbol. Rays/lightning around the top = <b>high-intensity lighting</b>.</li>
+<li><b>Terrain</b> is shown with color tints (green = low, tan/brown = higher) and contour lines.</li>
+<li><b>MEF (Maximum Elevation Figure):</b> the large blue number in each grid quadrant = the highest terrain or obstacle in that quadrant, in <b>hundreds of feet MSL</b> (e.g., <span class="kbd">12⁵</span> ≈ 12,500 ft).</li>
+</ul>
+
+<h3>7 · Navaids, airways & the compass rose</h3>
+<ul>
+<li>A <b>VOR</b> is a navigation station drawn inside a <b>compass rose</b> (the circle of degree markings). The rose is oriented to <b>magnetic</b> north — handy for judging directions.</li>
+<li><b>Victor airways</b> are light-blue corridors labeled <b>V##</b>; you'll mostly just need to recognize them.</li>
+<li>The <b>lat/long grid</b> (see the Maps module) lets you answer "what's located at these coordinates?" questions.</li>
+</ul>
+
 <div class="exq"><span class="lbl">Example problem</span>
-<p>On a sectional, an airport is depicted in magenta with a segmented (dashed) magenta circle around it. What does this tell you?</p>
+<p>A magenta airport is surrounded by a segmented (dashed) magenta circle. What does this tell you, and can you fly there without authorization?</p>
 <div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
-<div class="ans">The airport has no operating control tower (magenta), and the dashed magenta indicates Class E airspace beginning at the surface — so you'd need authorization to operate there.</div></div>
-<div class="bridge"><b>Bridge →</b> Charts also point you to weather sources and tell you field elevation — which feeds straight into reading conditions. Next: <b>Weather</b>.</div>
+<div class="ans">Magenta = no control tower; dashed magenta = Class E airspace down to the surface. Because controlled airspace reaches the surface, you DO need authorization (e.g., LAANC) before operating.</div></div>
+
+<div class="exq"><span class="lbl">Example problem</span>
+<p>You see an obstacle marked <span class="kbd">3322 (1500)</span> with rays around the top. What do those numbers and rays mean for you flying at 400 ft AGL nearby?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">The top is 3,322 ft MSL and 1,500 ft above the ground; the rays mean it's lighted. It's far taller than your 400 ft AGL ceiling — note its position and keep well clear.</div></div>
+
+<div class="exq"><span class="lbl">Example problem</span>
+<p>A chart quadrant shows a large blue <span class="kbd">5⁸</span>. What is it telling you?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">Maximum Elevation Figure: the tallest terrain/obstacle in that quadrant is about 5,800 ft MSL.</div></div>
+
+<div class="bridge"><b>Bridge →</b> Charts point you to weather sources (AWOS/ASOS) and give field elevation — which feeds straight into reading conditions. Next: <b>Weather</b>.</div>
 `},
 weather:{title:'Aviation Weather',icon:'⛅',html:`
 <p class="lead">Second-biggest topic. Expect to decode a METAR or TAF, estimate cloud bases, and reason about stability and density altitude.</p>
@@ -531,6 +732,31 @@ const DECKS={
   ["What is a TFR?","Temporary Flight Restriction — check NOTAMs (stadiums, VIPs, wildfires)."],
   ["Prohibited vs Restricted area?","Prohibited (P-): no flight. Restricted (R-): hazards; need permission when active."],
   ["What happens when a Class D tower closes?","Airspace typically reverts to Class E or G."],
+  ["Class A altitudes?","18,000 ft MSL up to FL600 (60,000 ft); IFR only."],
+  ["Class C outer shelf dimensions?","5–10 NM radius, 1,200 to 4,000 ft AGL."],
+  ["What is LAANC?","Near-real-time controlled-airspace authorization via approved apps, based on UAS Facility Maps."],
+  ["What does a '0' grid on a UAS Facility Map mean?","No automatic LAANC approval — must apply via DroneZone."],
+  ["What is a Warning area?","Hazardous activity over international/coastal waters (beyond 3 NM offshore)."],
+  ["What is an Alert area?","High pilot training/unusual activity; all pilots equally responsible for see-and-avoid."],
+  ["What is a Controlled Firing Area (CFA)?","Activity stops when aircraft approach; not charted, needs no action from you."],
+  ["What is a National Security Area (NSA)?","You're requested to avoid; can be made temporarily prohibited."],
+  ["Class G upper limit?","Up to the base of overlying Class E (700 or 1,200 ft AGL), or 14,500 MSL in remote areas."],
+ ],
+ navmap:[
+  ["Which way is up on a sectional chart?","North. East is right, south down, west left."],
+  ["How are directions measured?","In degrees, clockwise from north: N=000/360, E=090, S=180, W=270."],
+  ["What is true north?","The geographic North Pole — what the chart's lat/long grid points to."],
+  ["What is magnetic north?","Where a compass points; differs from true north by local magnetic variation."],
+  ["What do isogonic lines show?","Points of equal magnetic variation (agonic line = zero variation)."],
+  ["How are runways numbered?","Magnetic heading rounded to nearest 10°, last zero dropped (268° → Runway 27)."],
+  ["METAR winds vs tower/ATIS winds?","METAR/forecast winds are true; tower/ATIS winds are magnetic."],
+  ["Latitude — which way and what range in the US?","North/south position; lines run east-west; ~25°N to 49°N in the lower 48."],
+  ["Longitude — which way and what range in the US?","East/west position; lines run north-south; ~67°W to 125°W in the lower 48."],
+  ["Order to write coordinates?","Latitude first, then longitude (e.g., 40°45'N, 111°53'W)."],
+  ["How many minutes in a degree?","60 minutes per degree, and 60 seconds per minute."],
+  ["Convert 40°30' to decimal degrees.","40 + 30/60 = 40.5°."],
+  ["1 minute of latitude equals how far?","1 nautical mile — use the latitude scale as a ruler."],
+  ["Why not use longitude for measuring distance?","Longitude lines converge toward the poles, so the spacing shrinks."],
  ],
  charts:[
   ["Class B line style/color?","Solid blue."],
@@ -543,6 +769,16 @@ const DECKS={
   ["Magenta airport symbol means?","Airport has no control tower."],
   ["Obstacle heights: top vs parentheses?","Top = MSL; parentheses = AGL."],
   ["What is the MEF?","Maximum Elevation Figure — tallest obstacle/terrain in that quadrant (hundreds of ft MSL)."],
+  ["Sectional chart scale?","1:500,000 (about 7 NM per inch)."],
+  ["Stacked fraction 100/30 means?","Ceiling 10,000 MSL down to floor 3,000 MSL (hundreds of ft)."],
+  ["What does SFC mean on a chart?","Surface — the airspace floor is at ground level."],
+  ["Blue hatched lines depict?","Prohibited / Restricted (also Warning/Alert) areas."],
+  ["Magenta hatched lines depict?","A Military Operations Area (MOA)."],
+  ["'CT - 118.3' in a data block?","Control Tower frequency 118.3 (★ = part-time)."],
+  ["Underlined frequency means?","No voice is transmitted on that frequency."],
+  ["A magenta flag symbol marks?","A visual checkpoint (landmark for position reports)."],
+  ["Runway length shown as '70'?","7,000 ft — runway length is in hundreds of feet."],
+  ["What's drawn inside a VOR compass rose oriented to?","Magnetic north."],
  ],
  weather:[
   ["What does Z mean in a METAR time?","Zulu / UTC time."],
@@ -606,6 +842,24 @@ const QUIZ={
   {q:"Class D airspace usually extends to about:",opts:["1,200 ft AGL","2,500 ft AGL","4,000 ft AGL","10,000 ft MSL"],a:1,e:"~2,500 ft AGL, ~4 NM radius, has a tower."},
   {q:"A Restricted Area (R-) on a chart means:",opts:["No aircraft ever","Hazards may exist; permission needed when active","Military training only","It's always safe to fly"],a:1,e:"Restricted areas contain hazards; get permission when active."},
   {q:"Class E airspace floors can begin at:",opts:["Only the surface","Only 1,200 ft","Surface, 700, 1,200, or 14,500 ft","Only 18,000 ft"],a:2,e:"Class E can start at surface, 700, 1,200, or 14,500 ft MSL."},
+  {q:"Class B airspace generally extends upward to about:",opts:["2,500 ft AGL","4,000 ft AGL","10,000 ft MSL","18,000 ft MSL"],a:2,e:"Class B surrounds the busiest airports, surface to ~10,000 MSL."},
+  {q:"The outer shelf of Class C airspace typically has a floor of:",opts:["The surface","700 ft AGL","1,200 ft AGL","4,000 ft AGL"],a:2,e:"5–10 NM ring runs 1,200 to 4,000 ft AGL; the inner core is surface to 4,000."},
+  {q:"LAANC authorizations are based on:",opts:["The pilot's logbook","UAS Facility Maps","Weather reports","Sectional chart colors"],a:1,e:"UAS Facility Maps show the max altitude LAANC may auto-approve per grid."},
+  {q:"A UAS Facility Map grid value of '0' means:",opts:["Unlimited altitude","No automatic LAANC approval — apply via DroneZone","400 ft is approved","The airport is closed"],a:1,e:"Zero = no auto-approval; request through DroneZone."},
+  {q:"Class A airspace begins at:",opts:["10,000 ft MSL","14,500 ft MSL","18,000 ft MSL","FL600"],a:2,e:"Class A is 18,000 MSL up to FL600 — IFR only."},
+  {q:"A Warning Area differs from a Restricted Area in that it is:",opts:["Always safe","Located over international/coastal waters","Never charted","Only active at night"],a:1,e:"Warning areas contain similar hazards but lie over the water beyond 3 NM offshore."},
+  {q:"In an Alert Area, collision avoidance is the responsibility of:",opts:["ATC only","Military only","All pilots, equally","No one"],a:2,e:"All pilots — participating and transiting — are equally responsible for see-and-avoid."},
+ ],
+ navmap:[
+  {q:"On an aeronautical chart, which direction is the top of the page?",opts:["South","East","North","Depends on the chart"],a:2,e:"North is up (east right, south down, west left)."},
+  {q:"A direction of 270° corresponds to:",opts:["North","East","South","West"],a:3,e:"Measured clockwise from north: 270° = West."},
+  {q:"Latitude lines:",opts:["Run north-south and measure E/W","Run east-west and measure N/S position","Always equal 1 statute mile","Point to magnetic north"],a:1,e:"Latitude lines run east-west (horizontal) and fix your north/south position."},
+  {q:"One minute of latitude equals approximately:",opts:["1 statute mile","1 nautical mile","1 degree","60 nautical miles"],a:1,e:"1 minute of latitude ≈ 1 NM — the latitude scale doubles as a ruler."},
+  {q:"How many minutes are in one degree?",opts:["10","60","100","360"],a:1,e:"60 minutes per degree; 60 seconds per minute."},
+  {q:"Convert 45°15' to decimal degrees:",opts:["45.15°","45.25°","45.50°","45.75°"],a:1,e:"15 ÷ 60 = 0.25, so 45.25°."},
+  {q:"In the continental US, longitude values are roughly:",opts:["25°–49° N","67°–125° W","0°–90° E","100°–180° E"],a:1,e:"Lower-48 longitude runs about 67°W (Maine) to 125°W (West Coast)."},
+  {q:"Runway '27' is aligned to a magnetic heading of about:",opts:["27°","207°","270°","2,700°"],a:2,e:"Runway numbers = magnetic heading ÷ 10, so 27 ≈ 270°."},
+  {q:"Coordinates are conventionally written as:",opts:["Longitude then latitude","Latitude then longitude","Always decimal only","Magnetic bearing first"],a:1,e:"Latitude first, then longitude (e.g., 40°N, 111°W)."},
  ],
  charts:[
   {q:"On a sectional, solid magenta lines depict:",opts:["Class B","Class C","Class D","Class E surface"],a:1,e:"Solid magenta = Class C."},
@@ -614,6 +868,18 @@ const QUIZ={
   {q:"On an obstacle, the number in parentheses is the height:",opts:["Above mean sea level (MSL)","Above ground level (AGL)","In meters","Of the lighting"],a:1,e:"Parentheses = AGL; the other number is MSL."},
   {q:"Faded/shaded magenta on a sectional means Class E begins at:",opts:["The surface","700 ft AGL","1,200 ft AGL","14,500 ft MSL"],a:1,e:"Faded magenta = Class E floor at 700 ft AGL."},
   {q:"The large number in a chart quadrant (MEF) represents:",opts:["Runway length","Highest terrain/obstacle in that quad","Radio frequency","Magnetic variation"],a:1,e:"Maximum Elevation Figure — tallest obstacle/terrain in hundreds of ft MSL."},
+  {q:"An airspace label of '100/SFC' means the airspace extends:",opts:["1,000 ft to surface","10,000 ft MSL down to the surface","100 ft AGL","Surface to 100,000 ft"],a:1,e:"Top 10,000 MSL, floor at the surface (hundreds of ft MSL)."},
+  {q:"Blue cross-hatched lines on a sectional indicate:",opts:["A Victor airway","Prohibited/Restricted area","Class E surface","A visual checkpoint"],a:1,e:"Blue hatching = Prohibited/Restricted (and Warning/Alert) areas."},
+  {q:"Magenta hatched lines indicate:",opts:["Class C","A Military Operations Area (MOA)","Class B shelf","A TFR"],a:1,e:"Magenta hatching = MOA."},
+  {q:"An underlined frequency in an airport data block means:",opts:["Emergency only","No voice transmitted on that frequency","Tower is closed","Military use"],a:1,e:"Underline = no voice transmitted on that frequency."},
+  {q:"A runway length printed as '50' in a data block means:",opts:["50 ft","500 ft","5,000 ft","50,000 ft"],a:2,e:"Runway length is in hundreds of feet → 5,000 ft."},
+  {q:"A magenta flag symbol on a sectional marks:",opts:["A prohibited area","A visual checkpoint","An obstacle","A VOR"],a:1,e:"Magenta flag = visual checkpoint used for position reporting."},
+  {fig:`<svg viewBox="0 0 320 195" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="100" r="84" fill="none" stroke="#b4318a" stroke-width="2.5"/><circle cx="150" cy="100" r="45" fill="none" stroke="#b4318a" stroke-width="2.5"/><circle cx="150" cy="100" r="8" fill="none" stroke="#2f6fd6" stroke-width="2.5"/><line x1="142" y1="100" x2="158" y2="100" stroke="#2f6fd6" stroke-width="2.5"/><line x1="150" y1="92" x2="150" y2="108" stroke="#2f6fd6" stroke-width="2.5"/><g font-family="Georgia,serif" font-size="13" fill="#b4318a" text-anchor="middle"><text x="150" y="30">42</text><line x1="139" y1="34" x2="161" y2="34" stroke="#b4318a" stroke-width="1.2"/><text x="150" y="48">12</text></g><g font-family="Georgia,serif" font-size="11" fill="#b4318a" text-anchor="middle"><text x="150" y="150">42</text><line x1="141" y1="153" x2="159" y2="153" stroke="#b4318a" stroke-width="1.2"/><text x="150" y="164">SFC</text></g><g font-family="Verdana,sans-serif" font-size="9.5" fill="#2f6fd6"><text x="166" y="96" font-weight="700">RIVERTON</text><text x="166" y="109">CT 119.4</text><text x="166" y="121">845  *L 70</text></g></svg>`,q:"Refer to the figure. What is the ceiling of the airspace at Riverton, in feet MSL?",opts:["1,200 ft","4,000 ft","4,200 ft","8,400 ft"],a:2,e:"Solid magenta = Class C. The stacked 42/SFC and 42/12 read in hundreds of feet MSL, so the ceiling is 4,200 ft MSL."},
+  {fig:`<svg viewBox="0 0 320 195" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="100" r="84" fill="none" stroke="#b4318a" stroke-width="2.5"/><circle cx="150" cy="100" r="45" fill="none" stroke="#b4318a" stroke-width="2.5"/><circle cx="150" cy="100" r="8" fill="none" stroke="#2f6fd6" stroke-width="2.5"/><line x1="142" y1="100" x2="158" y2="100" stroke="#2f6fd6" stroke-width="2.5"/><line x1="150" y1="92" x2="150" y2="108" stroke="#2f6fd6" stroke-width="2.5"/><g font-family="Verdana,sans-serif" font-size="9.5" fill="#2f6fd6"><text x="166" y="96" font-weight="700">RIVERTON</text><text x="166" y="109">CT 119.4</text></g></svg>`,q:"Refer to the figure. Riverton's airport symbol is drawn in blue. What does that tell you?",opts:["It has an operating control tower","It has no control tower","It is closed","It is for military use"],a:0,e:"Blue airport symbol = operating control tower (the 'CT' line confirms it). Magenta would mean no tower."},
+  {fig:`<svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="95" r="70" fill="none" stroke="#b4318a" stroke-width="2.5" stroke-dasharray="7 5"/><circle cx="150" cy="95" r="8" fill="none" stroke="#b4318a" stroke-width="2.5"/><line x1="142" y1="95" x2="158" y2="95" stroke="#b4318a" stroke-width="2.5"/><line x1="150" y1="87" x2="150" y2="103" stroke="#b4318a" stroke-width="2.5"/><g font-family="Verdana,sans-serif" font-size="9.5" fill="#b4318a"><text x="166" y="92" font-weight="700">HAYES</text><text x="166" y="105">122.8</text></g><rect x="200" y="97" width="11" height="11" fill="#b4318a"/><text x="205.5" y="106" font-size="9" fill="#fff" text-anchor="middle" font-family="Verdana,sans-serif">C</text></svg>`,q:"Refer to the figure. The dashed magenta circle around Hayes indicates the airspace is:",opts:["Class D","Class E to the surface (authorization required)","Class B","A restricted area"],a:1,e:"Dashed magenta = Class E down to the surface. Because controlled airspace reaches the surface, you need authorization to fly there."},
+  {fig:`<svg viewBox="0 0 320 175" xmlns="http://www.w3.org/2000/svg"><line x1="40" y1="140" x2="280" y2="140" stroke="#8a9aa8" stroke-width="1"/><line x1="150" y1="140" x2="150" y2="60" stroke="#5a3a2a" stroke-width="2.5"/><line x1="150" y1="140" x2="138" y2="140" stroke="#5a3a2a" stroke-width="2.5"/><line x1="150" y1="140" x2="162" y2="140" stroke="#5a3a2a" stroke-width="2.5"/><circle cx="150" cy="58" r="3.5" fill="#5a3a2a"/><g stroke="#5a3a2a" stroke-width="1.2"><line x1="150" y1="52" x2="143" y2="44"/><line x1="150" y1="52" x2="157" y2="44"/><line x1="150" y1="52" x2="150" y2="41"/></g><g font-family="Verdana,sans-serif" font-size="13" font-weight="700" fill="#5a3a2a"><text x="170" y="70">1549</text><text x="170" y="89">(587)</text></g></svg>`,q:"Refer to the figure. What is the height of this obstacle above ground level (AGL)?",opts:["1,549 ft","587 ft","962 ft","2,136 ft"],a:1,e:"Top number 1,549 = MSL height; the value in parentheses (587) = AGL. The rays at the top mean it is lighted."},
+  {fig:`<svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="100" r="72" fill="none" stroke="#2f6fd6" stroke-width="2.5" stroke-dasharray="7 5"/><circle cx="150" cy="100" r="8" fill="none" stroke="#2f6fd6" stroke-width="2.5"/><line x1="142" y1="100" x2="158" y2="100" stroke="#2f6fd6" stroke-width="2.5"/><line x1="150" y1="92" x2="150" y2="108" stroke="#2f6fd6" stroke-width="2.5"/><rect x="131" y="18" width="38" height="21" fill="none" stroke="#2f6fd6" stroke-width="1.5" stroke-dasharray="4 3"/><text x="150" y="34" font-family="Georgia,serif" font-size="14" fill="#2f6fd6" text-anchor="middle">25</text><text x="166" y="98" font-family="Verdana,sans-serif" font-size="9.5" font-weight="700" fill="#2f6fd6">CARSON</text></svg>`,q:"Refer to the figure. The blue dashed circle and the boxed [25] indicate:",opts:["Class C with a 2,500 ft floor","Class D with a ceiling of 2,500 ft MSL","Class B up to 25,000 ft","Class E starting at 2,500 ft"],a:1,e:"Blue dashed boundary = Class D; the boxed number ×100 gives the ceiling, 2,500 ft MSL."},
+  {fig:`<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg"><rect x="35" y="28" width="250" height="104" fill="#efd0e4"/><rect x="35" y="28" width="250" height="13" fill="#dd9cc5"/><text x="160" y="66" font-family="Verdana,sans-serif" font-size="11" fill="#7a4a66" text-anchor="middle">faded magenta shading</text><circle cx="150" cy="100" r="4" fill="#16222e"/><text x="160" y="104" font-family="Verdana,sans-serif" font-size="12" font-weight="700" fill="#16222e">X</text></svg>`,q:"Refer to the figure. Point X sits inside faded magenta shading. The floor of controlled (Class E) airspace there is:",opts:["The surface","700 ft AGL","1,200 ft AGL","14,500 ft MSL"],a:1,e:"Faded magenta = Class E beginning at 700 ft AGL. (Faded blue would mean 1,200 ft AGL.)"},
  ],
  weather:[
   {q:"In a METAR, '12/11' (temp/dewpoint) suggests:",opts:["Dry, clear skies","High humidity — fog/low clouds likely","Strong winds","High density altitude"],a:1,e:"A small spread = high humidity → fog or low clouds."},
@@ -664,7 +930,55 @@ const REF={
 <tr><td>Obstacle (number)</td><td>Height in AGL</td></tr>
 <tr><td>Large quadrant number (MEF)</td><td>Tallest terrain/obstacle, hundreds of ft MSL</td></tr>
 <tr><td>★ or burst around obstacle</td><td>High-intensity lighting</td></tr>
+</table></div>
+<div class="card"><h3>Airport symbols & data</h3>
+<table class="ref">
+<tr><th>Symbol / text</th><th>Means</th></tr>
+<tr><td style="color:var(--blue);font-weight:700">Blue airport</td><td>Has an operating control tower</td></tr>
+<tr><td style="color:var(--magenta);font-weight:700">Magenta airport</td><td>No control tower</td></tr>
+<tr><td>Tick marks around circle</td><td>Fuel available / attended field</td></tr>
+<tr><td>R in a box</td><td>Private / restricted-use airport</td></tr>
+<tr><td>C in a box</td><td>CTAF (common traffic) frequency</td></tr>
+<tr><td>CT - 118.3</td><td>Control Tower freq (★ = part-time)</td></tr>
+<tr><td>Number like 70</td><td>Runway length in hundreds of ft (7,000 ft)</td></tr>
+<tr><td>Underlined frequency</td><td>No voice on that frequency</td></tr>
+<tr><td>Magenta flag</td><td>Visual checkpoint</td></tr>
+</table></div>
+<div class="card"><h3>Special-use airspace</h3>
+<table class="ref">
+<tr><th>Drawing</th><th>Means</th></tr>
+<tr><td>Blue cross-hatch</td><td>Prohibited (P-), Restricted (R-), Warning, Alert</td></tr>
+<tr><td>Magenta cross-hatch</td><td>Military Operations Area (MOA)</td></tr>
+<tr><td>Dashed magenta isogonic line</td><td>Line of equal magnetic variation</td></tr>
 </table></div>`,
+
+ 'Coordinates & DMS':`
+<div class="card"><h3>Direction</h3>
+<table class="ref">
+<tr><th>Heading</th><th>Direction</th></tr>
+<tr><td>000° / 360°</td><td>North (top of chart)</td></tr>
+<tr><td>045°</td><td>Northeast</td></tr>
+<tr><td>090°</td><td>East (right)</td></tr>
+<tr><td>180°</td><td>South (down)</td></tr>
+<tr><td>270°</td><td>West (left)</td></tr>
+</table>
+<p class="muted">Measured clockwise from north. True north = grid lines; magnetic north = compass (differs by variation).</p></div>
+<div class="card"><h3>Latitude vs longitude</h3>
+<table class="ref">
+<tr><th></th><th>Latitude</th><th>Longitude</th></tr>
+<tr><td>Lines run</td><td>East–west</td><td>North–south</td></tr>
+<tr><td>Measures</td><td>N/S position</td><td>E/W position</td></tr>
+<tr><td>US range</td><td>~25°–49° N</td><td>~67°–125° W</td></tr>
+</table>
+<p class="muted">Write latitude first: 40°45'N, 111°53'W.</p></div>
+<div class="card"><h3>DMS (Degrees-Minutes-Seconds)</h3>
+<table class="ref">
+<tr><th>Unit</th><th>Equals</th></tr>
+<tr><td>1 degree (°)</td><td>60 minutes (')</td></tr>
+<tr><td>1 minute (')</td><td>60 seconds</td></tr>
+<tr><td>1 minute of latitude</td><td>1 nautical mile</td></tr>
+</table>
+<p class="muted">DMS → decimal: degrees + min/60 + sec/3600. E.g. 40°45'30" = 40.758°. Count minutes of latitude between two points to get distance in NM.</p></div>`,
 
  'Airspace quick table':`
 <div class="card"><h3>Class A–G at a glance</h3>
@@ -878,6 +1192,7 @@ function renderQ(){
  const opts=q.opts.map((o,i)=>`<button class="opt" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
  el('quizRun').innerHTML=`<div class="card qcard">
    <div class="qmeta"><span>Q ${quizIdx+1} / ${quizSet.length}</span><span class="timer" id="qTimer"></span></div>
+   ${q.fig?`<div class="qfig">${q.fig}<div class="qfig-cap">Refer to the figure above</div></div>`:''}
    <div class="qtext">${q.q}</div>
    <div id="optWrap">${opts}</div>
    <div class="expl" id="expl"></div>
