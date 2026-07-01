@@ -50,6 +50,21 @@ h2.sec{font-size:20px;margin:4px 0 14px;}
 .tile .d{color:var(--muted);font-size:12px;margin-top:3px;}
 .tile .meter{height:5px;border-radius:99px;background:var(--line);margin-top:10px;overflow:hidden;}
 .tile .meter>i{display:block;height:100%;background:var(--good);width:0;}
+.srctag{display:inline-block;font-size:9.5px;font-weight:700;color:var(--muted);background:#eef2f7;border-radius:6px;padding:2px 6px;margin-top:8px;letter-spacing:.2px;}
+.srcline{font-size:11.5px;color:var(--muted);font-weight:600;margin:-8px 0 12px;}
+/* interactive tools */
+.tool{background:#fbfaf5;border:1px solid var(--line);border-radius:14px;padding:12px;margin:12px 0;}
+.tool .ctrlrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0;}
+.tool .ctrlrow .lab{font-size:12px;font-weight:700;color:var(--navy2);width:100%;}
+.minibtn{padding:7px 11px;border-radius:9px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:600;cursor:pointer;}
+.minibtn.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.tool .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13.5px;margin-top:8px;}
+.tool .readout b{color:var(--navy);}
+#ptCanvas{touch-action:none;background:#eef4ea;border-radius:10px;}
+#ptCanvas svg{width:100%;height:auto;display:block;}
+.zq{font-size:20px;font-weight:800;text-align:center;color:var(--navy);letter-spacing:1px;margin:6px 0;}
+.zans{display:none;text-align:center;font-size:15px;font-weight:700;color:var(--good);margin-top:6px;}
+.zans.show{display:block;}
 /* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
   background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 16px;
@@ -265,14 +280,17 @@ document.getElementById('resetBtn').onclick=()=>{
    Each lesson: id, title, icon, blurb, html
 ============================================================ */
 const MODULES=[
- {id:'regs',icon:'📋',title:'Regulations',blurb:'Core rules, certs, registration'},
- {id:'newreg',icon:'🆕',title:'Newer Rules',blurb:'Remote ID, ops over people, night'},
- {id:'airspace',icon:'🛫',title:'Airspace',blurb:'Class A–G & authorization'},
- {id:'navmap',icon:'🧭',title:'Maps & Coordinates',blurb:'Direction, lat/long & DMS'},
- {id:'charts',icon:'🗺️',title:'Sectional Charts',blurb:'Full legend & symbols'},
- {id:'weather',icon:'⛅',title:'Weather',blurb:'METAR/TAF, density altitude'},
- {id:'loading',icon:'⚖️',title:'Loading & Performance',blurb:'Weight, balance, limits'},
- {id:'adm',icon:'🧠',title:'ADM & CRM',blurb:'Decision-making, physiology'},
+ {id:'regs',icon:'📋',title:'Regulations',blurb:'Core rules, certs, registration',src:'14 CFR §107 / §91'},
+ {id:'newreg',icon:'🆕',title:'Newer Rules',blurb:'Remote ID, ops over people, night',src:'14 CFR §107'},
+ {id:'airspace',icon:'🛫',title:'Airspace',blurb:'Class A–G & authorization',src:'FAA-G-8082-22 / PHAK'},
+ {id:'navmap',icon:'🧭',title:'Maps & Coordinates',blurb:'Direction, lat/long & DMS',src:'Chart User Guide'},
+ {id:'charts',icon:'🗺️',title:'Sectional Charts',blurb:'Full legend & symbols',src:'Chart User Guide'},
+ {id:'signs',icon:'🚧',title:'Airport Signs & Markings',blurb:'Signage, markings, SIDA',src:'AIM Ch.2 / TSA 1542'},
+ {id:'pattern',icon:'✈️',title:'Traffic Patterns',blurb:'Runways, pattern legs, radio',src:'PHAK / AIM Ch.4'},
+ {id:'time',icon:'🕒',title:'Zulu Time & Supplement',blurb:'UTC↔local, chart supplement',src:'AIM / Chart Supp.'},
+ {id:'weather',icon:'⛅',title:'Weather',blurb:'METAR/TAF, density altitude',src:'FAA-G-8082-22'},
+ {id:'loading',icon:'⚖️',title:'Loading & Performance',blurb:'Weight, balance, limits',src:'FAA-G-8082-22'},
+ {id:'adm',icon:'🧠',title:'ADM & CRM',blurb:'Decision-making, physiology',src:'FAA-G-8082-22'},
 ];
 
 const LESSONS={
@@ -396,13 +414,14 @@ airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
 <h3>Class-by-class details (FAA Study Guide)</h3>
 <ul>
 <li><b>Class A</b> — 18,000 ft MSL up to FL600 (60,000 ft). IFR only; not available to Part 107. Just know it exists.</li>
-<li><b>Class B</b> — surrounds the <b>busiest</b> airports; <b>surface to ~10,000 MSL</b>. Individually tailored with two or more layers (the upside-down cake). Authorization required.</li>
+<li><b>Class B</b> — surrounds the <b>busiest</b> airports; <b>surface to ~10,000 MSL</b>. Individually tailored with two or more layers (the upside-down cake). Its <b>floor is not a single number</b> — it's surface-based near the primary airport and steps up in the outer rings (often 1,800–4,000+ MSL), so you must read each shelf's floor off the actual sectional. Authorization required.</li>
 <li><b>Class C</b> — operating control tower + radar service. <b>Inner core: 5 NM radius, surface to 4,000 ft AGL. Outer shelf: 5–10 NM radius, 1,200 to 4,000 ft AGL.</b> Authorization required.</li>
 <li><b>Class D</b> — operating control tower; roughly <b>4 NM radius, surface to ~2,500 ft AGL</b>. Often part-time — reverts to E or G when the tower closes. Authorization required.</li>
 <li><b>Class E</b> — all other controlled airspace. Floors at the <b>surface</b> (dashed magenta), <b>700 ft AGL</b> (faded magenta), <b>1,200 ft AGL</b> (faded blue, most of the country), or <b>14,500 MSL</b>, up to but not including 18,000. Authorization needed only for <b>surface-area E at an airport</b>.</li>
 <li><b>Class G</b> — uncontrolled; from the surface up to the base of the overlying Class E (700 or 1,200 ft), or to 14,500 in remote areas. No ATC authorization needed.</li>
 </ul>
 
+<div class="key"><b>Equipment (a common distractor):</b> The transponder / ADS-B Out / two-way-radio rules the test may mention are the <b>manned-aircraft</b> requirements for entering Class B and Class C (Part 91). As a Part 107 remote pilot, your equivalent requirement is <b>FAA authorization</b> (via LAANC or DroneZone) — plus Remote ID. Know both so you can tell the "what's required" answers apart.</div>
 <h3>Getting authorization: LAANC & UAS Facility Maps</h3>
 <ul>
 <li>To operate in controlled airspace (B, C, D, or surface-E), you need <b>prior FAA authorization</b> — you cannot just radio the tower.</li>
@@ -419,7 +438,7 @@ airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
 <h3>Special-use airspace (PHAK Ch. 15)</h3>
 <table class="ref"><tr><th>Type</th><th>What it is / what you do</th></tr>
 <tr><td><b>Prohibited (P-###)</b></td><td>Flight prohibited for security/national welfare (e.g., P-56 over the White House &amp; Capitol). Never enter.</td></tr>
-<tr><td><b>Restricted (R-###)</b></td><td>Invisible hazards — artillery, gunnery, missiles. Enter only with the controlling agency's permission, and only when inactive.</td></tr>
+<tr><td><b>Restricted (R-###)</b></td><td>Invisible hazards — artillery, gunnery, missiles. <b>Transit conditions:</b> if it's <i>not active</i> and released to the FAA, ATC can let you operate without a special clearance. If it's <i>active</i> and not released, ATC will route/clear you to <b>avoid</b> it — no through-flight.</td></tr>
 <tr><td><b>Warning (W-###)</b></td><td>Same kind of hazards as restricted, but located over <b>international/coastal waters</b> (beyond 3 NM offshore).</td></tr>
 <tr><td><b>MOA</b></td><td>Military Operations Area — separates military training from IFR traffic. Use caution; check status.</td></tr>
 <tr><td><b>Alert (A-###)</b></td><td>High volume of pilot training or unusual activity. All pilots are equally responsible for see-and-avoid.</td></tr>
@@ -601,7 +620,110 @@ charts:{title:'Reading Sectional Charts',icon:'🗺️',html:`
 <div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
 <div class="ans">Maximum Elevation Figure: the tallest terrain/obstacle in that quadrant is about 5,800 ft MSL.</div></div>
 
-<div class="bridge"><b>Bridge →</b> Charts point you to weather sources (AWOS/ASOS) and give field elevation — which feeds straight into reading conditions. Next: <b>Weather</b>.</div>
+<div class="bridge"><b>Bridge →</b> Charts get you to the airport — now you need to read what's painted on the ground and know how traffic flows. Next: <b>Airport Signs & Markings</b>.</div>
+`},
+signs:{title:'Airport Signs, Markings & SIDA',icon:'🚧',html:`
+<p class="lead">This is a <b>visual recognition</b> topic — the test shows a sign or marking and asks what it means. Learn the color code and you've got it. (Source: AIM Chapter 2; SIDA is TSA, 49 CFR 1542.)</p>
+
+<h3>Where the most complete airport info lives</h3>
+<p>For the most comprehensive information about an airport — hours, lighting, services, frequencies, runway data, remarks — use the <b>Chart Supplement</b> (formerly the Airport/Facility Directory). The sectional gives you a quick summary; the Chart Supplement is the deep reference.</p>
+
+<h3>The sign color code (memorize this)</h3>
+<table class="ref"><tr><th>Sign type</th><th>Colors</th><th>Meaning</th></tr>
+<tr><td><b>Mandatory instruction</b></td><td><b>Red</b> background, <b>white</b> text</td><td>Do NOT cross without ATC clearance — runway holds, "no entry," ILS critical area. (e.g., "16-34")</td></tr>
+<tr><td><b>Location</b></td><td><b>Black</b> background, <b>yellow</b> text + border</td><td>Identifies the taxiway/runway you are ON (e.g., "B").</td></tr>
+<tr><td><b>Direction</b></td><td><b>Yellow</b> background, <b>black</b> text</td><td>Points to taxiways at an intersection (with arrows).</td></tr>
+<tr><td><b>Destination</b></td><td><b>Yellow</b> background, <b>black</b> text + arrow</td><td>Points toward a destination (runway, terminal, FBO).</td></tr>
+<tr><td><b>Runway distance remaining</b></td><td><b>Black</b> background, <b>white</b> number</td><td>Thousands of feet of runway left (e.g., "3" = 3,000 ft).</td></tr></table>
+<div class="key"><b>The one they test most:</b> a <b>runway holding position sign</b> is <b>red with white runway numbers</b>. It marks where you must hold short of a runway. Don't confuse the <b>sign</b> (what it means) with the <b>pavement marking</b> (below).</div>
+
+<h3>Runway holding position markings (on the pavement)</h3>
+<ul>
+<li>Painted as <b>two solid + two dashed yellow lines</b>.</li>
+<li><b>Hold on the SOLID side.</b> The solid lines face the side you approach from and must hold behind; the dashed lines are on the runway side (crossing back off the runway, you may cross the dashed lines).</li>
+<li>Purpose: keep aircraft/vehicles clear of the active runway until cleared.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>You see a sign with a red background and white numbers "9-27." What is it, and what must you do?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">A runway holding position sign for runway 9/27 — a mandatory instruction sign. Hold short; do not cross onto the runway without ATC clearance.</div></div>
+
+<h3>SIDA — Security Identification Display Area</h3>
+<ul>
+<li>A secured area of an airport. Access requires an <b>airport-issued ID badge</b>, a successful <b>security/background check</b>, and <b>airport-specific security training</b>.</li>
+<li>This is a <b>TSA security</b> requirement (49 CFR Part 1542), not an FAA flight rule — a common "which of these is needed" distractor.</li>
+</ul>
+<div class="bridge"><b>Bridge →</b> Signs tell you where you are on the ground; now learn how aircraft move around the airport. Next: <b>Traffic Patterns</b>.</div>
+`},
+pattern:{title:'Traffic Patterns, Runways & Radio',icon:'✈️',html:`
+<p class="lead">Direction-finding around an airport is high cognitive load — so this module has an <b>interactive tool</b>. First the rules, then play with it. (Source: PHAK & AIM Ch. 4.)</p>
+
+<h3>Runway numbers = magnetic heading</h3>
+<ul>
+<li>A runway's number is its <b>magnetic heading ÷ 10</b>, rounded. Runway <b>36</b> ≈ heading <b>360°</b> (north); <b>9</b> ≈ 090° (east); <b>18</b> ≈ 180° (south); <b>27</b> ≈ 270° (west).</li>
+<li>The opposite end is the <b>reciprocal</b> — always 18 apart (36/18, 9/27). Same strip of pavement, two directions.</li>
+</ul>
+
+<h3>The standard traffic pattern</h3>
+<ul>
+<li>Turns are to the <b>LEFT</b> unless a right pattern is published ("RP" in the Chart Supplement / segmented-circle indicators).</li>
+<li>The legs, in order: <b>Upwind</b> (departure, aligned with runway) → <b>Crosswind</b> (perpendicular) → <b>Downwind</b> (parallel to runway, flown <i>opposite</i> the landing direction) → <b>Base</b> (perpendicular) → <b>Final</b> (lined up with the runway).</li>
+</ul>
+<div class="key"><b>Hand trick:</b> point your flat hand in the <b>landing direction</b>. For a <b>left</b> pattern, your <b>left</b> side is the downwind side. Runway 36 (landing north) → left downwind sits to the <b>west</b> of the runway.</div>
+
+<h3>🛠 Interactive: where's the traffic?</h3>
+<p class="muted">Set the runway, pattern hand, and the leg an aircraft reported, then drag the observer dot to your position. The tool shows where the traffic is and which way to look.</p>
+<div class="tool" id="ptTool">
+ <div class="ctrlrow"><span class="lab">Runway number: <b id="ptRwyVal">36</b> &nbsp; reciprocal <b id="ptRwyRecip">18</b></span>
+  <input type="range" id="ptRwy" min="1" max="36" value="36" style="width:100%" oninput="ptSet('rwy',this.value)"></div>
+ <div class="ctrlrow"><span class="lab">Pattern</span>
+  <button class="minibtn on" id="ptp_left" onclick="ptSet('pattern','left')">Left (standard)</button>
+  <button class="minibtn" id="ptp_right" onclick="ptSet('pattern','right')">Right</button></div>
+ <div class="ctrlrow"><span class="lab">Reported leg</span>
+  <button class="minibtn" id="ptl_upwind" onclick="ptSet('leg','upwind')">Upwind</button>
+  <button class="minibtn" id="ptl_crosswind" onclick="ptSet('leg','crosswind')">Crosswind</button>
+  <button class="minibtn on" id="ptl_downwind" onclick="ptSet('leg','downwind')">Downwind</button>
+  <button class="minibtn" id="ptl_base" onclick="ptSet('leg','base')">Base</button>
+  <button class="minibtn" id="ptl_final" onclick="ptSet('leg','final')">Final</button></div>
+ <div id="ptCanvas"></div>
+ <div class="readout" id="ptReadout"></div>
+ <p class="muted" style="font-size:11px;margin:8px 0 0">Tap or drag the yellow dot to set your position. Red = the reported leg.</p>
+</div>
+
+<h3>Radio at non-towered airports</h3>
+<ul>
+<li><b>CTAF</b> (Common Traffic Advisory Frequency) is the self-announce frequency — it may be a UNICOM, MULTICOM, FSS, or tower frequency depending on the airport. Verify it on the chart.</li>
+<li><b>MULTICOM 122.9</b> is used where there's no UNICOM or FSS. UNICOM is often 122.7/122.8 but <b>confirm per chart</b>.</li>
+<li>Standard self-announce points: <b>10 miles out</b>, <b>entering downwind</b>, <b>base</b>, <b>final</b>, and <b>clear of the runway</b>.</li>
+</ul>
+<div class="exq"><span class="lbl">Example problem</span>
+<p>An aircraft reports "left downwind, runway 36." You're northwest of the field. Roughly where do you look for it?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans">Runway 36 lands to the north; left downwind is west of the runway, flown southbound. From a spot northwest of the field, that traffic is to your south/southeast. (Use the tool above to confirm with your exact position.)</div></div>
+<div class="bridge"><b>Bridge →</b> Chart Supplement hours (like when a field is attended) are published in Zulu. Next: <b>Zulu Time</b>.</div>
+`},
+time:{title:'Zulu Time & the Chart Supplement',icon:'🕒',html:`
+<p class="lead">Weather reports, NOTAMs, and Chart Supplement hours are all in <b>Zulu (UTC)</b>. You'll be asked to convert to local time — the trick is the daylight-saving offset.</p>
+
+<h3>The rule</h3>
+<ul>
+<li><b>Zulu = UTC.</b> To get local time, <b>subtract</b> your time-zone offset.</li>
+<li><b>Utah = Mountain Time.</b> In winter it's <b>MST = UTC − 7</b>; in summer (daylight saving) it's <b>MDT = UTC − 6</b>.</li>
+<li>If subtracting drops you below 0000, it's the <b>previous day</b> locally (add 24).</li>
+</ul>
+<div class="key"><b>Worked example:</b> Winchester Municipal is attended 1400Z–0200Z in winter (MST). Start: 1400Z − 7 = <b>0700 local (7 AM)</b>. End: 0200Z − 7 = −0500 → +24 = <b>1900 local (7 PM) the previous day's date</b>. So it's attended 7 AM to 7 PM local.</div>
+
+<h3>🛠 Practice: convert Zulu → Utah local</h3>
+<div class="tool">
+ <div class="zq" id="zProblem">—</div>
+ <div class="muted center" id="zPrompt">Tap "New problem" to start.</div>
+ <div class="zans" id="zAnswer"></div>
+ <div class="btnrow" style="margin-top:10px">
+  <button class="btn alt" onclick="revealZulu()">Reveal</button>
+  <button class="btn" onclick="newZulu()">New problem</button></div>
+</div>
+<p class="muted" style="font-size:12px">Tip: daylight saving runs roughly mid-March to early November. In that window use −6 (MDT); otherwise −7 (MST).</p>
+<div class="bridge"><b>Bridge →</b> Back to the sky — how weather affects your flight. Next: <b>Weather</b>.</div>
 `},
 weather:{title:'Aviation Weather',icon:'⛅',html:`
 <p class="lead">Second-biggest topic. Expect to decode a METAR or TAF, estimate cloud bases, and reason about stability and density altitude.</p>
@@ -741,6 +863,29 @@ const DECKS={
   ["What is a Controlled Firing Area (CFA)?","Activity stops when aircraft approach; not charted, needs no action from you."],
   ["What is a National Security Area (NSA)?","You're requested to avoid; can be made temporarily prohibited."],
   ["Class G upper limit?","Up to the base of overlying Class E (700 or 1,200 ft AGL), or 14,500 MSL in remote areas."],
+  ["Class A — controlled or uncontrolled?","Controlled. IFR only; drones never operate there."],
+  ["Class B airspace shape nickname?","Upside-down wedding cake — surface core plus widening shelves."],
+  ["Is a Class B floor a single altitude?","No — surface near the primary airport, stepping up in outer rings; read each shelf off the chart."],
+  ["Class B line on a sectional?","Solid blue."],
+  ["Class C line on a sectional?","Solid magenta."],
+  ["Class D line on a sectional?","Blue dashed."],
+  ["Class E surface-area line?","Magenta dashed."],
+  ["Class E 700 ft AGL floor shown as?","Faded/shaded magenta (soft edge on the inside)."],
+  ["Class E 1,200 ft AGL floor shown as?","Faded/shaded blue."],
+  ["Class C inner core dimensions?","5 NM radius, surface to 4,000 ft AGL."],
+  ["Class C outer shelf dimensions?","5–10 NM radius, 1,200 to 4,000 ft AGL."],
+  ["Class D typical radius & ceiling?","~4 NM radius, surface to 2,500 ft above the airport."],
+  ["What does 'individually tailored' mean?","The exact shape/altitudes are set per airport — always confirm on the chart."],
+  ["Which classes need ATC authorization for drones?","B, C, D, and surface-area E at an airport."],
+  ["Class E with no charted base starts at?","14,500 ft MSL."],
+  ["Top of Class E (before Class A)?","Up to but not including 18,000 ft MSL."],
+  ["Manned-aircraft equipment for Class B/C?","Two-way radio, transponder, ADS-B Out (Part 91); drones instead need FAA authorization + Remote ID."],
+  ["Restricted area — may you transit?","Only if inactive/released (ATC allows) or with the controlling agency's OK; if active, you must avoid it."],
+  ["Prohibited area — may you transit?","Never — flight is prohibited outright (e.g., P-40, P-56)."],
+  ["MOA line color?","Magenta hatched."],
+  ["Prohibited/Restricted line style?","Blue hatched (cross-hatch on the inside)."],
+  ["Alert area — who avoids collisions?","All pilots equally, participating and transiting."],
+  ["Warning area — where is it?","Over international/coastal waters, beyond 3 NM offshore."],
  ],
  navmap:[
   ["Which way is up on a sectional chart?","North. East is right, south down, west left."],
@@ -757,6 +902,14 @@ const DECKS={
   ["Convert 40°30' to decimal degrees.","40 + 30/60 = 40.5°."],
   ["1 minute of latitude equals how far?","1 nautical mile — use the latitude scale as a ruler."],
   ["Why not use longitude for measuring distance?","Longitude lines converge toward the poles, so the spacing shrinks."],
+  ["Runway 9 points which way?","090° — east."],
+  ["Runway 18 points which way?","180° — south."],
+  ["Reciprocal of runway 4?","Runway 22 (4 + 18)."],
+  ["True vs magnetic north differ by?","Magnetic variation (shown by isogonic lines)."],
+  ["Agonic line?","A line of zero magnetic variation."],
+  ["Convert 33°30' to decimal degrees.","33 + 30/60 = 33.5°."],
+  ["Two points share a longitude; latitudes differ by 12'. Distance?","About 12 nautical miles."],
+  ["Which chart scale measures distance in NM?","The latitude scale — 1 minute = 1 NM."],
  ],
  charts:[
   ["Class B line style/color?","Solid blue."],
@@ -779,6 +932,55 @@ const DECKS={
   ["A magenta flag symbol marks?","A visual checkpoint (landmark for position reports)."],
   ["Runway length shown as '70'?","7,000 ft — runway length is in hundreds of feet."],
   ["What's drawn inside a VOR compass rose oriented to?","Magnetic north."],
+  ["Most comprehensive airport info source?","The Chart Supplement (formerly Airport/Facility Directory)."],
+  ["'42/SFC' inside a magenta ring means?","Class C: 4,200 ft MSL ceiling down to the surface."],
+  ["Boxed [25] in blue dashes means?","Class D ceiling 2,500 ft MSL (hundreds of feet)."],
+  ["Obstacle 1549 (587): height AGL?","587 ft above ground (1549 is MSL)."],
+  ["Rays around an obstacle top mean?","High-intensity obstruction lighting."],
+  ["Tick marks around an airport circle?","Fuel available and the field is attended."],
+  ["Where do you read exact operating hours & remarks?","The Chart Supplement, not the sectional."],
+ ],
+ signs:[
+  ["Mandatory instruction sign colors?","Red background, white text."],
+  ["Runway holding position sign appearance?","Red background with white runway numbers (e.g., 16-34)."],
+  ["Location sign colors?","Black background, yellow text and border."],
+  ["Direction sign colors?","Yellow background, black text, with arrows."],
+  ["Destination sign colors?","Yellow background, black text with an arrow."],
+  ["Runway distance remaining sign?","Black background, white number = thousands of feet remaining."],
+  ["Runway holding position pavement marking?","Two solid + two dashed yellow lines."],
+  ["Which side of the hold marking do you stay on?","The solid-line side (dashed lines are the runway side)."],
+  ["What is a SIDA?","Security Identification Display Area — a secured airport area."],
+  ["What's needed to access a SIDA?","Airport ID badge, security/background check, and airport-specific training."],
+  ["Is SIDA an FAA or TSA requirement?","TSA security (49 CFR 1542), not an FAA flight rule."],
+  ["Sign vs marking — the trick?","The red 'sign' states the rule; the yellow pavement 'marking' shows where to hold."],
+ ],
+ pattern:[
+  ["Runway number to heading?","Multiply by 10 — Runway 27 ≈ 270°."],
+  ["Runway 36 heading?","360° (north)."],
+  ["Runway 9 heading?","090° (east)."],
+  ["Reciprocal runway rule?","Add or subtract 18 (36/18, 9/27)."],
+  ["Default traffic pattern direction?","Left turns, unless a right pattern is published."],
+  ["Order of the pattern legs?","Upwind, crosswind, downwind, base, final."],
+  ["Downwind leg direction of flight?","Opposite the landing direction, parallel to the runway."],
+  ["Left pattern — which side is downwind?","The left side relative to the landing direction."],
+  ["Runway 36, left pattern — downwind is where?","West of the runway, flown southbound."],
+  ["Base leg?","The perpendicular leg connecting downwind to final."],
+  ["Final leg?","Aligned with the runway on approach."],
+  ["What is CTAF?","Common Traffic Advisory Frequency for self-announcing."],
+  ["MULTICOM frequency?","122.9 — used where there's no UNICOM/FSS."],
+  ["Standard self-announce points?","10 miles out, entering downwind, base, final, and clear of the runway."],
+ ],
+ time:[
+  ["What is Zulu time?","UTC — used on charts, METARs, NOTAMs, and the Chart Supplement."],
+  ["Utah winter offset (MST)?","UTC − 7."],
+  ["Utah summer offset (MDT)?","UTC − 6."],
+  ["Convert Zulu to local — how?","Subtract the offset (7 for MST, 6 for MDT)."],
+  ["1400Z in MST = ?","0700 local (7 AM)."],
+  ["0200Z in MST = ?","1900 (7 PM) the previous local day."],
+  ["If the subtraction goes below 0000?","It's the previous day — add 24 hours."],
+  ["When is MDT (daylight saving) in effect?","Roughly mid-March to early November."],
+  ["Same Zulu: is MST or MDT the earlier clock time?","MST (−7) is one hour earlier than MDT (−6)."],
+  ["Where are an airport's attended hours listed?","The Chart Supplement, in Zulu."],
  ],
  weather:[
   ["What does Z mean in a METAR time?","Zulu / UTC time."],
@@ -849,6 +1051,9 @@ const QUIZ={
   {q:"Class A airspace begins at:",opts:["10,000 ft MSL","14,500 ft MSL","18,000 ft MSL","FL600"],a:2,e:"Class A is 18,000 MSL up to FL600 — IFR only."},
   {q:"A Warning Area differs from a Restricted Area in that it is:",opts:["Always safe","Located over international/coastal waters","Never charted","Only active at night"],a:1,e:"Warning areas contain similar hazards but lie over the water beyond 3 NM offshore."},
   {q:"In an Alert Area, collision avoidance is the responsibility of:",opts:["ATC only","Military only","All pilots, equally","No one"],a:2,e:"All pilots — participating and transiting — are equally responsible for see-and-avoid."},
+  {q:"As a Part 107 pilot, what do you need to operate in Class C airspace?",opts:["Nothing","FAA authorization (e.g., LAANC)","Only a Mode C transponder","An instrument rating"],a:1,e:"Drones need FAA authorization; transponder/ADS-B Out are the manned-aircraft (Part 91) requirements — a common distractor."},
+  {q:"You may operate across a restricted area when it is:",opts:["Always","Not active / released to the FAA (per ATC)","Only at night","Never"],a:1,e:"If inactive/released, ATC can permit operation; if active, you must avoid it."},
+  {q:"'Public gatherings of large groups of people' describes the purpose of a:",opts:["Routine FDC NOTAM's content","Temporary Flight Restriction (TFR)","METAR","Location sign"],a:1,e:"Trick distinction: that's a TFR's purpose, not what an FDC NOTAM contains (FDC NOTAMs carry regulatory/chart-amendment info)."},
  ],
  navmap:[
   {q:"On an aeronautical chart, which direction is the top of the page?",opts:["South","East","North","Depends on the chart"],a:2,e:"North is up (east right, south down, west left)."},
@@ -880,6 +1085,29 @@ const QUIZ={
   {fig:`<svg viewBox="0 0 320 175" xmlns="http://www.w3.org/2000/svg"><line x1="40" y1="140" x2="280" y2="140" stroke="#8a9aa8" stroke-width="1"/><line x1="150" y1="140" x2="150" y2="60" stroke="#5a3a2a" stroke-width="2.5"/><line x1="150" y1="140" x2="138" y2="140" stroke="#5a3a2a" stroke-width="2.5"/><line x1="150" y1="140" x2="162" y2="140" stroke="#5a3a2a" stroke-width="2.5"/><circle cx="150" cy="58" r="3.5" fill="#5a3a2a"/><g stroke="#5a3a2a" stroke-width="1.2"><line x1="150" y1="52" x2="143" y2="44"/><line x1="150" y1="52" x2="157" y2="44"/><line x1="150" y1="52" x2="150" y2="41"/></g><g font-family="Verdana,sans-serif" font-size="13" font-weight="700" fill="#5a3a2a"><text x="170" y="70">1549</text><text x="170" y="89">(587)</text></g></svg>`,q:"Refer to the figure. What is the height of this obstacle above ground level (AGL)?",opts:["1,549 ft","587 ft","962 ft","2,136 ft"],a:1,e:"Top number 1,549 = MSL height; the value in parentheses (587) = AGL. The rays at the top mean it is lighted."},
   {fig:`<svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="100" r="72" fill="none" stroke="#2f6fd6" stroke-width="2.5" stroke-dasharray="7 5"/><circle cx="150" cy="100" r="8" fill="none" stroke="#2f6fd6" stroke-width="2.5"/><line x1="142" y1="100" x2="158" y2="100" stroke="#2f6fd6" stroke-width="2.5"/><line x1="150" y1="92" x2="150" y2="108" stroke="#2f6fd6" stroke-width="2.5"/><rect x="131" y="18" width="38" height="21" fill="none" stroke="#2f6fd6" stroke-width="1.5" stroke-dasharray="4 3"/><text x="150" y="34" font-family="Georgia,serif" font-size="14" fill="#2f6fd6" text-anchor="middle">25</text><text x="166" y="98" font-family="Verdana,sans-serif" font-size="9.5" font-weight="700" fill="#2f6fd6">CARSON</text></svg>`,q:"Refer to the figure. The blue dashed circle and the boxed [25] indicate:",opts:["Class C with a 2,500 ft floor","Class D with a ceiling of 2,500 ft MSL","Class B up to 25,000 ft","Class E starting at 2,500 ft"],a:1,e:"Blue dashed boundary = Class D; the boxed number ×100 gives the ceiling, 2,500 ft MSL."},
   {fig:`<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg"><rect x="35" y="28" width="250" height="104" fill="#efd0e4"/><rect x="35" y="28" width="250" height="13" fill="#dd9cc5"/><text x="160" y="66" font-family="Verdana,sans-serif" font-size="11" fill="#7a4a66" text-anchor="middle">faded magenta shading</text><circle cx="150" cy="100" r="4" fill="#16222e"/><text x="160" y="104" font-family="Verdana,sans-serif" font-size="12" font-weight="700" fill="#16222e">X</text></svg>`,q:"Refer to the figure. Point X sits inside faded magenta shading. The floor of controlled (Class E) airspace there is:",opts:["The surface","700 ft AGL","1,200 ft AGL","14,500 ft MSL"],a:1,e:"Faded magenta = Class E beginning at 700 ft AGL. (Faded blue would mean 1,200 ft AGL.)"},
+ ],
+ signs:[
+  {q:"A sign with a red background and white numbers '15-33' is a:",opts:["Location sign","Runway holding position sign","Direction sign","Distance-remaining sign"],a:1,e:"Red background + white runway numbers = mandatory runway holding position sign. Hold short."},
+  {q:"A taxiway location sign uses which colors?",opts:["Red background, white text","Black background, yellow text","Yellow background, black text","Blue background, white text"],a:1,e:"Location signs are black with yellow text and border."},
+  {q:"Runway holding position pavement markings are:",opts:["Two solid + two dashed yellow lines","A single white line","Red hatching","Two solid white lines"],a:0,e:"Two solid + two dashed yellow lines; hold on the solid side."},
+  {q:"For the most comprehensive information about an airport, consult the:",opts:["Sectional chart","Chart Supplement","METAR","NOTAM"],a:1,e:"The Chart Supplement (formerly A/FD) is the deep reference."},
+  {q:"Access to an airport SIDA requires:",opts:["Only a Part 107 certificate","An FAA medical","An airport ID badge, background check, and training","Nothing special"],a:2,e:"SIDA is a TSA security area (49 CFR 1542) — badge, vetting, airport-specific training."},
+  {q:"A black sign with a white '4' beside the runway means:",opts:["Taxiway 4","4,000 ft of runway remaining","Runway 4","Gate 4"],a:1,e:"Runway distance remaining sign — 4,000 ft left."},
+ ],
+ pattern:[
+  {q:"Runway 22 corresponds to a magnetic heading of about:",opts:["022°","202°","220°","2,200°"],a:2,e:"Runway number ×10 → 220°."},
+  {q:"Unless otherwise published, traffic pattern turns are:",opts:["To the right","To the left","Straight in","Pilot's choice"],a:1,e:"The standard pattern uses left turns."},
+  {q:"The downwind leg is flown:",opts:["Aligned with the runway toward landing","Parallel to the runway, opposite the landing direction","Perpendicular to the runway","Directly over the runway"],a:1,e:"Downwind parallels the runway, opposite the landing direction."},
+  {q:"For runway 36 with a standard (left) pattern, the downwind leg is:",opts:["East of the runway","West of the runway","North of the runway","South of the runway"],a:1,e:"Landing north, left pattern → downwind is west of the runway."},
+  {q:"At a non-towered airport with no UNICOM or FSS, self-announce on:",opts:["121.5","122.9 (MULTICOM)","118.0","Guard"],a:1,e:"MULTICOM 122.9 is the default self-announce frequency."},
+  {q:"A standard position to self-announce inbound is:",opts:["50 miles out","10 miles out and entering downwind","Only after landing","Never"],a:1,e:"Announce ~10 miles out, entering downwind, base, final, and clear of the runway."},
+ ],
+ time:[
+  {q:"Chart Supplement operating hours are published in:",opts:["Local time","Zulu (UTC)","MST always","No standard"],a:1,e:"Zulu/UTC — you convert to local."},
+  {q:"In winter (MST), 1500Z converts to Utah local time:",opts:["0600 (6 AM)","0800 (8 AM)","1000 (10 AM)","2200 (10 PM)"],a:1,e:"MST = UTC−7, so 1500−7 = 0800."},
+  {q:"In summer (MDT), 1500Z converts to Utah local time:",opts:["0700 (7 AM)","0800 (8 AM)","0900 (9 AM)","1400 (2 PM)"],a:2,e:"MDT = UTC−6, so 1500−6 = 0900."},
+  {q:"0300Z converted to MST is:",opts:["1000 same day","2000 (8 PM) the previous day","0300 same day","1200 previous day"],a:1,e:"0300−7 = −0400 → +24 = 2000 the previous local day."},
+  {q:"Utah's daylight-saving (MDT) offset from UTC is:",opts:["−5","−6","−7","−8"],a:1,e:"MDT = UTC−6; MST (winter) = UTC−7."},
  ],
  weather:[
   {q:"In a METAR, '12/11' (temp/dewpoint) suggests:",opts:["Dry, clear skies","High humidity — fog/low clouds likely","Strong winds","High density altitude"],a:1,e:"A small spread = high humidity → fog or low clouds."},
@@ -1043,6 +1271,34 @@ const REF={
 <tr><td>Invulnerability</td><td>It could happen to me.</td></tr>
 <tr><td>Macho</td><td>Taking chances is foolish.</td></tr>
 <tr><td>Resignation</td><td>I'm not helpless.</td></tr>
+</table></div>`,
+
+ 'Trick distinctions':`
+<div class="card"><h3>Traps that blend similar concepts</h3>
+<p class="muted">The question pool loves plausible wrong answers that are true about a <i>related</i> thing. Keep these pairs straight.</p>
+<table class="ref"><tr><th>They ask about…</th><th>Don't confuse with…</th></tr>
+<tr><td><b>FDC NOTAM</b> contents (regulatory / chart amendments)</td><td><b>TFR</b> purposes (sporting events, VIPs, "large gatherings")</td></tr>
+<tr><td>Runway holding <b>SIGN</b> (red, white text — the rule)</td><td>Runway holding <b>MARKING</b> (yellow solid+dashed — where to hold)</td></tr>
+<tr><td><b>SIDA</b> access (TSA badge / vetting / training)</td><td>Airspace <b>authorization</b> (FAA LAANC / DroneZone)</td></tr>
+<tr><td>Class B/C <b>equipment</b> (manned: transponder, ADS-B Out)</td><td>Drone <b>requirement</b> (FAA authorization + Remote ID)</td></tr>
+<tr><td>Chart altitudes in <b>MSL</b> (B/C numbers)</td><td>Class dimensions taught in <b>AGL</b> (C shelf 1,200–4,000 AGL)</td></tr>
+<tr><td>Restricted area — may enter if <b>released/inactive</b></td><td>Prohibited area — <b>never</b></td></tr>
+<tr><td>METAR/forecast winds = <b>true</b></td><td>Tower/ATIS winds = <b>magnetic</b></td></tr>
+</table></div>`,
+
+ 'Sources by topic':`
+<div class="card"><h3>Which document covers what</h3>
+<p class="muted">FAA-G-8082-22 is a study guide that points to other references. Know where each topic actually lives so gaps are obvious.</p>
+<table class="ref"><tr><th>Topic</th><th>Source</th></tr>
+<tr><td>Part 107 rules, ops limits, waivers</td><td>14 CFR Part 107</td></tr>
+<tr><td>Airspace classes & special use</td><td>FAA-G-8082-22 / PHAK Ch. 15</td></tr>
+<tr><td>Sectional symbols & lat/long</td><td>Aeronautical Chart User's Guide</td></tr>
+<tr><td>Airport signs & pavement markings</td><td>AIM Chapter 2</td></tr>
+<tr><td>Traffic patterns & radio</td><td>PHAK / AIM Chapter 4</td></tr>
+<tr><td>Class B/C equipment (transponder, ADS-B)</td><td>14 CFR Part 91</td></tr>
+<tr><td>SIDA / airport security access</td><td>TSA — 49 CFR Part 1542</td></tr>
+<tr><td>Weather, loading, ADM</td><td>FAA-G-8082-22</td></tr>
+<tr><td>Official test figures</td><td>FAA-CT-8080-2H</td></tr>
 </table></div>`
 };
 
@@ -1074,6 +1330,7 @@ function renderModules(){
   const tile=`<div class="tile" onclick="openLesson('${m.id}')">
     <div class="ic">${m.icon}</div><div class="t">${m.title}</div>
     <div class="d">${m.blurb}</div>
+    ${m.src?`<div class="srctag">${m.src}</div>`:''}
     <div class="meter"><i style="width:${read?100:0}%"></i></div></div>`;
   home.insertAdjacentHTML('beforeend',tile);
   learn.insertAdjacentHTML('beforeend',tile);
@@ -1084,7 +1341,8 @@ let curLesson=null;
 function openLesson(id){
  curLesson=id;
  const L=LESSONS[id];
- el('lessonBody').innerHTML=`<h2 class="sec">${L.icon} ${L.title}</h2>`+L.html;
+ const _m=MODULES.find(m=>m.id===id);
+ el('lessonBody').innerHTML=`<h2 class="sec">${L.icon} ${L.title}</h2>${_m&&_m.src?`<div class="srcline">Source: ${_m.src}</div>`:''}`+L.html;
  const ids=MODULES.map(m=>m.id);const i=ids.indexOf(id);
  el('lessonPrev').style.visibility=i>0?'visible':'hidden';
  el('lessonNext').style.visibility=i<ids.length-1?'visible':'hidden';
@@ -1095,6 +1353,8 @@ function openLesson(id){
  else el('lessonNext').textContent='Next ›';
  state.lessons[id]=true;save();
  go('lesson');
+ if(id==='pattern')setTimeout(initPatternTool,30);
+ if(id==='time')setTimeout(initZuluDrill,30);
 }
 
 /* ---- Flashcards (Leitner) ---- */
@@ -1262,6 +1522,102 @@ function renderAll(){
  renderModules();renderCardPills();nextCard();renderQuizPills();prepQuiz('exam');
  renderRefPills();setRef(curRef);renderTips();renderProgress();
 }
+
+/* ---- Interactive: Traffic Pattern tool ---- */
+let pt={rwy:36,pattern:'left',leg:'downwind',obs:{x:70,y:70},drag:false};
+function ptSet(kind,val){
+ if(kind==='rwy'){pt.rwy=parseInt(val,10)||36;}
+ if(kind==='pattern'){pt.pattern=val;}
+ if(kind==='leg'){pt.leg=val;}
+ ptSync();
+}
+function ptRecip(n){return ((n+18-1)%36)+1;}
+function ptSync(){
+ const rv=el('ptRwyVal'),rr=el('ptRwyRecip');
+ if(rv)rv.textContent=pt.rwy;
+ if(rr)rr.textContent=ptRecip(pt.rwy);
+ ['left','right'].forEach(p=>{const b=el('ptp_'+p);if(b)b.classList.toggle('on',pt.pattern===p);});
+ ['upwind','crosswind','downwind','base','final'].forEach(l=>{const b=el('ptl_'+l);if(b)b.classList.toggle('on',pt.leg===l);});
+ ptRedraw();
+}
+function ptGeom(){
+ const cx=150,cy=155,H=pt.rwy*10*Math.PI/180;
+ const d={x:Math.sin(H),y:-Math.cos(H)};
+ const side=pt.pattern==='left'?{x:d.y,y:-d.x}:{x:-d.y,y:d.x};
+ const L=40,Ud=55,W=74,Fd=74;
+ const add=(p,v,s)=>({x:p.x+v.x*s,y:p.y+v.y*s});
+ const C={x:cx,y:cy};
+ const A=add(C,d,-L), B=add(C,d,L);
+ const U=add(C,d,L+Ud);
+ const Ucorner=add(U,side,W);
+ const Dbot=add(add(C,d,-(L+Ud)),side,W);
+ const Fpt=add(C,d,-(L+Fd));
+ const mid=(p,q)=>({x:(p.x+q.x)/2,y:(p.y+q.y)/2});
+ const legs={
+   upwind:{a:B,b:U,mid:mid(B,U)},
+   crosswind:{a:U,b:Ucorner,mid:mid(U,Ucorner)},
+   downwind:{a:Ucorner,b:Dbot,mid:mid(Ucorner,Dbot)},
+   base:{a:Dbot,b:Fpt,mid:mid(Dbot,Fpt)},
+   final:{a:Fpt,b:A,mid:mid(Fpt,A)}
+ };
+ return {C,A,B,legs};
+}
+function compass8(brg){const dirs=['N','NE','E','SE','S','SW','W','NW'];return dirs[Math.round(((brg%360)+360)%360/45)%8];}
+function ptBearing(from,to){let b=Math.atan2(to.x-from.x,-(to.y-from.y))*180/Math.PI;return (b+360)%360;}
+function ptRedraw(){
+ const cv=el('ptCanvas'); if(!cv)return;
+ const g=ptGeom();
+ const line=(p,q,c,w)=>`<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${q.x.toFixed(1)}" y2="${q.y.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+ let svg=`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">`;
+ svg+=`<text x="286" y="16" font-family="sans-serif" font-size="10" fill="#7a8794" text-anchor="end">N ↑</text>`;
+ ['upwind','crosswind','downwind','base','final'].forEach(k=>{const L=g.legs[k];const on=(k===pt.leg);svg+=line(L.a,L.b,on?'#d6453d':'#2f6fd6',on?5:2.5);});
+ svg+=line(g.A,g.B,'#3a3a3a',7);
+ svg+=`<text x="${g.A.x.toFixed(1)}" y="${g.A.y.toFixed(1)}" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#fff" text-anchor="middle" dy="3">${pt.rwy}</text>`;
+ const o=pt.obs, T=g.legs[pt.leg].mid;
+ svg+=line(o,T,'#7a5a10',1.3);
+ svg+=`<circle cx="${o.x}" cy="${o.y}" r="8" fill="#f4a72f" stroke="#7a5a10" stroke-width="2"/>`;
+ svg+=`</svg>`;
+ cv.innerHTML=svg;
+ const fieldDir=compass8(ptBearing(g.C,T));
+ const lookDir=compass8(ptBearing(o,T));
+ const legName=pt.leg.charAt(0).toUpperCase()+pt.leg.slice(1);
+ const ro=el('ptReadout');
+ if(ro)ro.innerHTML=`Runway <b>${pt.rwy}</b> → landing heading ~<b>${pt.rwy*10}°</b>. The <b>${pt.pattern} ${legName}</b> leg is <b>${fieldDir}</b> of the field. From your position (yellow dot), look to the <b>${lookDir}</b>.`;
+}
+function initPatternTool(){
+ const cv=el('ptCanvas'); if(!cv)return;
+ pt.obs={x:70,y:70};
+ const toSvg=(e)=>{const r=cv.getBoundingClientRect();const cxp=(e.touches?e.touches[0].clientX:e.clientX);const cyp=(e.touches?e.touches[0].clientY:e.clientY);return {x:Math.max(6,Math.min(294,(cxp-r.left)/r.width*300)),y:Math.max(6,Math.min(294,(cyp-r.top)/r.height*300))};};
+ const move=(e)=>{pt.obs=toSvg(e);ptRedraw();if(e.cancelable)e.preventDefault();};
+ cv.onpointerdown=(e)=>{pt.drag=true;move(e);};
+ cv.onpointermove=(e)=>{if(pt.drag)move(e);};
+ cv.onpointerup=()=>{pt.drag=false;};
+ cv.onpointerleave=()=>{pt.drag=false;};
+ ptSync();
+}
+
+/* ---- Interactive: Zulu → local drill ---- */
+let z={h:0,m:0,dst:false};
+function newZulu(){
+ z.h=Math.floor(Math.random()*24);
+ z.m=[0,15,30,45][Math.floor(Math.random()*4)];
+ z.dst=Math.random()<0.5;
+ const zt=String(z.h).padStart(2,'0')+String(z.m).padStart(2,'0');
+ const p=el('zProblem'),pr=el('zPrompt'),a=el('zAnswer');
+ if(p)p.textContent=zt+'Z';
+ if(pr)pr.textContent='Convert to Utah local — season: '+(z.dst?'summer (MDT, −6)':'winter (MST, −7)');
+ if(a)a.classList.remove('show');
+}
+function revealZulu(){
+ const off=z.dst?6:7;
+ let lh=z.h-off,dayNote='';
+ if(lh<0){lh+=24;dayNote=' (previous day)';}
+ const h24=String(lh).padStart(2,'0')+String(z.m).padStart(2,'0');
+ const ap=lh<12?'AM':'PM';let h12=lh%12;if(h12===0)h12=12;
+ const a=el('zAnswer');
+ if(a){a.textContent=h24+' local  =  '+h12+':'+String(z.m).padStart(2,'0')+' '+ap+' '+(z.dst?'MDT':'MST')+dayNote;a.classList.add('show');}
+}
+function initZuluDrill(){newZulu();}
 
 /* ============================================================
    BOOT
