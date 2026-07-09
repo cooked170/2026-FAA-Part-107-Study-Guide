@@ -145,6 +145,17 @@ nav.tabs button.on{color:var(--navy);}
 .diagram{width:100%;height:auto;display:block;margin:6px 0;}
 hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
 .kbd{background:#eef2f7;border-radius:6px;padding:1px 6px;font-size:12px;font-family:ui-monospace,Menlo,monospace;}
+/* Teaching strategy aids */
+.teach{background:#f0f7ff;border:1px solid #c5ddf3;border-radius:12px;padding:12px;margin:12px 0;font-size:14px;}
+.teach b{color:var(--navy2);}
+.stepflow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.stepflow .step{flex:1;min-width:72px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;font-size:11.5px;font-weight:600;line-height:1.35;}
+.stepflow .step em{display:block;font-size:22px;font-style:normal;margin-bottom:4px;}
+.stepflow .step.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.mnemonic{background:#fff;border:2px dashed var(--accent);border-radius:12px;padding:12px;margin:12px 0;font-size:14px;text-align:center;}
+.mnemonic .letters{font-size:18px;font-weight:800;color:var(--navy);letter-spacing:2px;}
+#asDrillCanvas,#chartDrillFig,#patternDiagram svg{width:100%;height:auto;display:block;border-radius:10px;background:#fff;}
+.drillscore{font-size:12px;color:var(--muted);text-align:center;margin-top:6px;}
 </style>
 </head>
 <body>
@@ -372,6 +383,41 @@ newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html
 `},
 airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
 <p class="lead">Airspace is the single biggest topic on the exam. Goal: instantly know the class, its dimensions, and whether you need authorization.</p>
+
+<div class="teach"><b>How to learn this (not just memorize):</b>
+<ol style="margin:8px 0;padding-left:18px">
+<li><b>Chunk it</b> — learn Class G first (easy win), then surface-E, D, C, B, and finally A (you'll never fly there).</li>
+<li><b>Two views</b> — the <i>side profile</i> (wedding cake) shows altitudes; the <i>top-down</i> view (sectional chart) shows ring shapes. Connect both.</li>
+<li><b>One question</b> — for drones at ≤400 ft AGL, ask: <b>"Does controlled airspace reach the SURFACE here?"</b> Yes → authorization. No → Class G or high-floor E → clear.</li>
+<li><b>Drill interactively</b> — use the scenario trainer below until class + auth becomes automatic.</li>
+</ol></div>
+
+<div class="mnemonic"><div class="letters">B · M · D · M</div>
+<p style="margin:6px 0 0"><b>B</b>lue solid = Class <b>B</b> &nbsp;·&nbsp; <b>M</b>agenta solid = Class <b>C</b> &nbsp;·&nbsp; <b>B</b>lue <b>D</b>ashed = Class <b>D</b> &nbsp;·&nbsp; <b>M</b>agenta <b>D</b>ashed = Class <b>E</b> to surface</p></div>
+
+<h3>Top-down view — what you see on a sectional</h3>
+<p>Sectional charts look <i>down</i> at the airport like a map. Busy airports get nested rings — this is the same airspace as the wedding cake, just viewed from above:</p>
+<svg viewBox="0 0 400 280" class="diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down view of Class B, C, and D rings around an airport">
+<rect width="400" height="280" fill="#f4f6f9"/>
+<text x="200" y="22" font-family="sans-serif" font-size="11" font-weight="700" fill="#46586a" text-anchor="middle">TOP-DOWN (sectional chart view) — not to scale</text>
+<circle cx="200" cy="150" r="118" fill="none" stroke="#2f6fd6" stroke-width="3"/>
+<text x="318" y="148" font-family="sans-serif" font-size="10" font-weight="700" fill="#2f6fd6">Class B — solid blue</text>
+<circle cx="200" cy="150" r="78" fill="none" stroke="#b4318a" stroke-width="3"/>
+<text x="286" y="118" font-family="sans-serif" font-size="10" font-weight="700" fill="#b4318a">Class C — solid magenta</text>
+<circle cx="200" cy="150" r="48" fill="none" stroke="#2f6fd6" stroke-width="2.5" stroke-dasharray="7 5"/>
+<text x="256" y="168" font-family="sans-serif" font-size="10" font-weight="700" fill="#2f6fd6">Class D — blue dashed</text>
+<circle cx="200" cy="150" r="22" fill="#eef2f6" stroke="#9aa7b4" stroke-width="1"/>
+<line x1="188" y1="150" x2="212" y2="150" stroke="#3a3a3a" stroke-width="4"/>
+<line x1="200" y1="138" x2="200" y2="162" stroke="#3a3a3a" stroke-width="4"/>
+<text x="200" y="154" font-family="sans-serif" font-size="8" fill="#fff" text-anchor="middle">APT</text>
+<circle cx="95" cy="210" r="32" fill="none" stroke="#b4318a" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="52" y="248" font-family="sans-serif" font-size="9" font-weight="700" fill="#b4318a">Surface E — magenta dashed</text>
+<rect x="12" y="52" width="130" height="52" fill="#eef2f6" rx="6"/>
+<text x="20" y="68" font-family="sans-serif" font-size="9" fill="#7a8794">Faded magenta = E from 700 ft</text>
+<text x="20" y="82" font-family="sans-serif" font-size="9" fill="#7a8794">Faded blue = E from 1,200 ft</text>
+<text x="20" y="96" font-family="sans-serif" font-size="9" fill="#7a8794">No boundary = Class G below</text>
+</svg>
+
 <h3>The mental model: an upside-down wedding cake</h3>
 <p>Controlled airspace gets <i>more</i> restrictive closer to busy airports. Picture tiers stacked around the airport — narrow at the surface, widening as you go up. This cross-section (altitudes in feet) is the classic FAA airspace profile:</p>
 <svg viewBox="0 0 440 330" class="diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Airspace profile cross-section showing Class A, B, C, D, E and G with altitudes">
@@ -438,6 +484,27 @@ airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
 <li>A grid marked <b>"0"</b> means <b>no automatic approval</b> — you must apply through <b>DroneZone</b> and may need further FAA review.</li>
 <li>Always check <b>NOTAMs and TFRs</b> the day of your flight.</li>
 </ul>
+
+<h3>🛠 Practice: airspace scenario trainer</h3>
+<p class="muted">Read each chart description, pick the airspace class, then decide if a drone needs authorization. Builds the "SURFACE test" reflex.</p>
+<div class="tool" id="asDrillTool">
+ <div id="asDrillCanvas" style="min-height:120px;background:#eef3f8;border-radius:10px;padding:8px;margin-bottom:8px"></div>
+ <p class="muted" style="font-size:12px;margin:4px 0" id="asScenarioText">Loading…</p>
+ <div class="ctrlrow"><span class="lab">Airspace class</span>
+  <button class="minibtn" onclick="asPick('B')">B</button>
+  <button class="minibtn" onclick="asPick('C')">C</button>
+  <button class="minibtn" onclick="asPick('D')">D</button>
+  <button class="minibtn" onclick="asPick('E')">E</button>
+  <button class="minibtn" onclick="asPick('G')">G</button></div>
+ <div class="ctrlrow"><span class="lab">Authorization needed?</span>
+  <button class="minibtn" onclick="asPickAuth(true)">Yes</button>
+  <button class="minibtn" onclick="asPickAuth(false)">No</button></div>
+ <div class="readout" id="asFeedback">Pick a class, then Yes/No for authorization.</div>
+ <div class="btnrow" style="margin-top:8px">
+  <button class="btn alt sm" style="width:auto" onclick="asReveal()">Reveal answer</button>
+  <button class="btn sm" style="width:auto" onclick="asNext()">Next scenario ›</button></div>
+ <div class="drillscore" id="asScore"></div>
+</div>
 
 <div class="exq"><span class="lbl">Example problem</span>
 <p>You want to fly your drone in Class C airspace surrounding an airport. What must you do first?</p>
@@ -552,6 +619,40 @@ navmap:{title:'Maps, Direction & Coordinates (DMS)',icon:'🧭',html:`
 charts:{title:'Reading Sectional Charts',icon:'🗺️',html:`
 <p class="lead">This is the single highest-value section to master — chart questions are everywhere. Keep the <b>Reference → Sectional legend</b> and <b>Coordinates & DMS</b> sheets open while you work through this. A sectional is drawn at a scale of <b>1:500,000</b> (about 7 NM per inch).</p>
 
+<div class="teach"><b>The READ method — use on every chart question:</b>
+<div class="stepflow">
+ <div class="step"><em>1</em><b>R</b>ecognize<br>line color/style or symbol</div>
+ <div class="step"><em>2</em><b>E</b>xtract<br>numbers (×100 = ft)</div>
+ <div class="step"><em>3</em><b>A</b>sk<br>does airspace reach the <b>surface</b>?</div>
+ <div class="step"><em>4</em><b>D</b>ecide<br>authorization? obstacle height?</div>
+</div>
+<p style="margin:8px 0 0">Say it out loud while practicing: <i>"Solid magenta… 42 over SFC… reaches surface… need LAANC."</i> Verbalizing locks in the pattern.</p></div>
+
+<h3>🛠 Practice: chart symbol drill</h3>
+<p class="muted">Match the figure to its meaning — same skill as the exam's "refer to figure" questions.</p>
+<div class="tool" id="chartDrillTool">
+ <div id="chartDrillFig" style="background:#fbfaf5;border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:8px"></div>
+ <p style="font-size:14px;font-weight:600;margin:4px 0" id="chartDrillQ">What does this depict?</p>
+ <div id="chartDrillOpts"></div>
+ <div class="readout" id="chartDrillFb" style="display:none"></div>
+ <div class="btnrow" style="margin-top:8px">
+  <button class="btn sm" style="width:auto" onclick="chartDrillNext()">Next symbol ›</button></div>
+ <div class="drillscore" id="chartDrillScore"></div>
+</div>
+
+<h3>Visual: all airspace line styles side-by-side</h3>
+<svg viewBox="0 0 400 200" class="diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of sectional airspace line styles">
+<rect width="400" height="200" fill="#fafbfc"/>
+<g font-family="sans-serif" font-size="11">
+<line x1="30" y1="30" x2="130" y2="30" stroke="#2f6fd6" stroke-width="3"/><text x="140" y="34" fill="#16222e"><tspan font-weight="700">Solid blue</tspan> = Class B</text>
+<line x1="30" y1="58" x2="130" y2="58" stroke="#b4318a" stroke-width="3"/><text x="140" y="62" fill="#16222e"><tspan font-weight="700">Solid magenta</tspan> = Class C</text>
+<line x1="30" y1="86" x2="130" y2="86" stroke="#2f6fd6" stroke-width="2.5" stroke-dasharray="7 5"/><text x="140" y="90" fill="#16222e"><tspan font-weight="700">Blue dashed</tspan> = Class D</text>
+<line x1="30" y1="114" x2="130" y2="114" stroke="#b4318a" stroke-width="2.5" stroke-dasharray="7 5"/><text x="140" y="118" fill="#16222e"><tspan font-weight="700">Magenta dashed</tspan> = Class E to surface</text>
+<rect x="30" y="132" width="100" height="18" fill="#f4e3ef" opacity=".8"/><text x="140" y="146" fill="#16222e"><tspan font-weight="700">Faded magenta</tspan> = Class E from 700 ft AGL</text>
+<rect x="30" y="158" width="100" height="18" fill="#e1e7ee" opacity=".8"/><text x="140" y="172" fill="#16222e"><tspan font-weight="700">Faded blue</tspan> = Class E from 1,200 ft AGL</text>
+</g>
+</svg>
+
 <h3>1 · Airport symbols & color</h3>
 <ul>
 <li><b>Color = tower status.</b> <span style="color:var(--blue);font-weight:700">Blue airport = has an operating control tower.</span> <span style="color:var(--magenta);font-weight:700">Magenta airport = no control tower.</span></li>
@@ -664,7 +765,18 @@ signs:{title:'Airport Signs, Markings & SIDA',icon:'🚧',html:`
 <div class="bridge"><b>Bridge →</b> Signs tell you where you are on the ground; now learn how aircraft move around the airport. Next: <b>Traffic Patterns</b>.</div>
 `},
 pattern:{title:'Traffic Patterns, Runways & Radio',icon:'✈️',html:`
-<p class="lead">Direction-finding around an airport is high cognitive load — so this module has an <b>interactive tool</b>. First the rules, then play with it. (Source: PHAK & AIM Ch. 4.)</p>
+<p class="lead">Direction-finding around an airport is high cognitive load — so this module uses <b>see it → name it → place it</b> before the interactive trainer. (Source: PHAK & AIM Ch. 4.)</p>
+
+<div class="teach"><b>How to learn traffic patterns:</b>
+<ol style="margin:8px 0;padding-left:18px">
+<li><b>Runway number first</b> — it tells you landing direction (×10 = magnetic heading).</li>
+<li><b>Memorize leg order</b> — Upwind → Crosswind → Downwind → Base → Final (see mnemonic below).</li>
+<li><b>Left pattern default</b> — downwind is on the <i>left</i> side of the landing direction (hand trick).</li>
+<li><b>Step through the diagram</b> — tap each leg below before using the position trainer.</li>
+</ol></div>
+
+<div class="mnemonic"><div class="letters">U · C · D · B · F</div>
+<p style="margin:6px 0 0"><b>U</b>pwind → <b>C</b>rosswind → <b>D</b>ownwind → <b>B</b>ase → <b>F</b>inal<br><span class="muted" style="font-size:12px">"U Can Directly Bring Friends" landing at the field</span></p></div>
 
 <h3>Runway numbers = magnetic heading</h3>
 <ul>
@@ -672,12 +784,42 @@ pattern:{title:'Traffic Patterns, Runways & Radio',icon:'✈️',html:`
 <li>The opposite end is the <b>reciprocal</b> — always 18 apart (36/18, 9/27). Same strip of pavement, two directions.</li>
 </ul>
 
+<h3>🛠 Step through the pattern (Runway 36, left turns)</h3>
+<p class="muted">Tap each leg to highlight it on the diagram. Aircraft fly <b>counterclockwise</b> in a standard left pattern.</p>
+<div class="tool" id="patternStepTool">
+ <div class="ctrlrow"><span class="lab">Pattern leg</span>
+  <button class="minibtn on" id="ps_upwind" onclick="psStep('upwind')">Upwind</button>
+  <button class="minibtn" id="ps_crosswind" onclick="psStep('crosswind')">Crosswind</button>
+  <button class="minibtn" id="ps_downwind" onclick="psStep('downwind')">Downwind</button>
+  <button class="minibtn" id="ps_base" onclick="psStep('base')">Base</button>
+  <button class="minibtn" id="ps_final" onclick="psStep('final')">Final</button>
+  <button class="minibtn" onclick="psStep('next')">Next ›</button></div>
+ <div id="patternDiagram"></div>
+ <div class="readout" id="psReadout"></div>
+</div>
+
 <h3>The standard traffic pattern</h3>
 <ul>
 <li>Turns are to the <b>LEFT</b> unless a right pattern is published ("RP" in the Chart Supplement / segmented-circle indicators).</li>
 <li>The legs, in order: <b>Upwind</b> (departure, aligned with runway) → <b>Crosswind</b> (perpendicular) → <b>Downwind</b> (parallel to runway, flown <i>opposite</i> the landing direction) → <b>Base</b> (perpendicular) → <b>Final</b> (lined up with the runway).</li>
 </ul>
 <div class="key"><b>Hand trick:</b> point your flat hand in the <b>landing direction</b>. For a <b>left</b> pattern, your <b>left</b> side is the downwind side. Runway 36 (landing north) → left downwind sits to the <b>west</b> of the runway.</div>
+
+<h3>Segmented circle — how airports publish pattern direction</h3>
+<svg viewBox="0 0 280 160" class="diagram" style="max-width:340px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Segmented circle showing left traffic pattern">
+<rect width="280" height="160" fill="#f4f6f9" rx="8"/>
+<circle cx="140" cy="88" r="52" fill="none" stroke="#5d6b78" stroke-width="1.5" stroke-dasharray="8 6"/>
+<g stroke="#2f6fd6" stroke-width="2.5" fill="none">
+<path d="M140 36 L140 58"/><path d="M188 88 L166 88"/><path d="M140 140 L140 118"/><path d="M92 88 L114 88"/></g>
+<polygon points="140,32 136,44 144,44" fill="#2f6fd6"/>
+<polygon points="192,88 180,84 180,92" fill="#2f6fd6"/>
+<polygon points="140,144 136,132 144,132" fill="#2f6fd6"/>
+<polygon points="88,88 100,84 100,92" fill="#2f6fd6"/>
+<line x1="128" y1="88" x2="152" y2="88" stroke="#3a3a3a" stroke-width="5"/>
+<text x="140" y="92" font-family="sans-serif" font-size="9" fill="#fff" text-anchor="middle">36</text>
+<text x="140" y="18" font-family="sans-serif" font-size="10" font-weight="700" fill="#46586a" text-anchor="middle">Segmented circle — arrows = pattern turns</text>
+<text x="200" y="130" font-family="sans-serif" font-size="9" fill="#5d6b78">L-shaped ticks on one side = left pattern</text>
+</svg>
 
 <h3>🛠 Interactive: where's the traffic?</h3>
 <p class="muted">Set the runway, pattern hand, and the leg an aircraft reported, then drag the observer dot to your position. The tool shows where the traffic is and which way to look.</p>
@@ -1360,6 +1502,7 @@ const INSTRUCTOR_AUDIT=`
 <li><b>Missing exam facts added</b> — VLOS, no medical required, night training requirement, all hazardous-attitude antidotes, TAF vs METAR, hyperventilation/hypoxia basics.</li>
 <li><b>Loading deck expanded</b> from 4 to 7 cards (battery cold, wind effects).</li>
 <li><b>Study resources section added</b> with links to FAA-G-8082-22, FAA-CT-8080-2H, sectional charts, Chart Supplement, LAANC, IACRA, and weather briefings.</li>
+<li><b>Teaching strategy tools added</b> — airspace scenario trainer, chart symbol drill (READ method), traffic pattern stepper, top-down airspace diagram, and mnemonic aids in Learn modules.</li>
 <li><b>Cat 3 over moving vehicles</b> lesson clarified — was oversimplified.</li>
 </ul></div>
 
@@ -1402,6 +1545,7 @@ const TIPS=[
  ["📊","Take full timed mock exams","Simulate 60 questions in one sitting (Quiz → Full Exam). Aim to consistently score 85%+ before booking — that cushion absorbs test-day nerves."],
  ["🔢","Memorize the numbers cold","The FAA writes lots of 'what is the maximum…' questions. The Reference → Key Numbers sheet is your highest points-per-minute study target."],
  ["🗺️","Get a real sectional and the FAA's test supplement","On the actual test you're given a chart supplement (FAA-CT-8080-2H). Practice with it so the legend and chart snippets feel familiar, not foreign. Open <b>Reference → Study resources</b> for direct download links."],
+ ["🧩","Use the interactive trainers in Learn","The Airspace, Sectional Charts, and Traffic Pattern lessons have built-in drills — scenario trainers, symbol matchers, and pattern steppers. Do each until you score 100% before moving on."],
  ["❓","Study your wrong answers, not your right ones","After every quiz, read the explanation for each miss and re-add that topic's deck. Your errors are a map of exactly what to review."],
  ["🧘","Plan logistics early","You'll register for a knowledge test at a PSI testing center and need an FTN (FAA Tracking Number) from IACRA first. Set that up well before test day so it isn't a surprise."],
  ["⏱️","Pace yourself: ~2 min/question","60 questions in 120 minutes. Flag the hard chart/weather ones, answer everything easy first, then circle back. Never leave a question blank."],
@@ -1443,7 +1587,9 @@ function openLesson(id){
  else el('lessonNext').textContent='Next ›';
  state.lessons[id]=true;save();
  go('lesson');
- if(id==='pattern')setTimeout(initPatternTool,30);
+ if(id==='pattern'){setTimeout(initPatternStepper,30);setTimeout(initPatternTool,30);}
+ if(id==='airspace')setTimeout(initAirspaceDrill,30);
+ if(id==='charts')setTimeout(initChartDrill,30);
  if(id==='time')setTimeout(initZuluDrill,30);
 }
 
@@ -1712,6 +1858,133 @@ function revealZulu(){
  if(a){a.textContent=h24+' local  =  '+h12+':'+String(z.m).padStart(2,'0')+' '+ap+' '+(z.dst?'MDT':'MST')+dayNote;a.classList.add('show');}
 }
 function initZuluDrill(){newZulu();}
+
+/* ---- Interactive: Airspace scenario trainer ---- */
+const AS_SCENARIOS=[
+ {text:'Solid <b>blue</b> concentric rings around a major international airport.',fig:`<svg viewBox="0 0 280 120"><circle cx="140" cy="60" r="50" fill="none" stroke="#2f6fd6" stroke-width="3"/><circle cx="140" cy="60" r="30" fill="none" stroke="#2f6fd6" stroke-width="2.5"/><line x1="128" y1="60" x2="152" y2="60" stroke="#3a3a3a" stroke-width="4"/></svg>`,cls:'B',auth:true,why:'Solid blue = Class B. Controlled to the surface in the inner rings → authorization required.'},
+ {text:'<b>Solid magenta</b> rings with <span class="kbd">42/SFC</span> printed inside.',fig:`<svg viewBox="0 0 280 120"><circle cx="140" cy="60" r="48" fill="none" stroke="#b4318a" stroke-width="3"/><circle cx="140" cy="60" r="26" fill="none" stroke="#b4318a" stroke-width="2.5"/><text x="140" y="56" font-size="11" fill="#b4318a" text-anchor="middle">42</text><text x="140" y="70" font-size="9" fill="#b4318a" text-anchor="middle">SFC</text></svg>`,cls:'C',auth:true,why:'Solid magenta = Class C. SFC = surface floor → authorization required.'},
+ {text:'<b>Blue dashed</b> circle with boxed <span class="kbd">[25]</span> on the ring.',fig:`<svg viewBox="0 0 280 120"><circle cx="140" cy="60" r="40" fill="none" stroke="#2f6fd6" stroke-width="2.5" stroke-dasharray="7 5"/><rect x="125" y="14" width="30" height="18" fill="none" stroke="#2f6fd6" stroke-width="1.2"/><text x="140" y="27" font-size="11" fill="#2f6fd6" text-anchor="middle">25</text></svg>`,cls:'D',auth:true,why:'Blue dashed = Class D. Ceiling 2,500 ft MSL; surface to ceiling → authorization required.'},
+ {text:'<b>Magenta dashed</b> circle around a small airport (no tower).',fig:`<svg viewBox="0 0 280 120"><circle cx="140" cy="60" r="38" fill="none" stroke="#b4318a" stroke-width="2.5" stroke-dasharray="7 5"/><circle cx="140" cy="60" r="5" fill="none" stroke="#b4318a" stroke-width="2"/></svg>`,cls:'E',auth:true,why:'Magenta dashed = Class E to the surface. Controlled airspace reaches the ground → authorization required.'},
+ {text:'Chart shows <b>faded magenta shading</b>. You launch from the ground here (400 ft AGL ops).',fig:`<svg viewBox="0 0 280 120"><rect x="20" y="20" width="240" height="80" fill="#f4e3ef" opacity=".75"/><circle cx="200" cy="60" r="4" fill="#d6453d"/></svg>`,cls:'G',auth:false,why:'Faded magenta means Class E begins at 700 ft AGL. Below that (surface–700 ft) is Class G → no authorization at takeoff altitude.'},
+ {text:'Chart shows <b>faded blue shading</b> only. You launch from the ground in this rural area.',fig:`<svg viewBox="0 0 280 120"><rect x="20" y="20" width="240" height="80" fill="#e1e7ee" opacity=".75"/><circle cx="200" cy="60" r="4" fill="#d6453d"/></svg>`,cls:'G',auth:false,why:'Faded blue = Class E from 1,200 ft AGL. Surface to 1,200 ft is Class G → no authorization at 400 ft AGL.'},
+ {text:'Open farmland — <b>no airspace lines or shading</b> anywhere nearby.',fig:`<svg viewBox="0 0 280 120"><rect x="20" y="20" width="240" height="80" fill="#eef4ea"/><circle cx="140" cy="60" r="4" fill="#d6453d"/><text x="140" y="100" font-size="9" fill="#5d6b78" text-anchor="middle">no boundaries</text></svg>`,cls:'G',auth:false,why:'No charted controlled airspace = Class G. Fly under Part 107 rules — no ATC authorization.'},
+ {text:'<b>Solid blue</b> outer ring — you are inside Class B (even at 400 ft AGL).',fig:`<svg viewBox="0 0 280 120"><circle cx="140" cy="60" r="52" fill="none" stroke="#2f6fd6" stroke-width="3"/><circle cx="140" cy="60" r="28" fill="none" stroke="#2f6fd6" stroke-width="2"/><circle cx="200" cy="60" r="5" fill="#d6453d"/></svg>`,cls:'B',auth:true,why:'Anywhere inside Class B requires authorization — even low altitude. Solid blue = Class B.'}
+];
+let asIdx=0,asPickCls=null,asScore={ok:0,tot:0};
+function initAirspaceDrill(){asIdx=0;asScore={ok:0,tot:0};asPickCls=null;asShow();}
+function asShow(){
+ const s=AS_SCENARIOS[asIdx];
+ const cv=el('asDrillCanvas'),tx=el('asScenarioText'),fb=el('asFeedback');
+ if(cv)cv.innerHTML=s.fig;
+ if(tx)tx.innerHTML='Scenario '+(asIdx+1)+' / '+AS_SCENARIOS.length+': '+s.text;
+ if(fb){fb.innerHTML='Pick a class, then Yes/No for authorization.';fb.style.background='';}
+ asPickCls=null;
+ document.querySelectorAll('#asDrillTool .minibtn').forEach(b=>b.classList.remove('on'));
+ const sc=el('asScore');if(sc)sc.textContent=asScore.tot?'Score: '+asScore.ok+' / '+asScore.tot:'';
+}
+function asPick(cls){
+ asPickCls=cls;
+ document.querySelectorAll('#asDrillTool .ctrlrow:first-of-type .minibtn').forEach(b=>b.classList.toggle('on',b.textContent===cls));
+}
+function asPickAuth(need){
+ if(!asPickCls){const fb=el('asFeedback');if(fb)fb.innerHTML='Pick an airspace class first.';return;}
+ const s=AS_SCENARIOS[asIdx];
+ const clsOk=asPickCls===s.cls;
+ const authOk=need===s.auth;
+ asScore.tot++;
+ if(clsOk&&authOk)asScore.ok++;
+ const fb=el('asFeedback');
+ if(fb){
+  fb.innerHTML=(clsOk&&authOk?'<b style="color:var(--good)">Correct!</b> ':'<b style="color:var(--bad)">Not quite.</b> ')+
+   'Class <b>'+s.cls+'</b> · Auth: <b>'+(s.auth?'Yes':'No')+'</b><br>'+s.why;
+  fb.style.background=clsOk&&authOk?'#eefaf1':'#fdeeed';
+ }
+ const sc=el('asScore');if(sc)sc.textContent='Score: '+asScore.ok+' / '+asScore.tot;
+}
+function asReveal(){
+ const s=AS_SCENARIOS[asIdx];
+ const fb=el('asFeedback');
+ if(fb){fb.innerHTML='Answer: Class <b>'+s.cls+'</b> · Auth: <b>'+(s.auth?'Yes':'No')+'</b><br>'+s.why;fb.style.background='#eef3f8';}
+}
+function asNext(){asIdx=(asIdx+1)%AS_SCENARIOS.length;asPickCls=null;asShow();}
+
+/* ---- Interactive: Chart symbol drill ---- */
+const CHART_DRILLS=[
+ {fig:`<svg viewBox="0 0 260 90"><line x1="20" y1="45" x2="120" y2="45" stroke="#b4318a" stroke-width="3"/><text x="130" y="49" font-size="12" fill="#16222e">Solid magenta line</text></svg>`,q:'This boundary line depicts:',opts:['Class B','Class C','Class D','Class E surface'],a:1,e:'Solid magenta = Class C.'},
+ {fig:`<svg viewBox="0 0 260 90"><circle cx="70" cy="45" r="35" fill="none" stroke="#2f6fd6" stroke-width="2.5" stroke-dasharray="7 5"/></svg>`,q:'This circle depicts:',opts:['Class C','Class D','Class B','MOA'],a:1,e:'Blue dashed = Class D.'},
+ {fig:`<svg viewBox="0 0 260 90"><circle cx="70" cy="45" r="35" fill="none" stroke="#b4318a" stroke-width="2.5" stroke-dasharray="7 5"/></svg>`,q:'Dashed magenta around an airport means:',opts:['Class D','Class E to the surface','Class G','Prohibited area'],a:1,e:'Magenta dashed = Class E down to the surface → authorization needed.'},
+ {fig:`<svg viewBox="0 0 260 90"><rect x="20" y="20" width="100" height="50" fill="#f4e3ef" opacity=".8"/></svg>`,q:'Faded magenta shading means Class E begins at:',opts:['The surface','700 ft AGL','1,200 ft AGL','14,500 ft MSL'],a:1,e:'Faded magenta = Class E floor at 700 ft AGL.'},
+ {fig:`<svg viewBox="0 0 260 90"><line x1="70" y1="70" x2="70" y2="25" stroke="#5a3a2a" stroke-width="2.5"/><text x="82" y="40" font-size="13" font-weight="700" fill="#5a3a2a">2049</text><text x="82" y="58" font-size="13" fill="#5a3a2a">(587)</text></svg>`,q:'The height in parentheses (587) is:',opts:['MSL','AGL','Knots','Feet per minute'],a:1,e:'Parentheses = height above ground level (AGL).'},
+ {fig:`<svg viewBox="0 0 260 90"><circle cx="70" cy="45" r="6" fill="none" stroke="#2f6fd6" stroke-width="2.5"/><line x1="62" y1="45" x2="78" y2="45" stroke="#2f6fd6" stroke-width="2.5"/><text x="95" y="49" font-size="12" fill="#2f6fd6" font-weight="700">Blue symbol</text></svg>`,q:'A blue airport symbol indicates:',opts:['No control tower','Operating control tower','Closed airport','Military only'],a:1,e:'Blue = tower. Magenta = no tower.'},
+ {fig:`<svg viewBox="0 0 260 90"><rect x="55" y="30" width="14" height="14" fill="#b4318a"/><text x="80" y="42" font-size="12" fill="#16222e">Magenta flag</text></svg>`,q:'A magenta flag on the sectional marks:',opts:['Prohibited area','Visual checkpoint','VOR station','TFR'],a:1,e:'Magenta flag = visual checkpoint for position reports.'},
+ {fig:`<svg viewBox="0 0 260 90"><text x="40" y="50" font-size="22" font-weight="700" fill="#2f6fd6">5⁸</text></svg>`,q:'Large quadrant number 5⁸ (MEF) means:',opts:['5,800 ft MSL max elevation','580 ft AGL','Runway 58','5.8 miles visibility'],a:0,e:'MEF = Maximum Elevation Figure in hundreds of ft MSL → ~5,800 ft.'}
+];
+let cdIdx=0,cdScore={ok:0,tot:0};
+function initChartDrill(){cdIdx=0;cdScore={ok:0,tot:0};chartDrillShow();}
+function chartDrillShow(){
+ const d=CHART_DRILLS[cdIdx];
+ el('chartDrillFig').innerHTML=d.fig;
+ el('chartDrillQ').textContent=d.q;
+ el('chartDrillOpts').innerHTML=d.opts.map((o,i)=>`<button class="opt" onclick="chartDrillAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+ const fb=el('chartDrillFb');if(fb){fb.style.display='none';fb.innerHTML='';}
+ const sc=el('chartDrillScore');if(sc)sc.textContent=cdScore.tot?'Score: '+cdScore.ok+' / '+cdScore.tot:'';
+}
+function chartDrillAnswer(i){
+ const d=CHART_DRILLS[cdIdx];
+ cdScore.tot++;
+ const ok=i===d.a;
+ if(ok)cdScore.ok++;
+ const opts=document.querySelectorAll('#chartDrillOpts .opt');
+ opts.forEach((o,j)=>{o.classList.add('disabled');if(j===d.a)o.classList.add('correct');if(j===i&&!ok)o.classList.add('wrong');});
+ const fb=el('chartDrillFb');
+ fb.style.display='block';
+ fb.innerHTML=(ok?'<b style="color:var(--good)">Correct!</b> ':'<b style="color:var(--bad)">Missed it.</b> ')+d.e;
+ el('chartDrillScore').textContent='Score: '+cdScore.ok+' / '+cdScore.tot;
+}
+function chartDrillNext(){cdIdx=(cdIdx+1)%CHART_DRILLS.length;chartDrillShow();}
+
+/* ---- Interactive: Pattern leg stepper ---- */
+const PS_LEGS=['upwind','crosswind','downwind','base','final'];
+const PS_INFO={
+ upwind:{name:'Upwind',desc:'Departure leg — climb straight out aligned with the runway, same direction as takeoff/landing heading.'},
+ crosswind:{name:'Crosswind',desc:'Turn 90° from upwind — perpendicular to the runway, begins moving away from the airport.'},
+ downwind:{name:'Downwind',desc:'Parallel to the runway, flown <b>opposite</b> the landing direction. For RWY 36 left pattern: west side, flying south.'},
+ base:{name:'Base',desc:'Turn perpendicular toward the runway — bridges downwind to final approach.'},
+ final:{name:'Final',desc:'Aligned with the runway on approach to land — last leg before touchdown.'}
+};
+let psLeg='upwind';
+function psStep(leg){
+ if(leg==='next'){const i=PS_LEGS.indexOf(psLeg);psLeg=PS_LEGS[(i+1)%PS_LEGS.length];}
+ else psLeg=leg;
+ psRedraw();
+}
+function psRedraw(){
+ PS_LEGS.forEach(l=>{const b=el('ps_'+l);if(b)b.classList.toggle('on',l===psLeg);});
+ const cols={upwind:'#d6453d',crosswind:'#f4a72f',downwind:'#2f6fd6',base:'#1f9d57',final:'#b4318a'};
+ const w={upwind:5,crosswind:4,downwind:5,base:4,final:5};
+ const cx=150,cy=155,L=42,Ud=50,W=68,Fd=68;
+ const d={x:0,y:-1};
+ const side={x:-1,y:0};
+ const add=(p,v,s)=>({x:p.x+v.x*s,y:p.y+v.y*s});
+ const C={x:cx,y:cy};
+ const A=add(C,d,-L),B=add(C,d,L),U=add(C,d,L+Ud),Uc=add(U,side,W),Db=add(add(C,d,-(L+Ud)),side,W),Fp=add(C,d,-(L+Fd));
+ const legs={
+  upwind:{a:B,b:U},crosswind:{a:U,b:Uc},downwind:{a:Uc,b:Db},base:{a:Db,b:Fp},final:{a:Fp,b:A}
+ };
+ const line=(p,q,k)=>{const on=k===psLeg;return `<line x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke="${on?cols[k]:'#c3ccd6'}" stroke-width="${on?w[k]:2}" stroke-linecap="round"/>`;};
+ let svg=`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">`;
+ svg+=`<text x="286" y="16" font-family="sans-serif" font-size="10" fill="#7a8794" text-anchor="end">N ↑</text>`;
+ PS_LEGS.forEach(k=>{const Lg=legs[k];svg+=line(Lg.a,Lg.b,k);});
+ svg+=`<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="#3a3a3a" stroke-width="7"/>`;
+ svg+=`<text x="${A.x}" y="${A.y+4}" font-family="sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">36</text>`;
+ PS_LEGS.forEach(k=>{const m={x:(legs[k].a.x+legs[k].b.x)/2,y:(legs[k].a.y+legs[k].b.y)/2};const on=k===psLeg;
+  svg+=`<text x="${m.x}" y="${m.y-6}" font-family="sans-serif" font-size="${on?10:8}" font-weight="${on?700:400}" fill="${on?cols[k]:'#9aa7b4'}" text-anchor="middle">${PS_INFO[k].name}</text>`;});
+ svg+=`</svg>`;
+ const dg=el('patternDiagram');if(dg)dg.innerHTML=svg;
+ const ro=el('psReadout');
+ if(ro)ro.innerHTML=`<b>${PS_INFO[psLeg].name}</b> — ${PS_INFO[psLeg].desc}`;
+}
+function initPatternStepper(){psLeg='upwind';psRedraw();}
 
 /* ============================================================
    BOOT
