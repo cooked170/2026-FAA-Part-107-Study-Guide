@@ -154,7 +154,12 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
 .stepflow .step.on{background:var(--navy);color:#fff;border-color:var(--navy);}
 .mnemonic{background:#fff;border:2px dashed var(--accent);border-radius:12px;padding:12px;margin:12px 0;font-size:14px;text-align:center;}
 .mnemonic .letters{font-size:18px;font-weight:800;color:var(--navy);letter-spacing:2px;}
-#asDrillCanvas,#chartDrillFig,#patternDiagram svg{width:100%;height:auto;display:block;border-radius:10px;background:#fff;}
+#asDrillCanvas,#chartDrillFig,#patternDiagram svg,#signDrillFig svg,#newregCatFig svg{width:100%;height:auto;display:block;border-radius:10px;background:#fff;}
+.metarbox{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#16222e;color:#e8f0f8;padding:12px;border-radius:10px;line-height:1.7;word-break:break-all;}
+.metarbox .hi{background:#f4a72f;color:#16222e;border-radius:3px;padding:0 2px;}
+.catpill{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin:2px;}
+.catpill.c1{background:#e8f5e9;color:#1b5e20}.catpill.c2{background:#e3f2fd;color:#0d47a1}
+.catpill.c3{background:#fff3e0;color:#e65100}.catpill.c4{background:#f3e5f5;color:#6a1b9a}
 .drillscore{font-size:12px;color:var(--muted);text-align:center;margin-top:6px;}
 </style>
 </head>
@@ -350,6 +355,19 @@ regs:{title:'Regulations & Operating Limits',icon:'📋',html:`
 `},
 newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html:`
 <p class="lead">These are the rules most likely to trip up someone who studied a few years ago. The FAA leans on them now.</p>
+
+<div class="teach"><b>How to learn newer rules:</b>
+<ol style="margin:8px 0;padding-left:18px">
+<li><b>Remote ID first</b> — three compliance paths (drone, module, FRIA).</li>
+<li><b>Categories by risk</b> — lighter/safer = lower category number. Cat 1 is easiest; Cat 4 needs an airworthiness certificate.</li>
+<li><b>Ask two questions</b> for ops-over-people: <i>Which category is my drone?</i> then <i>Is this situation allowed for that category?</i></li>
+<li><b>Night = training + lights</b> — both required, no waiver.</li>
+<li><b>Drill below</b> until category matching is instant.</li>
+</ol></div>
+
+<div class="mnemonic"><div class="letters">1 · 2 · 3 · 4</div>
+<p style="margin:6px 0 0"><b>1</b> = ≤0.55 lb &nbsp;·&nbsp; <b>2</b> = ≤11 ft-lb &nbsp;·&nbsp; <b>3</b> = ≤25 ft-lb (crowd limits) &nbsp;·&nbsp; <b>4</b> = airworthiness certificate</p></div>
+
 <h3>Remote ID (RID)</h3>
 <p>Think of Remote ID as a digital license plate that <b>broadcasts</b> over radio frequency so anyone nearby (and the FAA) can identify your drone in flight.</p>
 <ul>
@@ -357,14 +375,56 @@ newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html
 <li>It broadcasts: drone ID, drone <b>latitude/longitude/altitude</b>, drone <b>velocity</b>, the <b>control station</b> location & elevation, a <b>time mark</b>, and emergency status.</li>
 </ul>
 <div class="key"><b>Three ways to comply:</b> ① fly a <b>Standard Remote ID drone</b> (broadcasts built-in); ② attach a <b>Remote ID broadcast module</b>; ③ fly within an <b>FAA-Recognized Identification Area (FRIA)</b> — and keep the drone within VLOS.</div>
-<h3>Operations over people — the 4 categories</h3>
-<p>Whether you can fly over people depends on the <b>injury risk</b> the drone poses. Bigger/faster = stricter category.</p>
+
+<h3>Operations over people — visual ladder</h3>
+<p>Each step up = more capability but stricter proof of safety:</p>
+<svg viewBox="0 0 400 200" class="diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Operations over people category ladder">
+<rect width="400" height="200" fill="#fafbfc"/>
+<g font-family="sans-serif" font-size="10">
+<rect x="20" y="140" width="80" height="44" fill="#e8f5e9" stroke="#1f9d57" stroke-width="2" rx="4"/><text x="60" y="158" text-anchor="middle" font-weight="700" fill="#1b5e20">CAT 1</text><text x="60" y="174" text-anchor="middle" fill="#1b5e20">≤0.55 lb</text>
+<rect x="110" y="110" width="80" height="74" fill="#e3f2fd" stroke="#2f6fd6" stroke-width="2" rx="4"/><text x="150" y="128" text-anchor="middle" font-weight="700" fill="#0d47a1">CAT 2</text><text x="150" y="144" text-anchor="middle" fill="#0d47a1">≤11 ft-lb</text><text x="150" y="174" text-anchor="middle" fill="#0d47a1">over people ✓</text>
+<rect x="200" y="75" width="80" height="109" fill="#fff3e0" stroke="#f4a72f" stroke-width="2" rx="4"/><text x="240" y="93" text-anchor="middle" font-weight="700" fill="#e65100">CAT 3</text><text x="240" y="109" text-anchor="middle" fill="#e65100">≤25 ft-lb</text><text x="240" y="155" text-anchor="middle" fill="#e65100">no open-air</text><text x="240" y="169" text-anchor="middle" fill="#e65100">assemblies</text>
+<rect x="290" y="30" width="90" height="154" fill="#f3e5f5" stroke="#b4318a" stroke-width="2" rx="4"/><text x="335" y="48" text-anchor="middle" font-weight="700" fill="#6a1b9a">CAT 4</text><text x="335" y="100" text-anchor="middle" fill="#6a1b9a">Part 21</text><text x="335" y="116" text-anchor="middle" fill="#6a1b9a">airworthiness</text><text x="335" y="132" text-anchor="middle" fill="#6a1b9a">certificate</text>
+</g>
+<text x="200" y="18" font-family="sans-serif" font-size="11" font-weight="700" fill="#46586a" text-anchor="middle">Risk ladder — higher step = more requirements</text>
+</svg>
 <table class="ref"><tr><th>Cat</th><th>Key requirement</th><th>Over people?</th></tr>
-<tr><td><b>1</b></td><td>≤ 0.55 lb (250 g), no exposed rotating parts that can lacerate</td><td>Yes</td></tr>
-<tr><td><b>2</b></td><td>Injury ≤ <b>11 ft-lb</b>, no lacerating parts, FAA-accepted means of compliance</td><td>Yes</td></tr>
-<tr><td><b>3</b></td><td>Injury ≤ <b>25 ft-lb</b>, no lacerating parts</td><td>Limited — not over open-air assemblies; only closed/restricted sites or brief transit</td></tr>
-<tr><td><b>4</b></td><td>Has an airworthiness certificate, operated per its limitations</td><td>Yes</td></tr></table>
+<tr><td><b>1</b></td><td>≤ 0.55 lb (250 g), no exposed rotating parts that can lacerate</td><td>Yes — unrestricted over people</td></tr>
+<tr><td><b>2</b></td><td>Injury ≤ <b>11 ft-lb</b>, no lacerating parts, FAA-accepted means of compliance</td><td>Yes — over people (not sustained over open assemblies for some ops)</td></tr>
+<tr><td><b>3</b></td><td>Injury ≤ <b>25 ft-lb</b>, no lacerating parts</td><td>Limited — not over open-air assemblies; closed/restricted sites or brief transit only</td></tr>
+<tr><td><b>4</b></td><td>Has an airworthiness certificate, operated per its limitations</td><td>Yes — per certificate limitations</td></tr></table>
 <p><b>Over moving vehicles:</b> permitted for Cat 1–2 under their rules; Cat 3 is more limited (no sustained flight over open-air assemblies). Cat 4 follows its airworthiness limitations.</p>
+
+<h3>🛠 Practice: category & scenario matcher</h3>
+<p class="muted">Read each drone scenario — pick the correct category, then answer the follow-up restriction question.</p>
+<div class="tool" id="newregDrillTool">
+ <p style="font-size:14px;margin:4px 0" id="nrScenario">Loading…</p>
+ <div class="ctrlrow"><span class="lab">Which category?</span>
+  <button class="minibtn" onclick="nrPickCat(1)">Cat 1</button>
+  <button class="minibtn" onclick="nrPickCat(2)">Cat 2</button>
+  <button class="minibtn" onclick="nrPickCat(3)">Cat 3</button>
+  <button class="minibtn" onclick="nrPickCat(4)">Cat 4</button></div>
+ <div id="nrFollowup" style="display:none">
+  <p style="font-size:13.5px;font-weight:600;margin:8px 0" id="nrFollowQ"></p>
+  <div id="nrFollowOpts"></div>
+ </div>
+ <div class="readout" id="nrFeedback">Pick a category to continue.</div>
+ <div class="btnrow" style="margin-top:8px">
+  <button class="btn alt sm" style="width:auto" onclick="nrReveal()">Reveal</button>
+  <button class="btn sm" style="width:auto" onclick="nrNext()">Next scenario ›</button></div>
+ <div class="drillscore" id="nrScore"></div>
+</div>
+
+<h3>🛠 Practice: Remote ID & night ops</h3>
+<div class="tool" id="ridDrillTool">
+ <p style="font-size:14px;font-weight:600;margin:4px 0" id="ridQ">Loading…</p>
+ <div id="ridOpts"></div>
+ <div class="readout" id="ridFb" style="display:none"></div>
+ <div class="btnrow" style="margin-top:8px">
+  <button class="btn sm" style="width:auto" onclick="ridNext()">Next question ›</button></div>
+ <div class="drillscore" id="ridScore"></div>
+</div>
+
 <h3>Night & civil twilight operations</h3>
 <ul>
 <li>Night flight is allowed <b>without a waiver</b> if you have completed the <b>updated recurrent/initial training</b> AND the drone has <b>anti-collision lighting visible for 3 statute miles</b> with a flash rate sufficient to avoid collision.</li>
@@ -734,6 +794,38 @@ charts:{title:'Reading Sectional Charts',icon:'🗺️',html:`
 signs:{title:'Airport Signs, Markings & SIDA',icon:'🚧',html:`
 <p class="lead">This is a <b>visual recognition</b> topic — the test shows a sign or marking and asks what it means. Learn the color code and you've got it. (Source: AIM Chapter 2; SIDA is TSA, 49 CFR 1542.)</p>
 
+<div class="teach"><b>How to learn signs (color before text):</b>
+<ol style="margin:8px 0;padding-left:18px">
+<li><b>Glance at background color first</b> — red, black, or yellow tells you the sign family before you read the text.</li>
+<li><b>Red = mandatory rule</b> (stop / hold / do not enter).</li>
+<li><b>Black = "you are here"</b> (location or runway distance remaining).</li>
+<li><b>Yellow = guidance</b> (direction or destination arrows).</li>
+<li><b>Drill the flash recognizer</b> below until color → meaning is automatic.</li>
+</ol></div>
+
+<div class="mnemonic"><div class="letters">R · B · Y</div>
+<p style="margin:6px 0 0"><b>R</b>ed = <b>R</b>ule (mandatory) &nbsp;·&nbsp; <b>B</b>lack = where you are &nbsp;·&nbsp; <b>Y</b>ellow = where to go</p></div>
+
+<h3>🛠 Practice: sign flash recognizer</h3>
+<p class="muted">What is this sign? Same format as the exam — image first, then pick the meaning.</p>
+<div class="tool" id="signDrillTool">
+ <div id="signDrillFig" style="margin-bottom:8px"></div>
+ <p style="font-size:14px;font-weight:600;margin:4px 0" id="signDrillQ">What is this?</p>
+ <div id="signDrillOpts"></div>
+ <div class="readout" id="signDrillFb" style="display:none"></div>
+ <div class="btnrow" style="margin-top:8px">
+  <button class="btn sm" style="width:auto" onclick="signDrillNext()">Next sign ›</button></div>
+ <div class="drillscore" id="signDrillScore"></div>
+</div>
+
+<h3>Visual: sign color families</h3>
+<svg viewBox="0 0 400 130" class="diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Airport sign color families">
+<rect x="15" y="20" width="110" height="44" fill="#d6453d" rx="4"/><text x="70" y="48" fill="#fff" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">16-34</text><text x="70" y="78" font-family="sans-serif" font-size="9" fill="#5d6b78" text-anchor="middle">RED = mandatory</text>
+<rect x="145" y="20" width="90" height="44" fill="#1a1a1a" stroke="#f4a72f" stroke-width="3" rx="4"/><text x="190" y="48" fill="#f4a72f" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="middle">B</text><text x="190" y="78" font-family="sans-serif" font-size="9" fill="#5d6b78" text-anchor="middle">BLACK = location</text>
+<rect x="255" y="20" width="130" height="44" fill="#f4a72f" rx="4"/><text x="320" y="44" fill="#1a1a1a" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle">← A  B →</text><text x="320" y="78" font-family="sans-serif" font-size="9" fill="#5d6b78" text-anchor="middle">YELLOW = direction</text>
+<rect x="145" y="90" width="50" height="32" fill="#1a1a1a" rx="3"/><text x="170" y="112" fill="#fff" font-family="sans-serif" font-size="18" font-weight="700" text-anchor="middle">4</text><text x="220" y="110" font-family="sans-serif" font-size="9" fill="#5d6b78">BLACK+white # = runway dist. remaining (×1000 ft)</text>
+</svg>
+
 <h3>Where the most complete airport info lives</h3>
 <p>For the most comprehensive information about an airport — hours, lighting, services, frequencies, runway data, remarks — use the <b>Chart Supplement</b> (formerly the Airport/Facility Directory). The sectional gives you a quick summary; the Chart Supplement is the deep reference.</p>
 
@@ -877,6 +969,29 @@ time:{title:'Zulu Time & the Chart Supplement',icon:'🕒',html:`
 `},
 weather:{title:'Aviation Weather',icon:'⛅',html:`
 <p class="lead">Second-biggest topic. Expect to decode a METAR or TAF, estimate cloud bases, and reason about stability and density altitude.</p>
+
+<div class="teach"><b>The WINS-T decode order — read every METAR left to right:</b>
+<div class="stepflow">
+ <div class="step"><em>W</em><b>W</b>ind<br>direction &amp; speed</div>
+ <div class="step"><em>I</em><b>V</b>isibility<br>statute miles</div>
+ <div class="step"><em>N</em>Sky cover<br><b>N</b>imbus (clouds)</div>
+ <div class="step"><em>S</em><b>S</b>pread<br>temp / dewpoint</div>
+ <div class="step"><em>T</em><b>T</b>ower setting<br>altimeter (A####)</div>
+</div>
+<p style="margin:8px 0 0">Cover heights are AGL in <b>hundreds of feet</b> (008 = 800 ft). Ceiling = lowest BKN or OVC layer.</p></div>
+
+<h3>🛠 Practice: METAR field decoder</h3>
+<p class="muted">One field is highlighted — pick what it means. Builds the left-to-right reading habit.</p>
+<div class="tool" id="metarDrillTool">
+ <div class="metarbox" id="metarDrillBox"></div>
+ <p style="font-size:14px;font-weight:600;margin:10px 0 4px" id="metarDrillQ">What does the highlighted group mean?</p>
+ <div id="metarDrillOpts"></div>
+ <div class="readout" id="metarDrillFb" style="display:none"></div>
+ <div class="btnrow" style="margin-top:8px">
+  <button class="btn sm" style="width:auto" onclick="metarDrillNext()">Next field ›</button></div>
+ <div class="drillscore" id="metarDrillScore"></div>
+</div>
+
 <h3>Decoding a METAR (current observation)</h3>
 <p>Read left to right. Example:</p>
 <p class="kbd" style="display:block;padding:8px">METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992</p>
@@ -1502,7 +1617,7 @@ const INSTRUCTOR_AUDIT=`
 <li><b>Missing exam facts added</b> — VLOS, no medical required, night training requirement, all hazardous-attitude antidotes, TAF vs METAR, hyperventilation/hypoxia basics.</li>
 <li><b>Loading deck expanded</b> from 4 to 7 cards (battery cold, wind effects).</li>
 <li><b>Study resources section added</b> with links to FAA-G-8082-22, FAA-CT-8080-2H, sectional charts, Chart Supplement, LAANC, IACRA, and weather briefings.</li>
-<li><b>Teaching strategy tools added</b> — airspace scenario trainer, chart symbol drill (READ method), traffic pattern stepper, top-down airspace diagram, and mnemonic aids in Learn modules.</li>
+<li><b>Teaching strategy tools added</b> — airspace scenario trainer, chart symbol drill (READ method), traffic pattern stepper, <b>ops-over-people category matcher</b>, Remote ID/night drill, <b>sign flash recognizer</b>, and <b>METAR field decoder</b> (WINS-T method).</li>
 <li><b>Cat 3 over moving vehicles</b> lesson clarified — was oversimplified.</li>
 </ul></div>
 
@@ -1545,7 +1660,7 @@ const TIPS=[
  ["📊","Take full timed mock exams","Simulate 60 questions in one sitting (Quiz → Full Exam). Aim to consistently score 85%+ before booking — that cushion absorbs test-day nerves."],
  ["🔢","Memorize the numbers cold","The FAA writes lots of 'what is the maximum…' questions. The Reference → Key Numbers sheet is your highest points-per-minute study target."],
  ["🗺️","Get a real sectional and the FAA's test supplement","On the actual test you're given a chart supplement (FAA-CT-8080-2H). Practice with it so the legend and chart snippets feel familiar, not foreign. Open <b>Reference → Study resources</b> for direct download links."],
- ["🧩","Use the interactive trainers in Learn","The Airspace, Sectional Charts, and Traffic Pattern lessons have built-in drills — scenario trainers, symbol matchers, and pattern steppers. Do each until you score 100% before moving on."],
+ ["🧩","Use the interactive trainers in Learn","The Airspace, Charts, Pattern, Newer Rules, Signs, and Weather lessons have built-in drills — run each until you score 100% before moving on."],
  ["❓","Study your wrong answers, not your right ones","After every quiz, read the explanation for each miss and re-add that topic's deck. Your errors are a map of exactly what to review."],
  ["🧘","Plan logistics early","You'll register for a knowledge test at a PSI testing center and need an FTN (FAA Tracking Number) from IACRA first. Set that up well before test day so it isn't a surprise."],
  ["⏱️","Pace yourself: ~2 min/question","60 questions in 120 minutes. Flag the hard chart/weather ones, answer everything easy first, then circle back. Never leave a question blank."],
@@ -1590,6 +1705,9 @@ function openLesson(id){
  if(id==='pattern'){setTimeout(initPatternStepper,30);setTimeout(initPatternTool,30);}
  if(id==='airspace')setTimeout(initAirspaceDrill,30);
  if(id==='charts')setTimeout(initChartDrill,30);
+ if(id==='newreg'){setTimeout(initNewregDrill,30);setTimeout(initRidDrill,30);}
+ if(id==='signs')setTimeout(initSignDrill,30);
+ if(id==='weather')setTimeout(initMetarDrill,30);
  if(id==='time')setTimeout(initZuluDrill,30);
 }
 
@@ -1985,6 +2103,184 @@ function psRedraw(){
  if(ro)ro.innerHTML=`<b>${PS_INFO[psLeg].name}</b> — ${PS_INFO[psLeg].desc}`;
 }
 function initPatternStepper(){psLeg='upwind';psRedraw();}
+
+/* ---- Interactive: Newer rules — category matcher ---- */
+const NR_SCENARIOS=[
+ {scenario:'A drone weighs <b>0.4 lb (180 g)</b> with fully enclosed prop guards — no exposed lacerating rotating parts.',cat:1,
+  followQ:'May this Category 1 drone conduct sustained operations over people?',followOpts:['Yes — Cat 1 is permitted over people','No — never over people','Only with a waiver','Only in a FRIA'],followA:0,
+  followE:'Category 1 (≤0.55 lb, no lacerating exposed parts) may fly over people without the crowd restrictions that apply to Cat 3.'},
+ {scenario:'A <b>2.2 lb</b> drone has a kinetic energy of <b>9 ft-lb</b> on impact and an <b>FAA-accepted Declaration of Compliance</b>.',cat:2,
+  followQ:'What is the maximum impact energy allowed for Category 2?',followOpts:['11 ft-lb','25 ft-lb','0.55 lb','55 lb'],followA:0,
+  followE:'Category 2 limit is ≤11 ft-lb kinetic energy on impact, with no lacerating exposed parts and FAA-accepted means of compliance.'},
+ {scenario:'A <b>4 lb</b> drone has <b>20 ft-lb</b> impact energy, no lacerating exposed parts, and meets Cat 3 requirements.',cat:3,
+  followQ:'May this Category 3 drone fly over an open-air concert (open-air assembly)?',followOpts:['Yes, unrestricted','No — not over open-air assemblies','Yes, with LAANC only','Yes, at night only'],followA:1,
+  followE:'Category 3 cannot operate over open-air assemblies. Only closed/restricted-access sites or brief transit over individuals.'},
+ {scenario:'A UAS holds a <b>Special Airworthiness Certificate</b> issued under Part 21 and will be operated per its approved limitations.',cat:4,
+  followQ:'Category 4 operations must comply with:',followOpts:['Only Part 107 basic rules','The airworthiness certificate limitations','No restrictions','Remote ID waiver only'],followA:1,
+  followE:'Category 4 requires an airworthiness certificate — you must operate within that certificate\'s limitations.'},
+ {scenario:'A drone weighs exactly <b>0.55 lb (250 g)</b> with protected props — the maximum for Category 1.',cat:1,
+  followQ:'If it weighed 0.56 lb instead, could it still be Category 1?',followOpts:['Yes','No — over the 0.55 lb Cat 1 limit','Only at night','Only over vehicles'],followA:1,
+  followE:'Category 1 requires ≤0.55 lb (250 g). Even slightly over requires a higher category (if compliance can be demonstrated).'},
+ {scenario:'A <b>3 lb</b> drone with <b>24 ft-lb</b> impact energy and no lacerating parts.',cat:3,
+  followQ:'Category 3 impact energy limit is:',followOpts:['11 ft-lb','25 ft-lb','0.55 lb','100 ft-lb'],followA:1,
+  followE:'Category 3 = ≤25 ft-lb. Category 2 = ≤11 ft-lb. Know both numbers — the FAA tests them directly.'},
+ {scenario:'A <b>1.8 lb</b> racing drone with exposed carbon-fiber blades and <b>8 ft-lb</b> impact energy plus FAA-accepted compliance.',cat:2,
+  followQ:'Why is this NOT Category 1 even though it is under 2 lb?',followOpts:['Too fast','Over 0.55 lb weight limit for Cat 1','Needs a medical certificate','Remote ID not installed'],followA:1,
+  followE:'Category 1 max weight is 0.55 lb — this drone is too heavy regardless of impact energy.'}
+];
+let nrIdx=0,nrPick=null,nrScore={ok:0,tot:0},nrPhase='cat';
+function initNewregDrill(){nrIdx=0;nrScore={ok:0,tot:0};nrPick=null;nrPhase='cat';nrShow();}
+function nrShow(){
+ const s=NR_SCENARIOS[nrIdx];
+ el('nrScenario').innerHTML='Scenario '+(nrIdx+1)+' / '+NR_SCENARIOS.length+': '+s.scenario;
+ const fu=el('nrFollowup');if(fu)fu.style.display='none';
+ const fb=el('nrFeedback');if(fb){fb.innerHTML='Pick the correct operations-over-people category.';fb.style.background='';}
+ nrPhase='cat';nrPick=null;
+ document.querySelectorAll('#newregDrillTool .minibtn').forEach(b=>b.classList.remove('on'));
+ el('nrScore').textContent=nrScore.tot?'Score: '+nrScore.ok+' / '+nrScore.tot:'';
+}
+function nrPickCat(c){
+ nrPick=c;nrPhase='cat';
+ document.querySelectorAll('#newregDrillTool .ctrlrow .minibtn').forEach(b=>b.classList.toggle('on',parseInt(b.textContent.replace(/\D/g,''),10)===c));
+ const s=NR_SCENARIOS[nrIdx];
+ const catOk=c===s.cat;
+ const fu=el('nrFollowup');
+ fu.style.display='block';
+ el('nrFollowQ').textContent=s.followQ;
+ el('nrFollowOpts').innerHTML=s.followOpts.map((o,i)=>`<button class="opt" onclick="nrFollow(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+ const fb=el('nrFeedback');
+ fb.innerHTML=(catOk?'<b style="color:var(--good)">Category correct!</b> ':'<b style="color:var(--bad)">Category: '+s.cat+'</b> ')+'Now answer the follow-up.';
+ fb.style.background=catOk?'#eefaf1':'#fff6e6';
+}
+function nrFollow(i){
+ const s=NR_SCENARIOS[nrIdx];
+ const catOk=nrPick===s.cat;
+ const folOk=i===s.followA;
+ nrScore.tot++;
+ if(catOk&&folOk)nrScore.ok++;
+ const opts=document.querySelectorAll('#nrFollowOpts .opt');
+ opts.forEach((o,j)=>{o.classList.add('disabled');if(j===s.followA)o.classList.add('correct');if(j===i&&!folOk)o.classList.add('wrong');});
+ const fb=el('nrFeedback');
+ fb.innerHTML=(catOk&&folOk?'<b style="color:var(--good)">Both correct!</b> ':(catOk?'<b>Category OK, follow-up missed.</b> ':'<b>Review both answers.</b> '))+
+  'Cat <b>'+s.cat+'</b> — '+s.followE;
+ fb.style.background=catOk&&folOk?'#eefaf1':'#fdeeed';
+ el('nrScore').textContent='Score: '+nrScore.ok+' / '+nrScore.tot;
+}
+function nrReveal(){
+ const s=NR_SCENARIOS[nrIdx];
+ const fb=el('nrFeedback');
+ fb.innerHTML='Category <b>'+s.cat+'</b> — '+s.followE;fb.style.background='#eef3f8';
+ const fu=el('nrFollowup');fu.style.display='block';
+ el('nrFollowQ').textContent=s.followQ;
+ el('nrFollowOpts').innerHTML=s.followOpts.map((o,i)=>`<button class="opt disabled ${i===s.followA?'correct':''}">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+}
+function nrNext(){nrIdx=(nrIdx+1)%NR_SCENARIOS.length;nrShow();}
+
+/* ---- Interactive: Remote ID & night drill ---- */
+const RID_DRILLS=[
+ {q:'Which is <b>NOT</b> a valid way to comply with Remote ID?',opts:['Standard Remote ID drone','Remote ID broadcast module','Filing a NOTAM before each flight','Flying in a FRIA'],a:2,e:'The three compliance methods are standard RID drone, broadcast module, or FRIA — not NOTAMs.'},
+ {q:'Remote ID is required for:',opts:['All toy drones','Drones that must be registered (≥0.55 lb)','Only commercial flights','Only night operations'],a:1,e:'Registration threshold = Remote ID requirement (unless in a FRIA).'},
+ {q:'To fly at night without a waiver you need:',opts:['LAANC authorization only','Updated FAA training AND anti-collision lighting','A visual observer only','A Category 4 certificate'],a:1,e:'Night = updated initial/recurrent training + 3 SM anti-collision lighting.'},
+ {q:'Anti-collision lighting for night/civil twilight must be visible for:',opts:['1 statute mile','3 statute miles','5 statute miles','10 statute miles'],a:1,e:'3 statute miles, with flash rate sufficient to avoid collision.'},
+ {q:'Remote ID broadcasts all of the following EXCEPT:',opts:['Drone location & altitude','Control station location','Pilot\'s home address','Velocity & time mark'],a:2,e:'It broadcasts control station location — not the pilot\'s home address.'},
+ {q:'Civil twilight operations require:',opts:['A waiver from the FAA','Anti-collision lighting (same as night)','No special equipment','Category 1 drone only'],a:1,e:'Civil twilight needs the same 3 SM anti-collision lighting as night ops.'},
+ {q:'A FRIA (FAA-Recognized Identification Area) allows you to:',opts:['Fly without registration','Fly without Remote ID broadcast (with limits)','Exceed 400 ft AGL','Skip recurrent training'],a:1,e:'In a FRIA you can fly without broadcasting Remote ID — but must keep VLOS and follow other rules.'},
+ {q:'Category 3 operations over people — which is TRUE?',opts:['Unrestricted over crowds','Cannot fly over open-air assemblies','No weight limit','No compliance documentation needed'],a:1,e:'Cat 3 cannot operate over open-air assemblies — only closed sites or brief transit.'}
+];
+let ridIdx=0,ridScore={ok:0,tot:0};
+function initRidDrill(){ridIdx=0;ridScore={ok:0,tot:0};ridShow();}
+function ridShow(){
+ const d=RID_DRILLS[ridIdx];
+ el('ridQ').innerHTML='Q '+(ridIdx+1)+' / '+RID_DRILLS.length+': '+d.q;
+ el('ridOpts').innerHTML=d.opts.map((o,i)=>`<button class="opt" onclick="ridAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+ const fb=el('ridFb');if(fb){fb.style.display='none';fb.innerHTML='';}
+ el('ridScore').textContent=ridScore.tot?'Score: '+ridScore.ok+' / '+ridScore.tot:'';
+}
+function ridAnswer(i){
+ const d=RID_DRILLS[ridIdx];ridScore.tot++;
+ const ok=i===d.a;if(ok)ridScore.ok++;
+ document.querySelectorAll('#ridOpts .opt').forEach((o,j)=>{o.classList.add('disabled');if(j===d.a)o.classList.add('correct');if(j===i&&!ok)o.classList.add('wrong');});
+ const fb=el('ridFb');fb.style.display='block';
+ fb.innerHTML=(ok?'<b style="color:var(--good)">Correct!</b> ':'<b style="color:var(--bad)">Missed.</b> ')+d.e;
+ el('ridScore').textContent='Score: '+ridScore.ok+' / '+ridScore.tot;
+}
+function ridNext(){ridIdx=(ridIdx+1)%RID_DRILLS.length;ridShow();}
+
+/* ---- Interactive: Airport sign flash recognizer ---- */
+function signSvg(kind,text,extra){
+ const w=260,h=80;
+ if(kind==='hold')return `<svg viewBox="0 0 ${w} ${h}"><rect x="30" y="15" width="200" height="50" fill="#d6453d" rx="4"/><text x="130" y="48" fill="#fff" font-family="sans-serif" font-size="22" font-weight="700" text-anchor="middle">${text}</text></svg>`;
+ if(kind==='loc')return `<svg viewBox="0 0 ${w} ${h}"><rect x="50" y="15" width="160" height="50" fill="#1a1a1a" stroke="#f4a72f" stroke-width="4" rx="4"/><text x="130" y="50" fill="#f4a72f" font-family="sans-serif" font-size="28" font-weight="700" text-anchor="middle">${text}</text></svg>`;
+ if(kind==='dir')return `<svg viewBox="0 0 ${w} ${h}"><rect x="30" y="15" width="200" height="50" fill="#f4a72f" rx="4"/><text x="130" y="48" fill="#1a1a1a" font-family="sans-serif" font-size="18" font-weight="700" text-anchor="middle">${text}</text></svg>`;
+ if(kind==='dest')return `<svg viewBox="0 0 ${w} ${h}"><rect x="30" y="15" width="200" height="50" fill="#f4a72f" rx="4"/><text x="120" y="46" fill="#1a1a1a" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="middle">${text}</text><text x="195" y="46" fill="#1a1a1a" font-size="20">→</text></svg>`;
+ if(kind==='dist')return `<svg viewBox="0 0 ${w} ${h}"><rect x="90" y="18" width="80" height="44" fill="#1a1a1a" rx="4"/><text x="130" y="50" fill="#fff" font-family="sans-serif" font-size="32" font-weight="700" text-anchor="middle">${text}</text></svg>`;
+ if(kind==='mark')return `<svg viewBox="0 0 ${w} ${h}"><rect x="20" y="55" width="220" height="8" fill="#f4a72f"/><line x1="40" y1="55" x2="40" y2="40" stroke="#f4a72f" stroke-width="4"/><line x1="60" y1="55" x2="60" y2="45" stroke="#f4a72f" stroke-width="3" stroke-dasharray="4 3"/><line x1="80" y1="55" x2="80" y2="40" stroke="#f4a72f" stroke-width="4"/><line x1="100" y1="55" x2="100" y2="45" stroke="#f4a72f" stroke-width="3" stroke-dasharray="4 3"/><text x="130" y="30" fill="#5d6b78" font-family="sans-serif" font-size="11" text-anchor="middle">yellow pavement marking</text></svg>`;
+ return '';
+}
+const SIGN_DRILLS=[
+ {fig:signSvg('hold','16-34'),q:'This sign is a:',opts:['Location sign','Runway holding position sign','Direction sign','Destination sign'],a:1,e:'Red background + white runway numbers = mandatory runway holding position. Hold short.'},
+ {fig:signSvg('loc','B'),q:'This sign identifies:',opts:['A runway holding position','The taxiway/runway you are ON','A destination','Runway distance remaining'],a:1,e:'Black background + yellow text = location sign (you are on taxiway B).'},
+ {fig:signSvg('dir','← A   C →'),q:'This is a:',opts:['Mandatory instruction sign','Direction sign at an intersection','Runway distance sign','ILS critical area'],a:1,e:'Yellow background + black text + arrows = direction sign.'},
+ {fig:signSvg('dest','RUNWAY 27'),q:'This sign type is a:',opts:['Location sign','Destination sign','Distance remaining sign','Warning sign'],a:1,e:'Yellow + arrow pointing toward a destination = destination sign.'},
+ {fig:signSvg('dist','4'),q:'The number "4" on this sign means:',opts:['Taxiway 4','4,000 ft of runway remaining','Runway 4','Gate 4'],a:1,e:'Black + white number beside runway = thousands of feet remaining (4 = 4,000 ft).'},
+ {fig:signSvg('hold','9-27'),q:'You see this sign. You must:',opts:['Taxi onto the runway','Hold short — do not enter without ATC clearance','Speed up to clear the area','Contact TSA for SIDA access'],a:1,e:'Runway holding position = mandatory hold short of the runway.'},
+ {fig:signSvg('mark',''),q:'Two solid + two dashed yellow lines on the pavement mean:',opts:['Runway centerline','Runway holding position marking — hold on solid side','ILS critical area','Closed runway'],a:1,e:'Solid lines on your side, dashed toward runway = holding position marking.'},
+ {fig:signSvg('loc','A'),q:'Background color tells you the family first. This is:',opts:['Mandatory (red family)','Location (black/yellow)','Direction (yellow/black)','Closed area'],a:1,e:'Black + yellow = location. Red = mandatory. Yellow = direction/destination.'}
+];
+let sgIdx=0,sgScore={ok:0,tot:0};
+function initSignDrill(){sgIdx=0;sgScore={ok:0,tot:0};signDrillShow();}
+function signDrillShow(){
+ const d=SIGN_DRILLS[sgIdx];
+ el('signDrillFig').innerHTML=d.fig;
+ el('signDrillQ').textContent=d.q;
+ el('signDrillOpts').innerHTML=d.opts.map((o,i)=>`<button class="opt" onclick="signDrillAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+ const fb=el('signDrillFb');if(fb){fb.style.display='none';fb.innerHTML='';}
+ el('signDrillScore').textContent=sgScore.tot?'Score: '+sgScore.ok+' / '+sgScore.tot:'';
+}
+function signDrillAnswer(i){
+ const d=SIGN_DRILLS[sgIdx];sgScore.tot++;
+ const ok=i===d.a;if(ok)sgScore.ok++;
+ document.querySelectorAll('#signDrillOpts .opt').forEach((o,j)=>{o.classList.add('disabled');if(j===d.a)o.classList.add('correct');if(j===i&&!ok)o.classList.add('wrong');});
+ const fb=el('signDrillFb');fb.style.display='block';
+ fb.innerHTML=(ok?'<b style="color:var(--good)">Correct!</b> ':'<b style="color:var(--bad)">Missed.</b> ')+d.e;
+ el('signDrillScore').textContent='Score: '+sgScore.ok+' / '+sgScore.tot;
+}
+function signDrillNext(){sgIdx=(sgIdx+1)%SIGN_DRILLS.length;signDrillShow();}
+
+/* ---- Interactive: METAR field decoder ---- */
+const METAR_DRILLS=[
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'121651Z',q:'The highlighted group means:',opts:['12th day, 1651 local time','12th day, 1651 Zulu (UTC)','Wind 121° at 651 kt','Visibility 12 SM'],a:1,e:'Format: DDHHMMZ — 12th day at 1651 Zulu. Z = UTC.'},
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'18012G20KT',q:'This wind group means:',opts:['From 180° true at 12 kt, gusts 20','From 180° magnetic at 12 mph','Calm winds','12 km/h from the south'],a:0,e:'DDDSSGSSKT — direction, speed, gust. METAR winds are in degrees true.'},
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'3SM',q:'3SM indicates:',opts:['3 statute miles visibility','3 nautical miles visibility','3,000 ft ceiling','Wind 3 knots'],a:0,e:'SM = statute miles. METAR visibility is always statute miles.'},
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'BKN008',q:'BKN008 means:',opts:['Broken clouds at 800 ft AGL','Broken clouds at 8,000 ft','Few clouds at 800 ft','Overcast at 800 ft'],a:0,e:'BKN = broken. Height is hundreds of feet AGL → 008 = 800 ft.'},
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'OVC015',q:'OVC015 and BKN008 together — the ceiling is:',opts:['1,500 ft AGL','800 ft AGL','150 ft AGL','No ceiling'],a:1,e:'Ceiling = lowest BKN or OVC layer → BKN008 = 800 ft AGL.'},
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'12/11',q:'Temp 12°C / dewpoint 11°C — this suggests:',opts:['Dry air, clear skies','High humidity — fog/low clouds likely','Strong thunderstorms','High density altitude only'],a:1,e:'Small spread (1°C) = high humidity → fog or low clouds likely.'},
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'A2992',q:'A2992 is the:',opts:['Altimeter setting 29.92 inHg','Runway in use','Wind gust factor','Cloud type'],a:0,e:'A = altimeter in inches of mercury. A2992 = 29.92 inHg.'},
+ {raw:'METAR KSLC 031453Z 34008KT 10SM FEW050 SCT100 22/08 A3012',hi:'FEW050',q:'FEW050 means:',opts:['Few clouds at 5,000 ft AGL','Few clouds at 50 ft AGL','Overcast at 5,000 ft','Visibility 50 SM'],a:0,e:'FEW = few (1/8–2/8 coverage). 050 = 5,000 ft AGL. FEW does not define a ceiling.'},
+ {raw:'METAR KSLC 031453Z 34008KT 10SM FEW050 SCT100 22/08 A3012',hi:'22/08',q:'A large temp/dewpoint spread (22°C vs 8°C) suggests:',opts:['Fog likely','Dry air — better visibility','Thunderstorms imminent','Ceiling below 500 ft'],a:1,e:'Large spread = low humidity → generally better visibility, less fog risk.'}
+];
+let mxIdx=0,mxScore={ok:0,tot:0};
+function metarHighlight(raw,hi){
+ return raw.replace(hi,'<span class="hi">'+hi+'</span>');
+}
+function initMetarDrill(){mxIdx=0;mxScore={ok:0,tot:0};metarDrillShow();}
+function metarDrillShow(){
+ const d=METAR_DRILLS[mxIdx];
+ el('metarDrillBox').innerHTML=metarHighlight(d.raw,d.hi);
+ el('metarDrillQ').textContent=d.q;
+ el('metarDrillOpts').innerHTML=d.opts.map((o,i)=>`<button class="opt" onclick="metarDrillAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+ const fb=el('metarDrillFb');if(fb){fb.style.display='none';fb.innerHTML='';}
+ el('metarDrillScore').textContent=mxScore.tot?'Score: '+mxScore.ok+' / '+mxScore.tot:'';
+}
+function metarDrillAnswer(i){
+ const d=METAR_DRILLS[mxIdx];mxScore.tot++;
+ const ok=i===d.a;if(ok)mxScore.ok++;
+ document.querySelectorAll('#metarDrillOpts .opt').forEach((o,j)=>{o.classList.add('disabled');if(j===d.a)o.classList.add('correct');if(j===i&&!ok)o.classList.add('wrong');});
+ const fb=el('metarDrillFb');fb.style.display='block';
+ fb.innerHTML=(ok?'<b style="color:var(--good)">Correct!</b> ':'<b style="color:var(--bad)">Missed.</b> ')+d.e;
+ el('metarDrillScore').textContent='Score: '+mxScore.ok+' / '+mxScore.tot;
+}
+function metarDrillNext(){mxIdx=(mxIdx+1)%METAR_DRILLS.length;metarDrillShow();}
 
 /* ============================================================
    BOOT
