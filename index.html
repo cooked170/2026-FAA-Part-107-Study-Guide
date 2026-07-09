@@ -172,6 +172,10 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
         <button class="btn alt" onclick="go('cards')">Flashcards</button>
       </div>
     </div>
+    <div class="card" style="margin-top:14px;cursor:pointer" onclick="openRef('Study resources')">
+      <h3>📎 Study resources</h3>
+      <p class="muted" style="margin:4px 0 0">Official FAA study guide, sectional charts, test supplement (FAA-CT-8080-2H), Chart Supplement, LAANC apps, and more — everything you need to practice like test day.</p>
+    </div>
     <h2 class="sec" style="margin-top:18px">Learning modules</h2>
     <p class="lead">Built to bridge naturally — each module sets up the next.</p>
     <div class="tiles" id="moduleTiles"></div>
@@ -196,7 +200,7 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
   <!-- REFERENCE -->
   <section class="view" id="view-ref">
     <h2 class="sec">Reference data</h2>
-    <p class="lead">Your in-pocket cheat sheets. Come back here whenever a lesson or question references a chart symbol or number.</p>
+    <p class="lead">Cheat sheets plus official FAA links. Start with <b>Study resources</b> for the study guide, sectional charts, and test supplement.</p>
     <div class="pills" id="refPills"></div>
     <div id="refBody"></div>
   </section>
@@ -233,7 +237,8 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
   <!-- TIPS -->
   <section class="view" id="view-tips">
     <h2 class="sec">Study strategy</h2>
-    <p class="lead">Tactics that repeatedly show up among people who pass on the first try.</p>
+    <p class="lead">Tactics that repeatedly show up among people who pass on the first try — plus an instructor audit of this guide.</p>
+    <div id="auditBody"></div>
     <div id="tipsBody"></div>
   </section>
 </main>
@@ -266,6 +271,9 @@ function go(v){
   document.getElementById('view-'+v).classList.add('active');
   document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.go===v));
   window.scrollTo(0,0);
+}
+function openRef(key){
+ curRef=key;go('ref');renderRefPills();setRef(key);
 }
 document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.go));
 document.getElementById('resetBtn').onclick=()=>{
@@ -345,7 +353,7 @@ newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html
 <tr><td><b>2</b></td><td>Injury ≤ <b>11 ft-lb</b>, no lacerating parts, FAA-accepted means of compliance</td><td>Yes</td></tr>
 <tr><td><b>3</b></td><td>Injury ≤ <b>25 ft-lb</b>, no lacerating parts</td><td>Limited — not over open-air assemblies; only closed/restricted sites or brief transit</td></tr>
 <tr><td><b>4</b></td><td>Has an airworthiness certificate, operated per its limitations</td><td>Yes</td></tr></table>
-<p><b>Over moving vehicles:</b> permitted for Cat 1–3 drones, but you may not <b>sustain</b> flight over open-air assemblies of people — only transit.</p>
+<p><b>Over moving vehicles:</b> permitted for Cat 1–2 under their rules; Cat 3 is more limited (no sustained flight over open-air assemblies). Cat 4 follows its airworthiness limitations.</p>
 <h3>Night & civil twilight operations</h3>
 <ul>
 <li>Night flight is allowed <b>without a waiver</b> if you have completed the <b>updated recurrent/initial training</b> AND the drone has <b>anti-collision lighting visible for 3 statute miles</b> with a flash rate sufficient to avoid collision.</li>
@@ -820,197 +828,186 @@ adm:{title:'Decision-Making, CRM & Physiology',icon:'🧠',html:`
 ============================================================ */
 const DECKS={
  regs:[
-  ["Max altitude under Part 107?","400 ft AGL — or within 400 ft of a structure, up to 400 ft above its top."],
-  ["Max groundspeed?","87 knots (100 mph)."],
-  ["Minimum visibility from the control station?","3 statute miles."],
-  ["Required cloud clearance?","500 ft below and 2,000 ft horizontally."],
-  ["Minimum age for a remote pilot certificate?","16 years old."],
-  ["Weight threshold requiring registration?","0.55 lb (250 g) or more."],
-  ["Maximum total weight of a small UA?","Less than 55 lb (drone + payload)."],
-  ["How often is recurrent training required?","Every 24 calendar months (free online course)."],
-  ["When must an accident be reported to the FAA?","Within 10 days: serious injury/loss of consciousness, or ≥ $500 property damage."],
-  ["Who is the final authority for the operation?","The Remote Pilot in Command (PIC)."],
+  ["Part 107 max altitude (normal ops)?","400 ft AGL — or within 400 ft horizontally of a structure, up to 400 ft above its top."],
+  ["Part 107 max groundspeed?","87 knots (100 mph). The exam may use either unit — know both."],
+  ["Min visibility from the control station?","3 statute miles (not nautical)."],
+  ["Required cloud clearance under Part 107?","500 ft below clouds and 2,000 ft horizontally from clouds."],
+  ["Min age for a remote pilot certificate?","16 years old."],
+  ["At what weight must a drone be registered?","0.55 lb (250 g) or more — mark the registration number on the exterior."],
+  ["Max total weight of a small UA (drone + payload)?","Less than 55 lb at takeoff."],
+  ["How often is recurrent knowledge training required?","Every 24 calendar months — free online course on FAASafety.gov (ALC-677)."],
+  ["When must you report an accident to the FAA?","Within 10 days: serious injury/loss of consciousness, OR ≥ $500 property damage (excluding the drone)."],
+  ["Who has final authority over the operation?","The Remote Pilot in Command (PIC)."],
   ["Can you fly from a moving vehicle?","Only over a sparsely populated area."],
-  ["How many aircraft can one person operate at once?","One."],
+  ["How many drones may one remote pilot operate at once?","One — no simultaneous multi-aircraft ops under Part 107."],
+  ["VLOS rule — how must you see the drone?","Visual line of sight, unaided vision (corrective lenses OK; no binoculars/FVP goggles for the PIC)."],
+  ["Who must you yield right of way to?","All manned aircraft — always."],
+  ["Is an FAA medical certificate required for Part 107?","No — but you must self-assess fitness and not fly if a condition interferes with safe operation."],
+  ["When must you show your remote pilot certificate?","On request by FAA, NTSB, TSA, or any law enforcement officer."],
  ],
  newreg:[
-  ["What does Remote ID broadcast?","Drone ID, drone location/altitude, velocity, control station location/elevation, time mark, emergency status."],
-  ["Three ways to comply with Remote ID?","Standard RID drone, RID broadcast module, or fly within a FRIA."],
-  ["Category 1 ops-over-people limit?","≤ 0.55 lb (250 g) and no exposed lacerating rotating parts."],
-  ["Category 2 injury threshold?","No more than 11 ft-lb of kinetic energy on impact."],
-  ["Category 3 injury threshold?","No more than 25 ft-lb; cannot fly over open-air assemblies."],
-  ["Category 4 requirement?","Has an airworthiness certificate, operated per its limitations."],
-  ["Lighting required for night operations?","Anti-collision lighting visible for 3 statute miles."],
-  ["What is civil twilight (roughly)?","~30 min before sunrise and after sunset; also requires anti-collision lighting."],
-  ["Fastest way to get controlled-airspace authorization?","LAANC (near-real-time)."],
+  ["What does Remote ID broadcast in flight?","Drone ID, drone lat/long/altitude, velocity, control-station location & elevation, time mark, and emergency status."],
+  ["Three ways to comply with Remote ID?","① Standard Remote ID drone ② Remote ID broadcast module ③ Fly inside an FAA-Recognized Identification Area (FRIA)."],
+  ["Who needs Remote ID?","Any drone that must be registered (≥ 0.55 lb) — unless flying in a FRIA."],
+  ["Category 1 ops-over-people — weight limit?","≤ 0.55 lb (250 g) with no exposed rotating parts that can lacerate skin."],
+  ["Category 2 — max kinetic energy on impact?","≤ 11 ft-lb; no lacerating exposed parts; FAA-accepted means of compliance."],
+  ["Category 3 — max kinetic energy on impact?","≤ 25 ft-lb; cannot fly over open-air assemblies; only closed/restricted sites or brief transit over people."],
+  ["Category 4 ops-over-people requirement?","Airworthiness certificate issued under Part 21; operated per its limitations."],
+  ["Night ops — what lighting is required?","Anti-collision lighting visible for 3 statute miles, with a flash rate sufficient to avoid collision."],
+  ["Night ops — what training is required?","Updated initial or recurrent training (covers night rules) — no waiver needed if both training and lighting are met."],
+  ["Civil twilight — what extra requirement?","Same anti-collision lighting as night (visible 3 SM). Roughly 30 min before sunrise / after sunset."],
+  ["Fastest way to get controlled-airspace authorization?","LAANC — near-real-time approval via FAA-approved apps using UAS Facility Maps."],
+  ["LAANC can't approve your grid — what next?","Apply through DroneZone; further FAA review may be required."],
  ],
  airspace:[
-  ["Class B ceiling/where?","Busiest airports, surface to ~10,000 MSL, layered shelves. Auth required."],
-  ["Class C dimensions?","Surface to 4,000 ft AGL; ~5 NM core + 10 NM shelf. Auth required."],
-  ["Class D dimensions?","Surface to ~2,500 ft AGL; ~4 NM radius; has a tower. Auth required."],
-  ["Class E floor possibilities?","Surface, 700 ft, 1,200 ft, or 14,500 ft MSL."],
-  ["Which airspace needs NO authorization?","Class G (uncontrolled)."],
-  ["When in Class E do drones need authorization?","Surface-area Class E designated for an airport."],
-  ["What is a TFR?","Temporary Flight Restriction — check NOTAMs (stadiums, VIPs, wildfires)."],
-  ["Prohibited vs Restricted area?","Prohibited (P-): no flight. Restricted (R-): hazards; need permission when active."],
-  ["What happens when a Class D tower closes?","Airspace typically reverts to Class E or G."],
-  ["Class A altitudes?","18,000 ft MSL up to FL600 (60,000 ft); IFR only."],
-  ["Class C outer shelf dimensions?","5–10 NM radius, 1,200 to 4,000 ft AGL."],
-  ["What is LAANC?","Near-real-time controlled-airspace authorization via approved apps, based on UAS Facility Maps."],
-  ["What does a '0' grid on a UAS Facility Map mean?","No automatic LAANC approval — must apply via DroneZone."],
-  ["What is a Warning area?","Hazardous activity over international/coastal waters (beyond 3 NM offshore)."],
-  ["What is an Alert area?","High pilot training/unusual activity; all pilots equally responsible for see-and-avoid."],
-  ["What is a Controlled Firing Area (CFA)?","Activity stops when aircraft approach; not charted, needs no action from you."],
-  ["What is a National Security Area (NSA)?","You're requested to avoid; can be made temporarily prohibited."],
-  ["Class G upper limit?","Up to the base of overlying Class E (700 or 1,200 ft AGL), or 14,500 MSL in remote areas."],
-  ["Class A — controlled or uncontrolled?","Controlled. IFR only; drones never operate there."],
-  ["Class B airspace shape nickname?","Upside-down wedding cake — surface core plus widening shelves."],
-  ["Is a Class B floor a single altitude?","No — surface near the primary airport, stepping up in outer rings; read each shelf off the chart."],
-  ["Class B line on a sectional?","Solid blue."],
-  ["Class C line on a sectional?","Solid magenta."],
-  ["Class D line on a sectional?","Blue dashed."],
-  ["Class E surface-area line?","Magenta dashed."],
-  ["Class E 700 ft AGL floor shown as?","Faded/shaded magenta (soft edge on the inside)."],
-  ["Class E 1,200 ft AGL floor shown as?","Faded/shaded blue."],
-  ["Class C inner core dimensions?","5 NM radius, surface to 4,000 ft AGL."],
-  ["Class C outer shelf dimensions?","5–10 NM radius, 1,200 to 4,000 ft AGL."],
-  ["Class D typical radius & ceiling?","~4 NM radius, surface to 2,500 ft above the airport."],
-  ["What does 'individually tailored' mean?","The exact shape/altitudes are set per airport — always confirm on the chart."],
-  ["Which classes need ATC authorization for drones?","B, C, D, and surface-area E at an airport."],
-  ["Class E with no charted base starts at?","14,500 ft MSL."],
-  ["Top of Class E (before Class A)?","Up to but not including 18,000 ft MSL."],
-  ["Manned-aircraft equipment for Class B/C?","Two-way radio, transponder, ADS-B Out (Part 91); drones instead need FAA authorization + Remote ID."],
-  ["Restricted area — may you transit?","Only if inactive/released (ATC allows) or with the controlling agency's OK; if active, you must avoid it."],
-  ["Prohibited area — may you transit?","Never — flight is prohibited outright (e.g., P-40, P-56)."],
-  ["MOA line color?","Magenta hatched."],
-  ["Prohibited/Restricted line style?","Blue hatched (cross-hatch on the inside)."],
-  ["Alert area — who avoids collisions?","All pilots equally, participating and transiting."],
-  ["Warning area — where is it?","Over international/coastal waters, beyond 3 NM offshore."],
+  ["Which airspace needs NO FAA authorization for drones?","Class G (uncontrolled)."],
+  ["Which classes require FAA authorization for drones?","Class B, C, D, and surface-area Class E at an airport."],
+  ["Class A — altitudes & who flies there?","18,000 ft MSL to FL600 (60,000 ft). IFR only — drones never operate here."],
+  ["Class B — typical dimensions?","Busiest airports; surface to ~10,000 ft MSL; upside-down wedding-cake shelves. Auth required."],
+  ["Class B sectional line color?","Solid blue."],
+  ["Class C — typical dimensions?","Surface to 4,000 ft AGL; inner core 5 NM radius; outer shelf 5–10 NM, floor 1,200 ft AGL. Auth required."],
+  ["Class C sectional line color?","Solid magenta."],
+  ["Class D — typical dimensions?","Surface to ~2,500 ft AGL; ~4 NM radius; operating control tower. Auth required."],
+  ["Class D sectional line style?","Blue dashed circle."],
+  ["Class E surface area — how shown on a sectional?","Magenta dashed circle — authorization required (controlled airspace to the surface)."],
+  ["Class E floor at 700 ft AGL — chart symbol?","Faded/shaded magenta (soft edge on the inside)."],
+  ["Class E floor at 1,200 ft AGL — chart symbol?","Faded/shaded blue (most common away from airports)."],
+  ["Class E with no charted floor starts at?","14,500 ft MSL (up to but not including 18,000 ft)."],
+  ["Class G upper limit?","Surface up to the base of overlying Class E (700 or 1,200 ft AGL), or 14,500 MSL in remote areas."],
+  ["What happens when a Class D tower closes?","Airspace often reverts to Class E or G — check the Chart Supplement."],
+  ["What is LAANC?","Low Altitude Authorization and Notification Capability — near-real-time controlled-airspace approval via approved apps."],
+  ["UAS Facility Map grid '0' means?","No automatic LAANC approval at any altitude — apply via DroneZone."],
+  ["What is a TFR?","Temporary Flight Restriction — check NOTAMs before every flight (stadiums, VIPs, wildfires, disasters)."],
+  ["Prohibited area (P-) — may you enter?","Never — flight is prohibited outright (e.g., P-56 over DC)."],
+  ["Restricted area (R-) — may you enter?","Only when inactive/released (with ATC/agency permission); avoid when active."],
+  ["Warning area (W-) vs Restricted?","Same hazards, but Warning areas are over international/coastal waters beyond 3 NM offshore."],
+  ["Alert area — who avoids collisions?","All pilots equally — participating and transiting aircraft share see-and-avoid duty."],
+  ["MOA — chart depiction?","Magenta hatched lines. Military training — use caution; check if active."],
+  ["Prohibited/Restricted — chart depiction?","Blue hatched (cross-hatch on the inside)."],
+  ["Controlled Firing Area (CFA)?","Not charted — activity stops when aircraft approach; no pilot action needed."],
+  ["National Security Area (NSA)?","Pilots are requested to avoid; may become temporarily prohibited."],
+  ["Manned-aircraft Class B/C equipment vs drone requirement?","Manned: two-way radio, transponder, ADS-B Out (Part 91). Drones: FAA authorization + Remote ID — know both to beat distractors."],
+  ["Class B floor — one number or many?","Many — surface near the primary airport, stepping up in outer rings; read each shelf off the chart."],
  ],
  navmap:[
-  ["Which way is up on a sectional chart?","North. East is right, south down, west left."],
-  ["How are directions measured?","In degrees, clockwise from north: N=000/360, E=090, S=180, W=270."],
-  ["What is true north?","The geographic North Pole — what the chart's lat/long grid points to."],
-  ["What is magnetic north?","Where a compass points; differs from true north by local magnetic variation."],
-  ["What do isogonic lines show?","Points of equal magnetic variation (agonic line = zero variation)."],
-  ["How are runways numbered?","Magnetic heading rounded to nearest 10°, last zero dropped (268° → Runway 27)."],
-  ["METAR winds vs tower/ATIS winds?","METAR/forecast winds are true; tower/ATIS winds are magnetic."],
-  ["Latitude — which way and what range in the US?","North/south position; lines run east-west; ~25°N to 49°N in the lower 48."],
-  ["Longitude — which way and what range in the US?","East/west position; lines run north-south; ~67°W to 125°W in the lower 48."],
-  ["Order to write coordinates?","Latitude first, then longitude (e.g., 40°45'N, 111°53'W)."],
-  ["How many minutes in a degree?","60 minutes per degree, and 60 seconds per minute."],
-  ["Convert 40°30' to decimal degrees.","40 + 30/60 = 40.5°."],
-  ["1 minute of latitude equals how far?","1 nautical mile — use the latitude scale as a ruler."],
-  ["Why not use longitude for measuring distance?","Longitude lines converge toward the poles, so the spacing shrinks."],
-  ["Runway 9 points which way?","090° — east."],
-  ["Runway 18 points which way?","180° — south."],
-  ["Reciprocal of runway 4?","Runway 22 (4 + 18)."],
-  ["True vs magnetic north differ by?","Magnetic variation (shown by isogonic lines)."],
-  ["Agonic line?","A line of zero magnetic variation."],
-  ["Convert 33°30' to decimal degrees.","33 + 30/60 = 33.5°."],
-  ["Two points share a longitude; latitudes differ by 12'. Distance?","About 12 nautical miles."],
-  ["Which chart scale measures distance in NM?","The latitude scale — 1 minute = 1 NM."],
+  ["Which way is up on a sectional chart?","North. East = right, South = down, West = left."],
+  ["How are compass directions measured?","Degrees clockwise from north: N=000°/360°, E=090°, S=180°, W=270°."],
+  ["True north vs magnetic north?","True = geographic North Pole (chart grid). Magnetic = where a compass points; difference = magnetic variation."],
+  ["What do isogonic lines show?","Points of equal magnetic variation. Agonic line = zero variation."],
+  ["How are runway numbers derived?","Magnetic heading rounded to nearest 10°, drop the zero (268° → Runway 27)."],
+  ["METAR winds vs tower/ATIS winds?","METAR/forecast = true north. Tower/ATIS = magnetic — a common exam trap."],
+  ["Latitude — direction & US range?","North/south position; lines run east-west; lower 48 ≈ 25°N–49°N."],
+  ["Longitude — direction & US range?","East/west position; lines run north-south; lower 48 ≈ 67°W–125°W."],
+  ["Correct order to write coordinates?","Latitude first, then longitude (e.g., 40°45'N, 111°53'W)."],
+  ["Minutes in one degree?","60 minutes per degree; 60 seconds per minute."],
+  ["DMS → decimal: 40°30' = ?","40 + 30÷60 = 40.5°."],
+  ["1 minute of latitude equals?","1 nautical mile — use the chart's latitude scale as a ruler."],
+  ["Why not measure distance with longitude?","Longitude lines converge toward the poles — spacing shrinks with latitude."],
+  ["Runway 9 points which compass direction?","090° — east."],
+  ["Reciprocal of Runway 4?","Runway 22 (add or subtract 18 on the compass rose)."],
+  ["Two points, same longitude, latitudes differ by 12'?","≈ 12 nautical miles apart (count minutes on the latitude scale)."],
  ],
  charts:[
-  ["Class B line style/color?","Solid blue."],
-  ["Class C line style/color?","Solid magenta."],
-  ["Class D line style/color?","Blue dashed."],
-  ["Class E surface line?","Magenta dashed."],
-  ["Faded magenta shading means?","Class E starting at 700 ft AGL."],
-  ["Faded blue shading means?","Class E starting at 1,200 ft AGL."],
-  ["Blue airport symbol means?","Airport has a control tower."],
-  ["Magenta airport symbol means?","Airport has no control tower."],
-  ["Obstacle heights: top vs parentheses?","Top = MSL; parentheses = AGL."],
-  ["What is the MEF?","Maximum Elevation Figure — tallest obstacle/terrain in that quadrant (hundreds of ft MSL)."],
+  ["Class B on a sectional — line style?","Solid blue."],
+  ["Class C on a sectional — line style?","Solid magenta."],
+  ["Class D on a sectional — line style?","Blue dashed."],
+  ["Class E to the surface — line style?","Magenta dashed."],
+  ["Faded magenta shading means?","Class E floor begins at 700 ft AGL."],
+  ["Faded blue shading means?","Class E floor begins at 1,200 ft AGL."],
+  ["Blue airport symbol means?","Airport has an operating control tower."],
+  ["Magenta airport symbol means?","No control tower."],
+  ["Obstacle: top number vs (parentheses)?","Top = height MSL. Parentheses = height AGL."],
+  ["What is the MEF?","Maximum Elevation Figure — tallest terrain/obstacle in that quadrant, in hundreds of ft MSL."],
   ["Sectional chart scale?","1:500,000 (about 7 NM per inch)."],
-  ["Stacked fraction 100/30 means?","Ceiling 10,000 MSL down to floor 3,000 MSL (hundreds of ft)."],
-  ["What does SFC mean on a chart?","Surface — the airspace floor is at ground level."],
-  ["Blue hatched lines depict?","Prohibited / Restricted (also Warning/Alert) areas."],
-  ["Magenta hatched lines depict?","A Military Operations Area (MOA)."],
-  ["'CT - 118.3' in a data block?","Control Tower frequency 118.3 (★ = part-time)."],
-  ["Underlined frequency means?","No voice is transmitted on that frequency."],
-  ["A magenta flag symbol marks?","A visual checkpoint (landmark for position reports)."],
-  ["Runway length shown as '70'?","7,000 ft — runway length is in hundreds of feet."],
-  ["What's drawn inside a VOR compass rose oriented to?","Magnetic north."],
-  ["Most comprehensive airport info source?","The Chart Supplement (formerly Airport/Facility Directory)."],
-  ["'42/SFC' inside a magenta ring means?","Class C: 4,200 ft MSL ceiling down to the surface."],
-  ["Boxed [25] in blue dashes means?","Class D ceiling 2,500 ft MSL (hundreds of feet)."],
-  ["Obstacle 1549 (587): height AGL?","587 ft above ground (1549 is MSL)."],
+  ["Stacked fraction 100/30 on a chart?","Ceiling 10,000 ft MSL down to floor 3,000 ft MSL (hundreds of feet)."],
+  ["SFC on an airspace label?","Surface — the airspace floor is at ground level."],
+  ["Blue hatched lines on a sectional?","Prohibited, Restricted, Warning, or Alert areas."],
+  ["Magenta hatched lines on a sectional?","Military Operations Area (MOA)."],
+  ["'CT - 118.3' in an airport data block?","Control Tower frequency 118.3 MHz (★ = part-time tower)."],
+  ["Underlined frequency in a data block?","No voice transmitted on that frequency."],
+  ["Magenta flag symbol on a sectional?","Visual checkpoint — landmark for position reports."],
+  ["Runway length '70' in a data block?","7,000 ft — runway lengths are in hundreds of feet."],
+  ["VOR compass rose is oriented to?","Magnetic north."],
+  ["Best source for full airport details (hours, services)?","Chart Supplement — not the sectional."],
+  ["'42/SFC' inside a magenta Class C ring?","Class C ceiling 4,200 ft MSL down to the surface."],
+  ["Boxed [25] on a blue dashed Class D ring?","Class D ceiling 2,500 ft MSL."],
+  ["Obstacle 1549 (587) — what is 587?","587 ft AGL (1549 is MSL height)."],
   ["Rays around an obstacle top mean?","High-intensity obstruction lighting."],
-  ["Tick marks around an airport circle?","Fuel available and the field is attended."],
-  ["Where do you read exact operating hours & remarks?","The Chart Supplement, not the sectional."],
+  ["Tick marks around an airport circle?","Fuel available; field is attended."],
  ],
  signs:[
-  ["Mandatory instruction sign colors?","Red background, white text."],
-  ["Runway holding position sign appearance?","Red background with white runway numbers (e.g., 16-34)."],
-  ["Location sign colors?","Black background, yellow text and border."],
-  ["Direction sign colors?","Yellow background, black text, with arrows."],
-  ["Destination sign colors?","Yellow background, black text with an arrow."],
-  ["Runway distance remaining sign?","Black background, white number = thousands of feet remaining."],
-  ["Runway holding position pavement marking?","Two solid + two dashed yellow lines."],
-  ["Which side of the hold marking do you stay on?","The solid-line side (dashed lines are the runway side)."],
-  ["What is a SIDA?","Security Identification Display Area — a secured airport area."],
-  ["What's needed to access a SIDA?","Airport ID badge, security/background check, and airport-specific training."],
-  ["Is SIDA an FAA or TSA requirement?","TSA security (49 CFR 1542), not an FAA flight rule."],
-  ["Sign vs marking — the trick?","The red 'sign' states the rule; the yellow pavement 'marking' shows where to hold."],
+  ["Mandatory instruction sign — colors?","Red background, white text (runway holds, no entry, ILS critical area)."],
+  ["Runway holding position SIGN — appearance?","Red background with white runway numbers (e.g., 16-34). States the rule."],
+  ["Location sign — colors?","Black background, yellow text and border (identifies the taxiway/runway you're ON)."],
+  ["Direction sign — colors?","Yellow background, black text with arrows (points to taxiways at an intersection)."],
+  ["Destination sign — colors?","Yellow background, black text with arrow (points toward runway, terminal, FBO)."],
+  ["Runway distance remaining sign?","Black background, white number = thousands of feet left (e.g., '4' = 4,000 ft)."],
+  ["Runway holding position MARKING — pattern?","Two solid + two dashed yellow lines on the pavement."],
+  ["Which side of the hold marking do you stay on?","Solid-line side — dashed lines face the runway."],
+  ["Sign vs marking — exam trick?","Red SIGN = mandatory rule. Yellow MARKING = where to hold on the pavement."],
+  ["What is a SIDA?","Security Identification Display Area — secured airport zone (TSA, not FAA)."],
+  ["What's required to access a SIDA?","Airport-issued ID badge, security/background check, and airport-specific training."],
  ],
  pattern:[
-  ["Runway number to heading?","Multiply by 10 — Runway 27 ≈ 270°."],
-  ["Runway 36 heading?","360° (north)."],
-  ["Runway 9 heading?","090° (east)."],
-  ["Reciprocal runway rule?","Add or subtract 18 (36/18, 9/27)."],
-  ["Default traffic pattern direction?","Left turns, unless a right pattern is published."],
-  ["Order of the pattern legs?","Upwind, crosswind, downwind, base, final."],
-  ["Downwind leg direction of flight?","Opposite the landing direction, parallel to the runway."],
-  ["Left pattern — which side is downwind?","The left side relative to the landing direction."],
-  ["Runway 36, left pattern — downwind is where?","West of the runway, flown southbound."],
-  ["Base leg?","The perpendicular leg connecting downwind to final."],
-  ["Final leg?","Aligned with the runway on approach."],
-  ["What is CTAF?","Common Traffic Advisory Frequency for self-announcing."],
-  ["MULTICOM frequency?","122.9 — used where there's no UNICOM/FSS."],
-  ["Standard self-announce points?","10 miles out, entering downwind, base, final, and clear of the runway."],
+  ["Runway number → magnetic heading?","Multiply by 10 (Runway 27 ≈ 270° magnetic)."],
+  ["Reciprocal runway rule?","Add or subtract 18 (Runway 9 ↔ Runway 27)."],
+  ["Standard traffic pattern turn direction?","Left turns — unless a right pattern is published."],
+  ["Traffic pattern legs in order?","Upwind → Crosswind → Downwind → Base → Final."],
+  ["Downwind leg — how is it flown?","Parallel to the runway, opposite the landing direction."],
+  ["Left pattern on Runway 36 — where is downwind?","West of the runway, flown southbound (landing north)."],
+  ["Base leg?","Perpendicular leg from downwind to final approach."],
+  ["What is CTAF?","Common Traffic Advisory Frequency — self-announce at non-towered airports."],
+  ["MULTICOM frequency (no UNICOM/FSS)?","122.9 MHz."],
+  ["When should you self-announce at a non-towered field?","~10 miles out, entering downwind, base, final, and clear of the runway."],
  ],
  time:[
-  ["What is Zulu time?","UTC — used on charts, METARs, NOTAMs, and the Chart Supplement."],
-  ["Utah winter offset (MST)?","UTC − 7."],
-  ["Utah summer offset (MDT)?","UTC − 6."],
-  ["Convert Zulu to local — how?","Subtract the offset (7 for MST, 6 for MDT)."],
-  ["1400Z in MST = ?","0700 local (7 AM)."],
-  ["0200Z in MST = ?","1900 (7 PM) the previous local day."],
-  ["If the subtraction goes below 0000?","It's the previous day — add 24 hours."],
-  ["When is MDT (daylight saving) in effect?","Roughly mid-March to early November."],
-  ["Same Zulu: is MST or MDT the earlier clock time?","MST (−7) is one hour earlier than MDT (−6)."],
-  ["Where are an airport's attended hours listed?","The Chart Supplement, in Zulu."],
+  ["What is Zulu time?","UTC — used on METARs, NOTAMs, Chart Supplement hours, and sectional data."],
+  ["Zulu → Mountain Standard Time (MST)?","Subtract 7 hours (UTC − 7)."],
+  ["Zulu → Mountain Daylight Time (MDT)?","Subtract 6 hours (UTC − 6) — roughly mid-March to early November."],
+  ["1400Z in MST = local time?","0700 (7 AM) — subtract 7."],
+  ["0200Z in MST = local time?","1900 (7 PM) the previous calendar day — subtract 7, add 24 if negative."],
+  ["If Zulu minus offset goes below 0000?","It's the previous local day — add 24 hours."],
+  ["Chart Supplement hours are published in?","Zulu (UTC) — convert to your local offset."],
+  ["Exam tip: always confirm which offset applies.","Daylight saving = MDT (−6). Standard time = MST (−7). Read the question carefully."],
  ],
  weather:[
-  ["What does Z mean in a METAR time?","Zulu / UTC time."],
-  ["Decode 18012G20KT.","Wind from 180° at 12 knots, gusting to 20."],
-  ["BKN vs OVC?","Broken vs Overcast cloud cover. Ceiling = lowest BKN or OVC layer."],
-  ["What does a small temp/dewpoint spread indicate?","High humidity → fog or low clouds likely."],
-  ["Rate temp/dewpoint converge with altitude?","~4.4°F (2.5°C) per 1,000 ft."],
-  ["Stable air characteristics?","Stratiform clouds, smooth air, steady precip, poor visibility."],
-  ["Unstable air characteristics?","Cumuliform clouds, turbulence, showers, good visibility."],
-  ["Temperature inversion?","Warm air over cool air; very stable; traps haze; poor visibility."],
-  ["Most dangerous thunderstorm stage?","Mature stage (heavy rain, lightning, microbursts)."],
-  ["What causes high density altitude?","High elevation + high temperature + high humidity."],
-  ["Effect of high density altitude on a drone?","Decreased propeller efficiency and performance."],
-  ["A2992 means?","Altimeter setting 29.92 inHg."],
+  ["'Z' in a METAR time group (e.g., 121651Z)?","Zulu / UTC."],
+  ["Decode wind group 18012G20KT.","From 180° at 12 kt, gusting to 20 kt (true direction in METAR)."],
+  ["BKN vs OVC — which sets the ceiling?","Both can — ceiling = lowest Broken or Overcast layer."],
+  ["Small temp/dewpoint spread (e.g., 12/11°C)?","High humidity → fog or low clouds likely."],
+  ["Temp & dewpoint converge at what rate with altitude?","≈ 4.4°F (2.5°C) per 1,000 ft — use to estimate cloud base."],
+  ["Stable air — what to expect?","Stratiform clouds, smooth air, steady precipitation, poor visibility."],
+  ["Unstable air — what to expect?","Cumuliform clouds, turbulence, showers, good visibility between clouds."],
+  ["Temperature inversion effect?","Warm air over cool — very stable; traps haze; poor visibility."],
+  ["Most dangerous thunderstorm stage?","Mature — heavy rain, lightning, hail, microbursts, wind shear."],
+  ["What causes HIGH density altitude?","High elevation + high temperature + high humidity."],
+  ["High density altitude effect on a drone?","Decreased propeller efficiency — reduced climb, shorter flight time."],
+  ["METAR A2992 means?","Altimeter setting 29.92 inHg."],
+  ["TAF vs METAR?","METAR = current observation. TAF = terminal aerodrome forecast for a valid period."],
  ],
  loading:[
-  ["Effect of adding payload weight?","Reduced climb, maneuverability, and flight time; more power needed."],
-  ["Why keep loads within CG limits?","Out-of-balance aircraft is unstable and hard to control."],
-  ["Combined effect of heavy load + high density altitude?","Significantly reduced climb and lift performance."],
-  ["What can shift CG in flight?","An unsecured payload moving around."],
+  ["Effect of adding payload weight?","Reduced climb rate, maneuverability, and flight time; more power needed."],
+  ["Why stay within CG limits?","Out-of-balance aircraft is unstable and difficult to control."],
+  ["Heavy payload + high density altitude together?","Performance loss compounds — significantly reduced climb and lift."],
+  ["What can shift CG during flight?","An unsecured or shifting payload."],
+  ["Never exceed what weight limits?","Manufacturer's max gross weight AND the regulatory < 55 lb total."],
+  ["Cold weather effect on batteries?","Reduced capacity and voltage — shorter flight time; plan accordingly."],
+  ["Wind effect on loaded drone?","Increases power draw, reduces range, and stresses motors."],
  ],
  adm:[
-  ["The 5 hazardous attitudes?","Anti-authority, Impulsivity, Invulnerability, Macho, Resignation."],
-  ["Antidote to Macho?","Taking chances is foolish."],
+  ["5 hazardous attitudes (memory: AIIMR)?","Anti-authority, Impulsivity, Invulnerability, Macho, Resignation."],
+  ["Antidote to Anti-authority?","Follow the rules — they are usually right."],
+  ["Antidote to Impulsivity?","Not so fast — think first."],
   ["Antidote to Invulnerability?","It could happen to me."],
-  ["What does IMSAFE stand for?","Illness, Medication, Stress, Alcohol, Fatigue, Emotion."],
-  ["What does PAVE stand for?","Pilot, Aircraft, enVironment, External pressures."],
-  ["What does the 3P model stand for?","Perceive, Process, Perform."],
-  ["What is CRM?","Crew Resource Management — using all available resources to make safe decisions."],
-  ["Alcohol rules for flying?","8 hours bottle-to-throttle, BAC under 0.04, never while impaired."],
+  ["Antidote to Macho?","Taking chances is foolish."],
+  ["Antidote to Resignation?","I'm not helpless — I can make a difference."],
+  ["IMSAFE checklist?","Illness, Medication, Stress, Alcohol, Fatigue, Emotion."],
+  ["PAVE risk model?","Pilot, Aircraft, enVironment, External pressures."],
+  ["3P decision model?","Perceive hazards → Process risk → Perform the best response."],
+  ["DECIDE model?","Detect, Estimate, Choose a course, Identify solutions, Do it, Evaluate."],
+  ["What is CRM?","Crew Resource Management — use all available resources (people, equipment, info) for safe decisions."],
+  ["Alcohol rules for remote pilots?","8 hours bottle-to-throttle, BAC < 0.04, never fly while impaired by alcohol or drugs."],
+  ["Hyperventilation vs hypoxia (exam basics)?","Hyperventilation = too much O₂ blown off (stress); hypoxia = insufficient O₂ at high altitude. Both impair judgment."],
  ]
 };
 
@@ -1028,6 +1025,8 @@ const QUIZ={
   {q:"Recurrent knowledge currency is maintained by:",opts:["Retaking the test in person every 2 years","Completing free online training every 24 calendar months","Annual flight review","Nothing — it never expires"],a:1,e:"Free online recurrent training every 24 calendar months."},
   {q:"Required distance from clouds under Part 107:",opts:["Clear of clouds","500 ft below, 2,000 ft horizontal","1,000 ft above, 500 ft below","Stay 1 SM away"],a:1,e:"500 ft below and 2,000 ft horizontally."},
   {q:"You may operate a drone from a moving vehicle:",opts:["Never","Only over sparsely populated areas","Anytime under 100 mph","Only at night"],a:1,e:"Permitted only over sparsely populated areas."},
+  {q:"Under Part 107, the remote pilot must maintain:",opts:["Instrument flight rules","Visual line of sight with the aircraft","Radar contact with ATC","A first-person view system only"],a:1,e:"VLOS is required — unaided vision (corrective lenses OK)."},
+  {q:"An FAA medical certificate is required for a remote pilot certificate:",opts:["Class 3 only","Class 2 only","Yes, always","No"],a:3,e:"No medical is required, but you must self-assess fitness and not fly if impaired."},
  ],
  newreg:[
   {q:"To fly at night, the drone must have anti-collision lighting visible for at least:",opts:["1 SM","3 SM","5 SM","No requirement"],a:1,e:"3 statute miles, flashing to avoid collision."},
@@ -1036,6 +1035,7 @@ const QUIZ={
   {q:"Remote ID broadcasts all of the following EXCEPT:",opts:["Drone location/altitude","Control station location","Pilot's home address","Velocity & time mark"],a:2,e:"It broadcasts the control station location, not the pilot's home address."},
   {q:"Category 3 operations over people:",opts:["Are unrestricted","Cannot be conducted over open-air assemblies","Require no compliance","Allow sustained flight over crowds"],a:1,e:"Cat 3 cannot fly over open-air assemblies; only closed sites or brief transit."},
   {q:"Civil twilight operations require:",opts:["A waiver","Anti-collision lighting","No special equipment","A visual observer only"],a:1,e:"Anti-collision lighting visible for 3 SM, same as night."},
+  {q:"To fly at night under Part 107 without a waiver, you must:",opts:["File a NOTAM only","Complete updated FAA training and use anti-collision lighting","Use a visual observer only","Obtain LAANC authorization"],a:1,e:"Night ops require updated initial/recurrent training plus 3 SM anti-collision lighting."},
  ],
  airspace:[
   {q:"Which airspace requires NO authorization for a drone?",opts:["Class B","Class C","Class D","Class G"],a:3,e:"Class G is uncontrolled — no authorization needed."},
@@ -1117,6 +1117,7 @@ const QUIZ={
   {q:"Unstable air is associated with:",opts:["Stratiform clouds and steady rain","Cumuliform clouds, turbulence, showers","Fog and smooth air","Temperature inversions"],a:1,e:"Unstable = cumuliform, turbulence, showers, good visibility."},
   {q:"The 'Z' in '121651Z' refers to:",opts:["Local time","Zulu/UTC time","Time zone Z of the US","Daylight time"],a:1,e:"Z = Zulu (UTC)."},
   {q:"What causes the HIGHEST density altitude?",opts:["Low elevation, cold, dry","High elevation, hot, humid","Sea level, standard day","Cold front passage"],a:1,e:"High elevation + high temp + high humidity = high DA."},
+  {q:"A TAF differs from a METAR in that a TAF is:",opts:["An observation of current weather","A forecast for a specific airport and time period","Always in local time","Only issued at night"],a:1,e:"METAR = now; TAF = terminal aerodrome forecast with a valid period."},
  ],
  loading:[
   {q:"Adding payload weight to a drone will:",opts:["Improve climb performance","Reduce performance and flight time","Have no effect","Increase top speed"],a:1,e:"More weight = reduced climb/maneuverability and shorter flight time."},
@@ -1130,6 +1131,7 @@ const QUIZ={
   {q:"The antidote to the 'Invulnerability' attitude is:",opts:["Follow the rules","It could happen to me","Not so fast","I'm not helpless"],a:1,e:"Invulnerability → 'It could happen to me.'"},
   {q:"Alcohol rule for remote pilots:",opts:["No rules apply","8 hours bottle-to-throttle, BAC < 0.04","24 hours abstinence","BAC < 0.08"],a:1,e:"8 hours bottle-to-throttle and BAC under 0.04; never impaired."},
   {q:"Crew Resource Management (CRM) means:",opts:["Flying solo always","Using all available resources for safe decisions","Managing batteries","Filing flight plans"],a:1,e:"Using all resources — people, equipment, information."},
+  {q:"Hyperventilation (rapid breathing from stress) can cause:",opts:["Improved judgment","Dizziness and tingling from blowing off too much CO₂","Hypoxia at sea level","No effect on pilots"],a:1,e:"Stress-induced rapid breathing blows off CO₂, causing dizziness/tingling — recognize it and slow your breathing."},
  ]
 };
 
@@ -1137,6 +1139,39 @@ const QUIZ={
    REFERENCE SHEETS
 ============================================================ */
 const REF={
+ 'Study resources':`
+<div class="card"><h3>Official FAA study materials (free)</h3>
+<p class="muted">Download these and study with the same references the exam is built from. The test supplement is especially important — you get a copy on test day.</p>
+<table class="ref"><tr><th>Resource</th><th>What it's for</th></tr>
+<tr><td><a href="https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/FAA-G-8082-22.pdf" target="_blank" rel="noopener">FAA-G-8082-22</a></td><td><b>Remote Pilot — Small Unmanned Aircraft Systems Study Guide.</b> The FAA's official Part 107 prep book. Start here.</td></tr>
+<tr><td><a href="https://www.faa.gov/training_testing/testing/supplements/supplements_media/FAA-CT-8080-2H.pdf" target="_blank" rel="noopener">FAA-CT-8080-2H</a></td><td><b>Airman Knowledge Testing Supplement.</b> The chart booklet used on the real exam. Practice reading figures from this exact document.</td></tr>
+<tr><td><a href="https://www.faa.gov/air_traffic/flight_info/aeronav/VFRCharts/media/Chart_Symbols_Supplement.pdf" target="_blank" rel="noopener">Aeronautical Chart User's Guide</a></td><td>Legend for sectional symbols, airspace lines, and airport data blocks — high-yield for chart questions.</td></tr>
+<tr><td><a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-F/part-107" target="_blank" rel="noopener">14 CFR Part 107</a></td><td>The actual operating rules (altitude, visibility, night ops, Remote ID, ops over people).</td></tr>
+<tr><td><a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/phak" target="_blank" rel="noopener">Pilot's Handbook of Aeronautical Knowledge (PHAK)</a></td><td>Airspace (Ch. 15), weather, airport operations — background the study guide references.</td></tr>
+<tr><td><a href="https://www.faa.gov/air_traffic/publications/atpubs/aim_html/" target="_blank" rel="noopener">Aeronautical Information Manual (AIM)</a></td><td>Airport signs/markings (Ch. 2), traffic patterns &amp; radio (Ch. 4).</td></tr>
+</table></div>
+<div class="card"><h3>Charts &amp; airport data to practice on</h3>
+<table class="ref"><tr><th>Resource</th><th>What it's for</th></tr>
+<tr><td><a href="https://www.faa.gov/air_traffic/flight_info/aeronav/productcatalog/vfrcharts/sectional/" target="_blank" rel="noopener">FAA VFR Sectional Charts</a></td><td>Download current sectionals (PDF or GeoTIFF). Pick your region and practice airspace, obstacles, and airport symbols.</td></tr>
+<tr><td><a href="https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/dafd/search/" target="_blank" rel="noopener">Chart Supplement (digital)</a></td><td>Formerly the Airport/Facility Directory — hours, services, remarks, and frequencies in Zulu.</td></tr>
+<tr><td><a href="https://www.faa.gov/uas/getting_started/laanc" target="_blank" rel="noopener">LAANC &amp; UAS Facility Maps</a></td><td>Controlled-airspace authorization and grid-altitude maps used on the exam.</td></tr>
+<tr><td><a href="https://notams.aim.faa.gov/notamSearch/" target="_blank" rel="noopener">FAA NOTAM Search</a></td><td>Check TFRs and airspace changes before every flight — and understand NOTAM types for the test.</td></tr>
+</table>
+<p class="muted"><b>Practice tip:</b> Print one sectional and the FAA-CT-8080-2H supplement. Mark airspace boundaries, decode three airport data blocks, and find obstacles by coordinates — same skills the exam tests.</p></div>
+<div class="card"><h3>Testing, registration &amp; currency</h3>
+<table class="ref"><tr><th>Resource</th><th>What it's for</th></tr>
+<tr><td><a href="https://iacra.faa.gov/" target="_blank" rel="noopener">IACRA</a></td><td>Create an account and get your FTN (FAA Tracking Number) before scheduling the knowledge test.</td></tr>
+<tr><td><a href="https://faa.psiexams.com/faa/login" target="_blank" rel="noopener">PSI / FAA Testing</a></td><td>Schedule your Part 107 knowledge test at an authorized center.</td></tr>
+<tr><td><a href="https://faadronezone.faa.gov/" target="_blank" rel="noopener">FAADroneZone</a></td><td>Register your drone, request airspace authorization when LAANC can't auto-approve, and manage waivers.</td></tr>
+<tr><td><a href="https://www.faasafety.gov/" target="_blank" rel="noopener">FAASafety.gov</a></td><td>Free recurrent training (course ALC-677) required every 24 calendar months to stay current.</td></tr>
+<tr><td><a href="https://www.faa.gov/uas/commercial_operators/become_a_drone_pilot" target="_blank" rel="noopener">FAA — Become a Drone Pilot</a></td><td>Official step-by-step: study → test → certificate.</td></tr>
+</table></div>
+<div class="card"><h3>Weather briefings</h3>
+<table class="ref"><tr><th>Resource</th><th>What it's for</th></tr>
+<tr><td><a href="https://aviationweather.gov/" target="_blank" rel="noopener">AviationWeather.gov</a></td><td>METARs, TAFs, and area forecasts — practice decoding the same products referenced in exam weather questions.</td></tr>
+<tr><td><a href="https://www.1800wxbrief.com/" target="_blank" rel="noopener">1800wxbrief.com</a></td><td>Official FAA weather briefing portal (Leidos).</td></tr>
+</table></div>`,
+
  'Sectional legend':`
 <div class="card"><h3>Airspace lines & airport colors</h3>
 <table class="ref">
@@ -1303,6 +1338,61 @@ const REF={
 };
 
 /* ============================================================
+   INSTRUCTOR AUDIT (Part 107 CFI review — Jul 2026)
+============================================================ */
+const INSTRUCTOR_AUDIT=`
+<div class="card"><h3>📋 Instructor audit summary</h3>
+<p>Reviewed against <b>FAA-G-8082-22</b>, <b>14 CFR Part 107</b>, <b>FAA-CT-8080-2H</b>, PHAK, AIM, and the Chart User's Guide. Overall this guide is <b>accurate and exam-aligned</b> — airspace, sectional charts, and weather are well covered. Changes in this update address flashcard wording, removed duplicates, added missing high-yield facts, and linked official practice materials.</p></div>
+
+<div class="card"><h3>✅ Strengths</h3>
+<ul>
+<li><b>Topic coverage</b> matches the FAA knowledge test areas: regs, airspace, charts, weather, ADM, loading, signs, patterns, and newer rules (Remote ID, night, ops over people).</li>
+<li><b>Lessons build logically</b> — each module bridges to the next, which mirrors how concepts connect on the exam.</li>
+<li><b>Chart-reading quizzes with figures</b> closely resemble FAA-CT-8080-2H style questions — high value.</li>
+<li><b>Trick-distinction reference sheet</b> (FDC NOTAM vs TFR, SIDA vs authorization, manned equipment vs drone requirements) targets real distractors.</li>
+<li><b>Leitner flashcard system</b> is appropriate for memorizing numbers and symbols.</li>
+</ul></div>
+
+<div class="card"><h3>🔧 Issues fixed in this update</h3>
+<ul>
+<li><b>Flashcard duplicates removed</b> — Class C inner/outer shelf appeared twice in the airspace deck.</li>
+<li><b>Awkward card wording rewritten</b> — e.g., "Rate temp/dewpoint converge…" → clear exam-style prompts with context.</li>
+<li><b>Missing exam facts added</b> — VLOS, no medical required, night training requirement, all hazardous-attitude antidotes, TAF vs METAR, hyperventilation/hypoxia basics.</li>
+<li><b>Loading deck expanded</b> from 4 to 7 cards (battery cold, wind effects).</li>
+<li><b>Study resources section added</b> with links to FAA-G-8082-22, FAA-CT-8080-2H, sectional charts, Chart Supplement, LAANC, IACRA, and weather briefings.</li>
+<li><b>Cat 3 over moving vehicles</b> lesson clarified — was oversimplified.</li>
+</ul></div>
+
+<div class="card"><h3>⚠️ Remaining gaps to study elsewhere</h3>
+<p class="muted">These topics appear on the exam but have lighter coverage here — use the linked FAA study guide and PHAK for depth.</p>
+<ul>
+<li><b>NOTAM types</b> beyond TFRs (e.g., FDC NOTAMs amending charts/procedures) — partially in Trick distinctions; drill with real NOTAM examples.</li>
+<li><b>Emergency operations</b> — declaring an emergency, deviation authority (14 CFR 107.21).</li>
+<li><b>Waivers</b> — when and how to apply via DroneZone (mentioned but not quizzed heavily).</li>
+<li><b>Additional physiology</b> — middle-ear/block, decompression sickness (scuba + flying), carbon monoxide, spatial disorientation.</li>
+<li><b>Airport lighting</b> — beacon colors (civilian white/white, military white/green, etc.).</li>
+<li><b>Time zones other than Mountain</b> — exam questions may use Eastern, Central, or Pacific; practice converting with the same Zulu method.</li>
+<li><b>Full 60-question pool</b> — this app has 86 questions; the real exam draws from a larger FAA bank. Use PSI practice and the official supplement for variety.</li>
+</ul></div>
+
+<div class="card"><h3>📝 Quiz notes</h3>
+<ul>
+<li>Most questions are unambiguous with solid explanations. Figure-based chart questions are especially strong.</li>
+<li><b>Watch units</b> — statute miles vs nautical miles, MSL vs AGL, knots vs mph. The guide handles these well; keep drilling Key Numbers.</li>
+<li><b>Class B ceiling</b> is in MSL; Class C/D dimensions are often taught in AGL — the Trick distinctions sheet covers this; don't mix them on test day.</li>
+</ul></div>
+
+<div class="card"><h3>🎯 Highest-yield study order</h3>
+<ol>
+<li>Airspace + authorization (LAANC, UASFM grids)</li>
+<li>Sectional chart symbols &amp; airspace numbers (use FAA-CT-8080-2H)</li>
+<li>Weather (METAR/TAF, stability, density altitude)</li>
+<li>Regulations &amp; newer rules (Remote ID, night, categories)</li>
+<li>ADM acronyms &amp; hazardous attitudes</li>
+<li>Signs, patterns, Zulu time, loading</li>
+</ol></div>`;
+
+/* ============================================================
    STUDY TIPS
 ============================================================ */
 const TIPS=[
@@ -1311,7 +1401,7 @@ const TIPS=[
  ["🔁","Use spaced repetition, not cramming","Run the Cards tab daily. Missed cards drop to Box 1 and resurface fast; known cards climb and fade. Keep going until every deck is in the top box."],
  ["📊","Take full timed mock exams","Simulate 60 questions in one sitting (Quiz → Full Exam). Aim to consistently score 85%+ before booking — that cushion absorbs test-day nerves."],
  ["🔢","Memorize the numbers cold","The FAA writes lots of 'what is the maximum…' questions. The Reference → Key Numbers sheet is your highest points-per-minute study target."],
- ["🗺️","Get a real sectional and the FAA's test supplement","On the actual test you're given a chart supplement (FAA-CT-8080-2H). Practice with it so the legend and chart snippets feel familiar, not foreign."],
+ ["🗺️","Get a real sectional and the FAA's test supplement","On the actual test you're given a chart supplement (FAA-CT-8080-2H). Practice with it so the legend and chart snippets feel familiar, not foreign. Open <b>Reference → Study resources</b> for direct download links."],
  ["❓","Study your wrong answers, not your right ones","After every quiz, read the explanation for each miss and re-add that topic's deck. Your errors are a map of exactly what to review."],
  ["🧘","Plan logistics early","You'll register for a knowledge test at a PSI testing center and need an FTN (FAA Tracking Number) from IACRA first. Set that up well before test day so it isn't a surprise."],
  ["⏱️","Pace yourself: ~2 min/question","60 questions in 120 minutes. Flag the hard chart/weather ones, answer everything easy first, then circle back. Never leave a question blank."],
@@ -1489,7 +1579,7 @@ function finishQuiz(){
 }
 
 /* ---- Reference ---- */
-let curRef=Object.keys(REF)[0];
+let curRef='Study resources';
 function renderRefPills(){
  const p=el('refPills');p.innerHTML='';
  Object.keys(REF).forEach(k=>p.insertAdjacentHTML('beforeend',`<div class="pill ${k===curRef?'on':''}" onclick="setRef('${k.replace(/'/g,"\\'")}')">${k}</div>`));
@@ -1497,7 +1587,11 @@ function renderRefPills(){
 function setRef(k){curRef=k;renderRefPills();el('refBody').innerHTML=REF[k];}
 
 /* ---- Tips ---- */
+function renderAudit(){
+ el('auditBody').innerHTML=INSTRUCTOR_AUDIT;
+}
 function renderTips(){
+ renderAudit();
  el('tipsBody').innerHTML=TIPS.map(t=>`<div class="card"><h3>${t[0]} ${t[1]}</h3><p>${t[2]}</p></div>`).join('')
   +`<div class="card"><h3>📲 Add this to your iPhone home screen</h3><p>In Safari, tap the <b>Share</b> button → <b>Add to Home Screen</b>. It opens full-screen like an app, works offline, and your progress is saved on the device.</p></div>`;
 }
