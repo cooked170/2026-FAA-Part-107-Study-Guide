@@ -162,7 +162,8 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
 .catpill.c3{background:#fff3e0;color:#e65100}.catpill.c4{background:#f3e5f5;color:#6a1b9a}
 .drillscore{font-size:12px;color:var(--muted);text-align:center;margin-top:6px;}
 /* Coordinate + sectional training map */
-.sectional-map-wrap{position:relative;border:1px solid #c8d3dc;border-radius:12px;overflow:hidden;background:#f5f0d9;}
+.sectional-map-wrap{border:1px solid #c8d3dc;border-radius:12px;overflow-x:auto;overflow-y:hidden;background:#f5f0d9;}
+.sectional-map-stage{position:relative;min-width:560px;}
 .sectional-map-wrap svg{width:100%;height:auto;display:block;touch-action:manipulation;}
 .map-symbol{cursor:pointer;outline:none;}
 .map-symbol:focus .hit-ring,.map-symbol:hover .hit-ring{fill:rgba(244,167,47,.22);stroke:var(--accent);}
@@ -685,15 +686,17 @@ navmap:{title:'Maps, Direction & Coordinates (DMS)',icon:'🧭',html:`
 <div class="teach"><b>Use the edges before the symbols:</b> latitude is read on the left/right edge, longitude on the top/bottom. In the western hemisphere, longitude values <b>decrease as you move east (right)</b>. Find the latitude, find the longitude, then trace them to their intersection.</div>
 <div class="tool" id="coordMapTool">
  <div class="sectional-map-wrap" id="coordMapWrap">
-  <div id="coordMap" aria-label="Interactive sectional-style coordinate training chart"></div>
-  <div class="map-bubble" id="coordMapBubble" role="status" hidden></div>
+  <div class="sectional-map-stage">
+   <div id="coordMap" aria-label="Interactive sectional-style coordinate training chart"></div>
+   <div class="map-bubble" id="coordMapBubble" role="status" hidden></div>
+  </div>
  </div>
  <div class="map-mapkey" aria-label="Map color key">
   <span style="color:var(--blue)"><b>Blue</b> = tower / Class B</span>
   <span style="color:var(--magenta)"><b>Magenta</b> = no tower</span>
   <span><b>Brown</b> = obstruction</span>
  </div>
- <p class="map-note">Tap any airport, obstruction, VOR, checkpoint, or airspace label for a short explanation. This is a simplified learning chart using FAA-style symbols—not a current chart and not for navigation.</p>
+ <p class="map-note">Tap any airport, obstruction, VOR, checkpoint, or airspace label for a short explanation. On a phone, swipe the chart left/right to read it at full size. This is a simplified learning chart using FAA-style symbols—not a current chart and not for navigation.</p>
  <div class="map-qbox">
   <div class="eyebrow" id="coordMapQType">Coordinate hunt</div>
   <div class="prompt" id="coordMapQ"></div>
