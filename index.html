@@ -986,10 +986,10 @@ weather:{title:'Aviation Weather',icon:'⛅',html:`
 <tr><td>Observed surface weather at an airport</td><td><b>METAR</b>; an unscheduled <b>SPECI</b> reports a significant change</td><td>METAR = <b>ME</b>asured now</td></tr>
 <tr><td>Expected conditions within about 5 SM of a terminal</td><td><b>TAF</b>, normally a 24- or 30-hour forecast</td><td>TAF = <b>T</b>erminal <b>A</b>head <b>F</b>orecast</td></tr>
 <tr><td>Continuous local sensor observation</td><td><b>AWOS/ASOS</b>; automated systems also generate METAR observations</td><td>O/S = <b>O</b>bserving <b>S</b>ensors</td></tr>
-<tr><td>Local airport weather plus runway/airport information</td><td><b>ATIS</b>, a repeating recorded broadcast with an alphabetic code</td><td>ATIS = <b>A</b>irport <b>T</b>ape: <b>I</b>nfo + weather <b>S</b>ummary</td></tr>
+<tr><td>Local airport weather plus runway/airport information</td><td><b>ATIS</b>, a repeating recorded broadcast with an alphabetic code</td><td>Memory phrase: <b>A</b>irport <b>T</b>ape: <b>I</b>nfo + weather <b>S</b>ummary</td></tr>
 <tr><td>Actual conditions encountered aloft</td><td><b>PIREP</b> (pilot report)</td><td>Pilot experienced it</td></tr>
 <tr><td>Area observations, forecasts and hazards on a map</td><td><b>Graphical Forecasts for Aviation (GFA)</b> at AviationWeather.gov</td><td>GFA = graphical big picture</td></tr>
-<tr><td>A documented, complete preflight weather picture</td><td><b>Flight Service / 1800WXBRIEF</b> or a compliant self-briefing using authoritative sources</td><td>Brief broadly; then update locally</td></tr>
+<tr><td>A comprehensive preflight weather assessment</td><td><b>Flight Service / 1800WXBRIEF</b> or authoritative self-briefing sources</td><td>Brief broadly; then update locally</td></tr>
 </table>
 <div class="key"><b>Do not confuse the local sources:</b> <b>AWOS/ASOS sense weather</b>. <b>ATIS repeats weather plus operational airport information</b> such as runway in use, approaches and pertinent remarks. ATIS is updated when official hourly or special weather arrives and when important airport information changes. Its letter advances (Alpha, Bravo, Charlie…). It is useful local information, <b>not a substitute for a complete preflight review</b>.</div>
 <p class="muted">Wind-reference trap: METAR and TAF wind direction is <b>true</b>; tower, ATIS and airport wind indications are <b>magnetic</b>.</p>
@@ -1005,7 +1005,7 @@ weather:{title:'Aviation Weather',icon:'⛅',html:`
 </div>
 
 <h3>METAR / SPECI: current observations</h3>
-<p>First read the header: report type → station → day/time → modifier. Then use <b>WINS-T</b> for the body: <b>W</b>ind, vis<b>I</b>bility, sky/<b>N</b>imbus, temp/dewpoint <b>S</b>pread, al<b>T</b>imeter.</p>
+<p>First read the header: report type → station → day/time → modifier. Then scan the body with <b>“Winds View Weather; Skies Tell Altimeter”</b>: <b>W</b>ind → <b>V</b>isibility (and optional RVR) → <b>W</b>eather → <b>S</b>ky → <b>T</b>emperature/dewpoint → <b>A</b>ltimeter.</p>
 <p class="kbd" style="display:block;padding:8px">METAR KGGG 161753Z AUTO 14021G26KT 3/4SM +TSRA BR BKN008 OVC012CB 18/17 A2970 RMK PRESFR</p>
 <ul>
 <li><b>METAR</b> = scheduled observation; <b>SPECI</b> = unscheduled special observation when significant conditions change.</li>
@@ -1055,10 +1055,11 @@ weather:{title:'Aviation Weather',icon:'⛅',html:`
 <ul>
 <li><b>Convective SIGMET</b> → significant thunderstorm hazard; implies severe-or-greater turbulence, severe icing and low-level wind shear. Treat it as a clear no-go for small UA operations in the affected area.</li>
 <li><b>SIGMET</b> → non-convective hazards potentially dangerous to <b>all aircraft</b>, including severe icing, severe/extreme turbulence, volcanic ash, and qualifying dust/sandstorms.</li>
-<li><b>G-AIRMET</b> → graphical advisory for hazards generally less severe than SIGMET criteria, including moderate turbulence/icing and IFR or mountain-obscuration conditions. Current CONUS products are graphical; text AIRMETs remain in Alaska.</li>
+<li><b>G-AIRMET</b> → graphical advisory for hazards generally less severe than SIGMET criteria, including moderate turbulence/icing and IFR or mountain-obscuration conditions. CONUS snapshots are spaced 3 hours apart through 12 hours; text AIRMETs are used in Alaska and Hawaii.</li>
 <li><b>PIREP</b> → actual conditions reported aloft by a pilot. Valuable confirmation, but “no report” does not mean “no hazard.”</li>
 <li><b>Radar/satellite</b> show trends and structure; they do not replace current local observations or forecasts. Always check the image time because displayed data can be delayed.</li>
 </ul>
+<div class="key"><b>Timing and criteria:</b> Non-convective SIGMETs are normally valid 4 hours (6 hours for tropical cyclones and volcanic ash). CONUS Convective SIGMET bulletins issue hourly at H+55 and forecast up to 2 hours; they cover severe or embedded thunderstorms, qualifying lines or widespread areas of thunderstorms, and may be issued for other convection hazardous to all aircraft.</div>
 <div class="mnemonic"><div class="letters">G-AIRMET = ADVISORY · SIGMET = SIGNIFICANT · CONVECTIVE = STORMS</div>Classify the product before recalling details. For a drone, even an “advisory-level” hazard can exceed the aircraft's limits.</div>
 
 <h3>Pressure, temperature, moisture & density altitude</h3>
@@ -1086,7 +1087,7 @@ weather:{title:'Aviation Weather',icon:'⛅',html:`
 <h3>Moisture, icing and thunderstorms</h3>
 <ul>
 <li>Air reaches saturation when temperature cools to the dewpoint. Fog, dew, frost, cloud or precipitation may form.</li>
-<li><b>Frost must be removed before flight.</b> It disrupts airflow, reduces lift and increases drag. In-flight structural icing needs visible moisture and a surface at 0°C or colder; small UA are particularly vulnerable.</li>
+<li><b>Frost must be removed before flight.</b> It disrupts airflow, reduces lift and increases drag. Visible moisture plus an aircraft surface at 0°C or colder signals <b>icing potential</b>; structural ice forms when supercooled liquid water freezes on contact. Small UA are particularly vulnerable.</li>
 <li><b>Thunderstorm stages:</b> cumulus = updrafts; <b>mature = updrafts + downdrafts and maximum hazards</b>; dissipating = downdrafts. A storm can contain cells in different stages.</li>
 <li>Hazards include extreme turbulence, lightning, hail, heavy rain, reduced visibility, wind shear, microbursts and tornadoes. Avoid the entire area by a wide margin; a dissipating cell is not automatically safe.</li>
 </ul>
@@ -1339,7 +1340,7 @@ const DECKS={
  ["Low-level wind shear?","Rapid wind-speed and/or direction change near the ground; it can abruptly change aircraft attitude and performance."],
  ["Microburst clues?","Virga, intense rain shaft, or ring of blowing dust; expect a severe downdraft and changing outflow winds."],
  ["Where is obstruction turbulence usually worst?","On the downwind/lee side of buildings, trees, ridges, and other obstacles."],
- ["Two requirements for structural icing?","Visible moisture plus an aircraft surface at 0°C or colder."],
+ ["What conditions signal structural-icing potential?","Visible moisture plus an aircraft surface at 0°C or colder; supercooled liquid water freezing on contact forms the ice."],
  ["Frost before flight?","Remove it completely — frost reduces lift and increases drag."],
  ["Part 107 weather minimums?","At least 3 SM visibility; 500 ft below and 2,000 ft horizontally from clouds."],
  ["Five-look weather scan?","Now, Next, Nasty, Nearby, Numbers: observations, forecasts, hazards, local update, limits."],
@@ -1488,7 +1489,7 @@ const QUIZ={
   {q:"A Convective SIGMET in your operating area should be treated as:",opts:["A routine forecast","A no-go thunderstorm hazard","Proof that surface winds are calm","An airport closure notice"],a:1,e:"Convective SIGMETs identify significant convection and imply severe turbulence, severe icing and low-level wind shear."},
   {q:"Which is a common visible clue of a microburst?",opts:["Smooth layered cloud only","Virga or a ring of blowing dust","Rising pressure only","Clear sky with calm wind"],a:1,e:"Virga, an intense rain shaft, or blowing-dust ring can reveal severe downdraft/outflow."},
   {q:"Wind flowing past a hangar is most likely to create hazardous turbulence:",opts:["Only directly upwind","On the downwind/lee side","Only above 10,000 ft","Nowhere"],a:1,e:"Obstructions break up airflow and create eddies, gusts, and rapid shifts on their lee side."},
-  {q:"Structural icing requires:",opts:["High humidity only","Visible moisture and a surface at 0°C or colder","Rain at any temperature","A temperature inversion only"],a:1,e:"Both visible water and a freezing-or-colder aircraft surface are required."},
+  {q:"Which conditions should alert a remote pilot to structural-icing potential?",opts:["High humidity only","Visible moisture and an aircraft surface at 0°C or colder","Rain at any temperature","A temperature inversion only"],a:1,e:"These conditions signal icing potential; structural ice forms when supercooled liquid water freezes on contact with the aircraft."},
   {q:"Under Part 107, minimum flight visibility and cloud clearance are:",opts:["1 SM and clear of clouds","3 SM; 500 ft below and 2,000 ft horizontal","5 SM; 1,000 ft below","3 NM; 500 ft above"],a:1,e:"Remember 3–5–2: 3 SM visibility, 500 ft below, 2,000 ft horizontally."},
   {q:"A favorable TAF conflicts with a current SPECI showing rapidly falling visibility. Which should drive the immediate launch decision?",opts:["The favorable TAF","The current SPECI and observed local conditions","Yesterday's METAR","The original schedule"],a:1,e:"Forecasts support planning, but current representative observations and actual conditions control the immediate go/no-go decision."},
  ],
@@ -1766,7 +1767,7 @@ const INSTRUCTOR_AUDIT=`
 <li><b>Missing exam facts added</b> — VLOS, no medical required, night training requirement, all hazardous-attitude antidotes, TAF vs METAR, hyperventilation/hypoxia basics.</li>
 <li><b>Loading deck expanded</b> from 4 to 7 cards (battery cold, wind effects).</li>
 <li><b>Study resources section added</b> with links to FAA-G-8082-22, FAA-CT-8080-2H, sectional charts, Chart Supplement, LAANC, IACRA, and weather briefings.</li>
-<li><b>Teaching strategy tools added</b> — airspace scenario trainer, chart symbol drill (READ method), traffic pattern stepper, <b>ops-over-people category matcher</b>, Remote ID/night drill, <b>sign flash recognizer</b>, and <b>METAR field decoder</b> (WINS-T method).</li>
+<li><b>Teaching strategy tools added</b> — airspace scenario trainer, chart symbol drill (READ method), traffic pattern stepper, <b>ops-over-people category matcher</b>, Remote ID/night drill, <b>sign flash recognizer</b>, and <b>METAR field decoder</b>.</li>
 <li><b>Weather coverage expanded</b> — five-look source scan, ATIS/AWOS/ASOS distinctions, SPECI and TAF decoding, current hazard products, wind/terrain/icing effects, and retrieval drills for sources and forecast timelines.</li>
 <li><b>Cat 3 over moving vehicles</b> lesson clarified — was oversimplified.</li>
 </ul></div>
@@ -2401,7 +2402,7 @@ function signDrillNext(){sgIdx=(sgIdx+1)%SIGN_DRILLS.length;signDrillShow();}
 const METAR_DRILLS=[
  {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'121651Z',q:'The highlighted group means:',opts:['12th day, 1651 local time','12th day, 1651 Zulu (UTC)','Wind 121° at 651 kt','Visibility 12 SM'],a:1,e:'Format: DDHHMMZ — 12th day at 1651 Zulu. Z = UTC.'},
  {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'18012G20KT',q:'This wind group means:',opts:['From 180° true at 12 kt, gusts 20','From 180° magnetic at 12 mph','Calm winds','12 km/h from the south'],a:0,e:'DDDSSGSSKT — direction, speed, gust. METAR winds are in degrees true.'},
- {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'3SM',q:'3SM indicates:',opts:['3 statute miles visibility','3 nautical miles visibility','3,000 ft ceiling','Wind 3 knots'],a:0,e:'SM = statute miles. METAR visibility is always statute miles.'},
+ {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'3SM',q:'3SM indicates:',opts:['3 statute miles visibility','3 nautical miles visibility','3,000 ft ceiling','Wind 3 knots'],a:0,e:'SM = statute miles. U.S. METAR visibility is reported in statute miles.'},
  {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'BKN008',q:'BKN008 means:',opts:['Broken clouds at 800 ft AGL','Broken clouds at 8,000 ft','Few clouds at 800 ft','Overcast at 800 ft'],a:0,e:'BKN = broken. Height is hundreds of feet AGL → 008 = 800 ft.'},
  {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'OVC015',q:'OVC015 and BKN008 together — the ceiling is:',opts:['1,500 ft AGL','800 ft AGL','150 ft AGL','No ceiling'],a:1,e:'Ceiling = lowest BKN or OVC layer → BKN008 = 800 ft AGL.'},
  {raw:'METAR KORD 121651Z 18012G20KT 3SM BR BKN008 OVC015 12/11 A2992',hi:'12/11',q:'Temp 12°C / dewpoint 11°C — this suggests:',opts:['Dry air, clear skies','High humidity — fog/low clouds likely','Strong thunderstorms','High density altitude only'],a:1,e:'Small spread (1°C) = high humidity → fog or low clouds likely.'},
@@ -2476,7 +2477,7 @@ const WX_SOURCE_DRILLS=[
  {q:'You want actual turbulence or icing encountered by an aircraft aloft.',opts:['TAF','ATIS','PIREP','SPECI'],a:2,e:'A PIREP reports actual conditions encountered by a pilot.'},
  {q:'You need to identify significant thunderstorm hazards over an area.',opts:['Convective SIGMET','ATIS','AWOS','METAR remarks only'],a:0,e:'Convective SIGMETs identify significant convection hazardous to all aircraft.'},
  {q:'You want a graphical big-picture view of observations, forecasts, fronts, and advisories.',opts:['GFA at AviationWeather.gov','ATIS','UNICOM only','One airport METAR'],a:0,e:'The Graphical Forecasts for Aviation interface layers area weather and hazard products.'},
- {q:'You have not reviewed any weather yet and want a documented comprehensive briefing.',opts:['One ATIS recording','Flight Service / 1800WXBRIEF or a compliant authoritative self-brief','A single PIREP','Yesterday’s TAF'],a:1,e:'Begin broad with a complete briefing, then update current and local conditions before launch.'}
+ {q:'You have not reviewed any weather yet and want a comprehensive preflight assessment.',opts:['One ATIS recording','Flight Service / 1800WXBRIEF or authoritative self-briefing sources','A single PIREP','Yesterday’s TAF'],a:1,e:'Begin broad with a complete weather picture, then update current and local conditions before launch.'}
 ];
 let wxSourceIdx=0,wxSourceScore={ok:0,tot:0};
 function initWxSourceDrill(){wxSourceIdx=0;wxSourceScore={ok:0,tot:0};wxSourceShow();}
