@@ -161,6 +161,17 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
 .catpill.c1{background:#e8f5e9;color:#1b5e20}.catpill.c2{background:#e3f2fd;color:#0d47a1}
 .catpill.c3{background:#fff3e0;color:#e65100}.catpill.c4{background:#f3e5f5;color:#6a1b9a}
 .drillscore{font-size:12px;color:var(--muted);text-align:center;margin-top:6px;}
+.bank-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;}
+.bank-control{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;}
+.bank-control label{display:block;font-size:11px;font-weight:700;color:var(--navy2);margin-bottom:5px;}
+.bank-control input[type="number"]{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:15px;}
+.bank-control input[type="range"]{width:100%;accent-color:var(--navy);}
+.bank-viz{background:#eef3f8;border-radius:10px;margin:8px 0;overflow:hidden;}
+.bank-viz svg{width:100%;height:auto;display:block;}
+.formula{font-family:ui-monospace,Menlo,monospace;background:#16222e;color:#fff;border-radius:9px;padding:9px 10px;margin:7px 0;font-size:13px;overflow-x:auto;}
+.bank-results{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
+.bank-result{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 5px;text-align:center;font-size:11px;color:var(--muted);}
+.bank-result b{display:block;color:var(--navy);font-size:16px;}
 /* Coordinate + sectional training map */
 .sectional-map-wrap{border:1px solid #c8d3dc;border-radius:12px;overflow-x:auto;overflow-y:hidden;background:#f5f0d9;}
 .sectional-map-stage{position:relative;min-width:560px;}
@@ -333,7 +344,7 @@ const MODULES=[
  {id:'pattern',icon:'✈️',title:'Traffic Patterns',blurb:'Runways, pattern legs, radio',src:'PHAK / AIM Ch.4'},
  {id:'time',icon:'🕒',title:'Zulu Time & Supplement',blurb:'UTC↔local, chart supplement',src:'AIM / Chart Supp.'},
  {id:'weather',icon:'⛅',title:'Weather',blurb:'Sources, reports, hazards & performance',src:'FAA-G-8082-22 · AIM Ch. 4/7'},
- {id:'loading',icon:'⚖️',title:'Loading & Performance',blurb:'Weight, balance, limits',src:'FAA-G-8082-22'},
+ {id:'loading',icon:'⚖️',title:'Loading & Performance',blurb:'Banking, stalls, CG & limits',src:'FAA-G-8082-22 Ch. 4 & 8 / UAG'},
  {id:'adm',icon:'🧠',title:'ADM & CRM',blurb:'Decision-making, physiology',src:'FAA-G-8082-22'},
 ];
 
@@ -1157,26 +1168,83 @@ weather:{title:'Aviation Weather',icon:'⛅',html:`
 <div class="bridge"><b>Bridge →</b> Thin air and added cargo both reduce what your aircraft can do. That's the next module: <b>Loading & Performance</b>.</div>
 `},
 loading:{title:'Loading & Performance',icon:'⚖️',html:`
-<p class="lead">Fewer questions than airspace/weather, but easy points if you understand cause and effect.</p>
-<h3>Weight</h3>
+<p class="lead">The FAA sample test emphasizes bank-angle load factor, stalls, CG, and who must determine performance. Learn the relationships—not just the vocabulary.</p>
+
+<h3>Bank angle, load factor, and structural load</h3>
+<p><b>Load factor</b> is the ratio of total lift to aircraft weight and is expressed in Gs. Straight-and-level, unaccelerated flight is 1 G. In a <b>coordinated, constant-altitude turn</b>, the aircraft must create extra lift to support its weight while turning, so load factor rises with bank angle.</p>
+<div class="formula">Load factor (n) = 1 ÷ cos(bank angle)</div>
+<div class="formula">Load supported = aircraft weight × n</div>
+<table class="ref"><tr><th>Bank</th><th>Load factor</th><th>Structure supports</th></tr>
+<tr><td>0°</td><td>1.00 G</td><td>1.00 × weight</td></tr>
+<tr><td>30°</td><td>1.15 G</td><td>1.15 × weight</td></tr>
+<tr><td>45°</td><td>1.41 G</td><td>1.41 × weight</td></tr>
+<tr><td>60°</td><td>2.00 G</td><td>2.00 × weight</td></tr>
+<tr><td>80°</td><td>5.76 G</td><td>5.76 × weight</td></tr></table>
+<div class="key"><b>Test method:</b> Find the bank angle on FAA-CT-8080-2H Figure 2, read its load factor, then multiply by aircraft weight. Example: a 33 lb unmanned airplane at 30° bank supports about <b>33 × 1.154 = 38 lb</b>.</div>
 <ul>
-<li>Adding weight (payload, heavier battery) <b>reduces performance</b>: slower climb, reduced maneuverability, shorter flight time, longer stopping/turning.</li>
-<li>Never exceed the <b>manufacturer's maximum gross weight</b>, and remember the regulatory ceiling of <b>&lt;55 lb</b> total.</li>
+<li>Load factor climbs rapidly beyond about <b>45–50°</b>. A 90° constant-altitude turn is mathematically impossible because cos 90° is zero.</li>
+<li>Any maneuver away from unaccelerated straight-and-level flight can increase load factor; a steep turn or abrupt pull-up can overstress the structure.</li>
+<li>At the same bank angle in a coordinated level turn, load factor is the same regardless of airspeed, although turn radius and rate change.</li>
 </ul>
-<h3>Balance / center of gravity (CG)</h3>
+
+<div class="tool" id="bankTool">
+<b>⚖️ Banking &amp; stall-speed calculator</b>
+<p class="muted">Move the bank slider. This models a coordinated, constant-altitude fixed-wing turn—the condition tested by the FAA chart.</p>
+<div class="bank-controls">
+ <div class="bank-control"><label for="bankWeight">Aircraft weight (lb)</label><input id="bankWeight" type="number" min="0.1" max="54.9" step="0.1" value="33" oninput="bankSync()"></div>
+ <div class="bank-control"><label for="bankStall">Level stall speed (kt)</label><input id="bankStall" type="number" min="1" max="200" step="1" value="45" oninput="bankSync()"></div>
+</div>
+<div class="bank-control"><label for="bankAngle">Bank angle: <span id="bankAngleVal">30°</span></label><input id="bankAngle" type="range" min="0" max="80" step="1" value="30" oninput="bankSync()"></div>
+<div class="bank-viz" id="bankViz" aria-hidden="true"></div>
+<div class="bank-results">
+ <div class="bank-result"><b id="bankG">1.15 G</b>load factor</div>
+ <div class="bank-result"><b id="bankLoad">38.1 lb</b>supported load</div>
+ <div class="bank-result"><b id="bankVs">48.3 kt</b>turn stall speed</div>
+</div>
+<div class="readout" id="bankReadout"></div>
+</div>
+
+<h3>Stalls and accelerated stalls</h3>
+<p>A fixed-wing stall is <b>not caused simply by low speed, excess weight, or exceeding maximum speed</b>. It occurs when the wing exceeds its <b>critical angle of attack (AOA)</b>; airflow separates and lift drops rapidly. A wing can exceed critical AOA and stall at <b>any airspeed</b>.</p>
+<div class="formula">Turn stall speed = level stall speed × √load factor</div>
 <ul>
-<li>Load must stay within CG limits. An out-of-balance drone is <b>unstable and hard to control</b>.</li>
-<li>Shifting a payload changes the CG — secure loads so they can't move in flight.</li>
+<li>More load factor means a higher stall speed. At 2 G (60° level bank), stall speed is √2 ≈ <b>1.41 times</b> normal.</li>
+<li>This higher-speed stall is an <b>accelerated stall</b>. Steep turns and abrupt control inputs near the ground leave little recovery margin.</li>
+<li>Reduce the angle of attack to recover lift, then follow the aircraft manufacturer's recovery procedure and avoid abrupt loading.</li>
 </ul>
-<h3>Environmental effects (ties back to weather)</h3>
+<div class="bridge"><b>Aircraft-type distinction:</b> The FAA sample asks about an <b>unmanned airplane</b>. Multirotors do not stall a wing in the same way, but banking still tilts the thrust vector: they need more total thrust to hold altitude and consume more power. Respect the flight manual's tilt, wind, payload, and battery limits.</div>
+
+<h3>Weight, balance, and center of gravity</h3>
 <ul>
-<li><b>High density altitude</b> compounds a heavy load — both reduce climb and lift.</li>
-<li>Cold drains batteries; wind increases power draw and shortens range.</li>
+<li>Follow the <b>Pilot's Operating Handbook or UAS Flight Manual</b> for loading and CG limits—not the AIM or a generic handbook.</li>
+<li>The CG depends on weight distribution; it is not a permanently marked, fixed point. Secure payloads and account for anything shifted, released, or expended in flight.</li>
+<li>Overweight operation can compromise structural integrity and reduce takeoff, climb, ceiling, range, speed, maneuverability, and endurance while increasing stall/approach speeds and stopping distance.</li>
+<li>Never exceed the manufacturer's maximum gross weight. Part 107 also defines a small UAS as <b>less than 55 lb</b> at takeoff, including everything onboard or attached.</li>
 </ul>
-<div class="exq"><span class="lbl">Example problem</span>
-<p>How does adding payload weight affect a small UA's performance?</p>
+
+<h3>Performance is conditional</h3>
+<ul>
+<li><b>Maximum gross weight is not a promise of safe takeoff.</b> High elevation, high temperature, and high humidity raise density altitude and may require reducing weight.</li>
+<li>Also consider launch-area length, surface, slope, wind, obstacles, turbulence, precipitation, battery state/temperature, and the return-flight headwind.</li>
+<li>Thin air reduces wing/propeller effectiveness. A heavy payload plus high density altitude compounds the loss of climb and control margin.</li>
+<li>Manufacturer data may cover takeoff, climb, range, endurance, descent, and landing, but formats are not standardized. Use the data for the exact aircraft and configuration.</li>
+</ul>
+
+<h3>Remote PIC preflight workflow</h3>
+<div class="stepflow"><div class="step"><em>1</em>Manual limits</div><div class="step"><em>2</em>Total weight</div><div class="step"><em>3</em>CG &amp; security</div><div class="step"><em>4</em>Conditions</div><div class="step"><em>5</em>Margin &amp; test</div></div>
+<ol>
+<li>Use the aircraft's flight manual/loading instructions and verify the installed configuration.</li>
+<li>Add aircraft, battery, payload, mounts, and every attached item; stay within all limits.</li>
+<li>Verify CG remains in range throughout flight and secure the load.</li>
+<li>Adjust for density altitude, wind, surface/slope, obstacles, battery condition, and mission profile.</li>
+<li>The <b>remote PIC is responsible</b> for determining performance and ensuring a safe operating condition before flight. Reduce payload or cancel when margin is inadequate.</li>
+</ol>
+
+<div class="exq"><span class="lbl">Check your understanding</span>
+<p>A fixed-wing drone stalls at 45 kt in unaccelerated level flight. About what is its stall speed in a 60° coordinated level turn?</p>
 <div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
-<div class="ans">It degrades performance — reduced climb rate and maneuverability, increased power demand, and shorter flight time.</div></div>
+<div class="ans">About 64 kt. At 60°, n = 2 G, so 45 × √2 = 63.6 kt. The same turn also makes the structure support twice the aircraft's weight.</div></div>
+<p class="muted"><b>Validated sources:</b> FAA-G-8082-22 Chapters 4 and 8, FAA UAG sample questions, and FAA-CT-8080-2H Figure 2. The trigonometric formulas reproduce the values on the FAA load-factor chart.</p>
 <div class="bridge"><b>Bridge →</b> Knowing your aircraft's limits is half the job. The other half is judging yourself and the situation. Final module: <b>ADM & CRM</b>.</div>
 `},
 adm:{title:'Decision-Making, CRM & Physiology',icon:'🧠',html:`
@@ -1397,13 +1465,26 @@ const DECKS={
  ["Five-look weather scan?","Now, Next, Nasty, Nearby, Numbers: observations, forecasts, hazards, local update, limits."],
  ],
  loading:[
-  ["Effect of adding payload weight?","Reduced climb rate, maneuverability, and flight time; more power needed."],
-  ["Why stay within CG limits?","Out-of-balance aircraft is unstable and difficult to control."],
-  ["Heavy payload + high density altitude together?","Performance loss compounds — significantly reduced climb and lift."],
-  ["What can shift CG during flight?","An unsecured or shifting payload."],
-  ["Never exceed what weight limits?","Manufacturer's max gross weight AND the regulatory < 55 lb total."],
-  ["Cold weather effect on batteries?","Reduced capacity and voltage — shorter flight time; plan accordingly."],
-  ["Wind effect on loaded drone?","Increases power draw, reduces range, and stresses motors."],
+  ["What is load factor?","Total lift divided by aircraft weight, expressed in Gs. Unaccelerated straight-and-level flight is 1 G."],
+  ["Load factor formula for a coordinated level turn?","n = 1 ÷ cos(bank angle). It applies to a coordinated, constant-altitude turn."],
+  ["How do you find the structural load in a bank?","Aircraft weight × load factor. Example: 33 lb × 1.154 at 30° ≈ 38 lb."],
+  ["Load factor at 30° of bank?","About 1.15 G."],
+  ["Load factor at 45° of bank?","About 1.41 G."],
+  ["Load factor at 60° of bank?","2.0 G — the structure supports twice the aircraft weight."],
+  ["When does bank-angle load factor begin rising rapidly?","Beyond roughly 45–50° of bank."],
+  ["What maneuvers can increase wing load factor?","Maneuvers other than unaccelerated straight-and-level flight, such as steep turns or abrupt pull-ups."],
+  ["What actually causes a fixed-wing stall?","Exceeding the wing's critical angle of attack, which separates airflow and rapidly reduces lift."],
+  ["Can an airplane stall at a high airspeed?","Yes. Critical AOA can be exceeded at any airspeed; added load factor creates an accelerated stall."],
+  ["How does load factor change stall speed?","New stall speed = normal stall speed × √load factor."],
+  ["At 2 G, how much higher is stall speed?","√2 ≈ 1.41 times normal (about 41% higher)."],
+  ["Where do you find aircraft-specific CG and loading limits?","The Pilot's Operating Handbook or UAS Flight Manual."],
+  ["Is the center of gravity a fixed marked point?","No. CG location changes with the distribution, movement, or release of weight."],
+  ["Effect of adding payload weight?","Reduced takeoff/climb, ceiling, range, speed, maneuverability, and endurance; higher stall/approach speeds and more power demand."],
+  ["Does being below maximum gross weight guarantee safe takeoff?","No. Density altitude, launch surface/slope, wind, obstacles, battery condition, and other conditions may require less weight."],
+  ["Heavy payload + high density altitude together?","Performance losses compound; reduce weight or do not fly if safe margin is inadequate."],
+  ["Who is responsible for determining small-UA performance before flight?","The remote pilot in command."],
+  ["Fixed-wing stall theory vs multirotor banking?","A multirotor does not stall a wing the same way, but bank tilts its thrust vector, requiring more thrust and power to hold altitude."],
+  ["Part 107 total-weight boundary?","A small UAS must be less than 55 lb at takeoff, including everything onboard or attached; also obey the manufacturer's lower limits."],
  ],
  adm:[
   ["5 hazardous attitudes (memory: AIIMR)?","Anti-authority, Impulsivity, Invulnerability, Macho, Resignation."],
@@ -1547,9 +1628,22 @@ const QUIZ={
   {q:"A favorable TAF conflicts with a current SPECI showing rapidly falling visibility. Which should drive the immediate launch decision?",opts:["The favorable TAF","The current SPECI and observed local conditions","Yesterday's METAR","The original schedule"],a:1,e:"Forecasts support planning, but current representative observations and actual conditions control the immediate go/no-go decision."},
  ],
  loading:[
-  {q:"Adding payload weight to a drone will:",opts:["Improve climb performance","Reduce performance and flight time","Have no effect","Increase top speed"],a:1,e:"More weight = reduced climb/maneuverability and shorter flight time."},
-  {q:"Loading outside CG limits makes the aircraft:",opts:["More stable","Unstable and hard to control","Faster","More efficient"],a:1,e:"Out-of-balance = unstable and difficult to control."},
-  {q:"A heavy payload combined with high density altitude will:",opts:["Cancel each other out","Greatly reduce climb/lift performance","Improve handling","Extend flight time"],a:1,e:"Both reduce lift/climb — the effects compound."},
+  {q:"In a coordinated, constant-altitude turn, load factor is calculated as:",opts:["Weight ÷ bank angle","1 ÷ cosine of bank angle","Bank angle × airspeed","Square root of aircraft weight"],a:1,e:"n = 1/cos(bank angle). Structural load is then aircraft weight × n."},
+  {q:"A 33 lb unmanned airplane makes a 30° banked turn while maintaining altitude. The structure supports approximately:",opts:["29 lb","33 lb","38 lb","47 lb"],a:2,e:"The 30° load factor is about 1.154. 33 × 1.154 ≈ 38 lb."},
+  {q:"The load factor in a coordinated, constant-altitude 60° bank is:",opts:["1.15 G","1.41 G","2.0 G","5.76 G"],a:2,e:"1/cos(60°) = 2 G. The structure supports twice the aircraft weight."},
+  {q:"At which bank angle does load factor equal approximately 1.41 G?",opts:["15°","30°","45°","60°"],a:2,e:"At 45°, 1/cos(45°) ≈ 1.41 G."},
+  {q:"For a given bank angle in a coordinated level turn, increasing airspeed will:",opts:["Increase load factor","Decrease load factor","Leave load factor unchanged while changing turn rate/radius","Always cause a stall"],a:2,e:"Bank angle determines the level-turn load factor. Airspeed changes the turn's rate and radius."},
+  {q:"An unmanned airplane wing stalls when it:",opts:["Exceeds its critical angle of attack","Drops below maximum gross weight","Exceeds maximum speed","Banks more than 30°"],a:0,e:"A stall is caused by exceeding critical AOA, disrupting smooth airflow and rapidly reducing lift."},
+  {q:"Which statement about fixed-wing stalls is correct?",opts:["They occur only below the published stall speed","They are caused only by excess weight","They can occur at any airspeed if critical AOA is exceeded","They cannot occur in a turn"],a:2,e:"Critical AOA—not one particular airspeed—causes the stall. High load factor can produce an accelerated stall at a higher speed."},
+  {q:"A fixed-wing UA stalls at 50 kt in unaccelerated level flight. Its approximate stall speed at 2 G is:",opts:["35 kt","50 kt","71 kt","100 kt"],a:2,e:"Stall speed rises with √n: 50 × √2 ≈ 70.7 kt."},
+  {q:"When operating an unmanned airplane, wing load factor may increase when the airplane:",opts:["Is maneuvered away from unaccelerated straight-and-level flight","Has its gross weight reduced","Is parked with the CG aft","Uses a lighter payload"],a:0,e:"Turns, pull-ups, and other accelerated maneuvers can increase load factor."},
+  {q:"To ensure the aircraft's CG limits are not exceeded, the remote PIC should follow:",opts:["The Aeronautical Information Manual","A generic weight-and-balance textbook","The Pilot's Operating Handbook or UAS Flight Manual","The sectional chart legend"],a:2,e:"Aircraft-specific loading and CG instructions belong in its POH or UAS Flight Manual."},
+  {q:"Which statement about center of gravity is true?",opts:["It is fixed permanently at the aircraft's geometric center","It changes when payload weight is shifted or released","It affects only battery endurance","It does not affect stability"],a:1,e:"CG depends on weight distribution. Shifting, consuming, or releasing an item can move it outside approved limits."},
+  {q:"A drone is below its published maximum gross weight. Which conclusion is valid?",opts:["Safe takeoff is guaranteed","No performance calculation is needed","Conditions may still require reducing weight","The remote PIC is no longer responsible for performance"],a:2,e:"High density altitude, wind, launch surface/slope, obstacles, and battery condition can make a below-limit load unsafe."},
+  {q:"Which combination most degrades takeoff and climb performance?",opts:["Low elevation, cool dry air, light load","High elevation, hot humid air, heavy load","Sea level, cool air, light load","Low density altitude and headwind"],a:1,e:"High, hot, humid conditions raise density altitude; combining thin air with a heavy load compounds performance loss."},
+  {q:"For a multirotor holding altitude while banking, the key performance effect is that:",opts:["Its fixed wing reaches critical AOA","Its tilted thrust requires more total thrust and power","Its load factor must remain exactly 1 G","Its battery gains endurance"],a:1,e:"Banking tilts the thrust vector, so more total thrust—and therefore power—is needed to preserve the vertical component."},
+  {q:"Who is responsible for determining whether a small UA can safely perform the planned operation?",opts:["The payload owner","Air traffic control","The remote pilot in command","The battery manufacturer"],a:2,e:"The remote PIC must determine performance and verify the small UAS is in a safe operating condition before flight."},
+  {q:"Operating above maximum weight can result in:",opts:["Better climb and a lower stall speed","Reduced structural stress","Reduced climb, range, and maneuverability with a higher stall speed","No change if the CG is centered"],a:2,e:"Excess weight degrades nearly every performance measure and can compromise structural integrity."},
  ],
  adm:[
   {q:"\"I can do it\" reflects which hazardous attitude?",opts:["Impulsivity","Macho","Resignation","Anti-authority"],a:1,e:"Macho. Antidote: taking chances is foolish."},
@@ -1752,6 +1846,9 @@ const REF={
 <tr><td>Alcohol</td><td>8 hr bottle-to-throttle, BAC &lt; 0.04</td></tr>
 <tr><td>Cat 1 weight</td><td>≤ 0.55 lb</td></tr>
 <tr><td>Cat 2 / Cat 3 injury</td><td>≤ 11 ft-lb / ≤ 25 ft-lb</td></tr>
+<tr><td>30° bank load factor</td><td>1.15 G</td></tr>
+<tr><td>45° bank load factor</td><td>1.41 G</td></tr>
+<tr><td>60° bank load factor</td><td>2.00 G</td></tr>
 </table></div>`,
 
  'Acronyms':`
@@ -1797,7 +1894,8 @@ const REF={
 <tr><td>Class B/C equipment (transponder, ADS-B)</td><td>14 CFR Part 91</td></tr>
 <tr><td>SIDA / airport security access</td><td>TSA — 49 CFR Part 1542</td></tr>
 <tr><td>Weather sources, products &amp; effects</td><td>FAA-G-8082-22 / FAA-H-8083-28B / AIM Ch. 4 &amp; 7 / AviationWeather.gov</td></tr>
-<tr><td>Loading &amp; ADM</td><td>FAA-G-8082-22</td></tr>
+<tr><td>Loading, load factors, stalls &amp; performance</td><td>FAA-G-8082-22 Ch. 4 &amp; 8 / FAA-CT-8080-2H Figure 2 / UAG samples</td></tr>
+<tr><td>ADM</td><td>FAA-G-8082-22</td></tr>
 <tr><td>Official test figures</td><td>FAA-CT-8080-2H</td></tr>
 </table></div>`
 };
@@ -1823,7 +1921,7 @@ const INSTRUCTOR_AUDIT=`
 <li><b>Flashcard duplicates removed</b> — Class C inner/outer shelf appeared twice in the airspace deck.</li>
 <li><b>Awkward card wording rewritten</b> — e.g., "Rate temp/dewpoint converge…" → clear exam-style prompts with context.</li>
 <li><b>Missing exam facts added</b> — VLOS, no medical required, night training requirement, all hazardous-attitude antidotes, TAF vs METAR, hyperventilation/hypoxia basics.</li>
-<li><b>Loading deck expanded</b> from 4 to 7 cards (battery cold, wind effects).</li>
+<li><b>Loading &amp; Performance expanded</b> with FAA sample-test concepts: bank-angle load factor, structural load, accelerated stalls, CG, aircraft-specific data, and environmental limits.</li>
 <li><b>Study resources section added</b> with links to FAA-G-8082-22, FAA-CT-8080-2H, sectional charts, Chart Supplement, LAANC, IACRA, and weather briefings.</li>
 <li><b>Teaching strategy tools added</b> — airspace scenario trainer, chart symbol drill (READ method), traffic pattern stepper, <b>ops-over-people category matcher</b>, Remote ID/night drill, <b>sign flash recognizer</b>, and <b>METAR field decoder</b>.</li>
 <li><b>Weather coverage expanded</b> — five-look source scan, ATIS/AWOS/ASOS distinctions, SPECI and TAF decoding, current hazard products, wind/terrain/icing effects, and retrieval drills for sources and forecast timelines.</li>
@@ -1839,7 +1937,7 @@ const INSTRUCTOR_AUDIT=`
 <li><b>Additional physiology</b> — middle-ear/block, decompression sickness (scuba + flying), carbon monoxide, spatial disorientation.</li>
 <li><b>Airport lighting</b> — beacon colors (civilian white/white, military white/green, etc.).</li>
 <li><b>Time zones other than Mountain</b> — exam questions may use Eastern, Central, or Pacific; practice converting with the same Zulu method.</li>
-<li><b>Full 60-question pool</b> — this app has 86 questions; the real exam draws from a larger FAA bank. Use PSI practice and the official supplement for variety.</li>
+<li><b>Full 60-question pool</b> — this app has 100+ questions; the real exam draws from a larger FAA bank. Use PSI practice and the official supplement for variety.</li>
 </ul></div>
 
 <div class="card"><h3>📝 Quiz notes</h3>
@@ -1919,6 +2017,7 @@ function openLesson(id){
  if(id==='signs')setTimeout(initSignDrill,30);
  if(id==='weather'){setTimeout(initMetarDrill,30);setTimeout(initTafDrill,30);setTimeout(initWxSourceDrill,30);}
  if(id==='time')setTimeout(initZuluDrill,30);
+ if(id==='loading')setTimeout(initBankTool,30);
 }
 
 /* ---- Flashcards (Leitner) ---- */
@@ -2186,6 +2285,45 @@ function revealZulu(){
  if(a){a.textContent=h24+' local  =  '+h12+':'+String(z.m).padStart(2,'0')+' '+ap+' '+(z.dst?'MDT':'MST')+dayNote;a.classList.add('show');}
 }
 function initZuluDrill(){newZulu();}
+
+/* ---- Interactive: bank angle, load factor & stall speed ---- */
+function bankSync(){
+ const angleInput=el('bankAngle'),weightInput=el('bankWeight'),stallInput=el('bankStall');
+ if(!angleInput||!weightInput||!stallInput)return;
+ const angle=Math.max(0,Math.min(80,Number(angleInput.value)||0));
+ const weight=Math.max(0.1,Number(weightInput.value)||0.1);
+ const levelStall=Math.max(1,Number(stallInput.value)||1);
+ const radians=angle*Math.PI/180;
+ const factor=1/Math.cos(radians);
+ const supported=weight*factor;
+ const turnStall=levelStall*Math.sqrt(factor);
+ el('bankAngleVal').textContent=angle+'°';
+ el('bankG').textContent=factor.toFixed(2)+' G';
+ el('bankLoad').textContent=supported.toFixed(1)+' lb';
+ el('bankVs').textContent=turnStall.toFixed(1)+' kt';
+ const warning=angle>=60?' <b style="color:var(--bad)">Steep-bank warning:</b> load and stall speed are rising rapidly.':angle>=45?' Load factor begins rising rapidly beyond this range.':'';
+ el('bankReadout').innerHTML=`At <b>${angle}°</b>: n = 1 ÷ cos(${angle}°) = <b>${factor.toFixed(3)} G</b>. `+
+  `${weight.toFixed(1)} lb × ${factor.toFixed(3)} = <b>${supported.toFixed(1)} lb</b> supported by the structure. `+
+  `Stall-speed multiplier = √${factor.toFixed(3)} = <b>${Math.sqrt(factor).toFixed(3)}×</b>.${warning}`;
+ const viz=el('bankViz');
+ if(viz)viz.innerHTML=`<svg viewBox="0 0 320 145" role="img" aria-label="Aircraft banked ${angle} degrees">
+  <rect width="320" height="145" fill="#eaf3fb"/>
+  <line x1="22" y1="105" x2="298" y2="105" stroke="#7d9a6d" stroke-width="3"/>
+  <text x="294" y="98" text-anchor="end" font-size="10" fill="#5d6b78">level horizon</text>
+  <path d="M160 105 A35 35 0 0 1 ${160+35*Math.sin(radians)} ${105-35*Math.cos(radians)}" fill="none" stroke="#f4a72f" stroke-width="3"/>
+  <text x="181" y="88" font-size="11" font-weight="700" fill="#9a6a00">${angle}°</text>
+  <g transform="rotate(${angle} 160 68)">
+   <line x1="105" y1="68" x2="215" y2="68" stroke="#0b3d66" stroke-width="7" stroke-linecap="round"/>
+   <path d="M146 67 L160 51 L174 67 L160 74 Z" fill="#2f86c5"/>
+   <circle cx="113" cy="68" r="8" fill="none" stroke="#16222e" stroke-width="2"/>
+   <circle cx="207" cy="68" r="8" fill="none" stroke="#16222e" stroke-width="2"/>
+  </g>
+  <line x1="160" y1="72" x2="160" y2="126" stroke="#d6453d" stroke-width="2"/>
+  <path d="M155 120 L160 130 L165 120" fill="#d6453d"/>
+  <text x="168" y="127" font-size="10" fill="#d6453d">weight</text>
+ </svg>`;
+}
+function initBankTool(){bankSync();}
 
 /* ---- Interactive: Airspace scenario trainer ---- */
 const AS_SCENARIOS=[
