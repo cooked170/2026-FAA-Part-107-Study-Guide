@@ -355,7 +355,7 @@ regs:{title:'Regulations & Operating Limits',icon:'📋',html:`
 <ul>
 <li><b>Remote pilot certificate</b>: be at least <b>16</b>, able to read/speak/write/understand English, in a physical/mental condition to fly safely, and pass TSA vetting.</li>
 <li><b>Aircraft weight</b>: less than <b>55 lb</b> total (drone + payload) at takeoff.</li>
-<li><b>Registration</b>: required if the drone weighs <b>0.55 lb (250 g) or more</b>. $5, valid <b>3 years</b>. Mark the registration number on the exterior.</li>
+<li><b>Registration</b>: <b>every drone flown under Part 107</b> must be registered, even at or below 0.55 lb. The 0.55 lb exception applies only to aircraft flown exclusively under the recreational exception. Part 107 registration is $5 per aircraft, valid <b>3 years</b>; mark the number on the exterior.</li>
 </ul>
 <div class="key"><b>Recurrent training:</b> Your knowledge stays current by completing the <b>free online training every 24 calendar months</b> (course ALC-677 on FAASafety.gov). The old in-person retest is gone.</div>
 <h3>Operating limitations (memorize the numbers)</h3>
@@ -385,46 +385,55 @@ regs:{title:'Regulations & Operating Limits',icon:'📋',html:`
 <div class="bridge"><b>Bridge →</b> These limits assume normal conditions. The next module, <b>Newer Rules</b>, covers the exceptions the FAA added recently — flying <i>at night</i>, <i>over people</i>, and the <i>Remote ID</i> broadcast requirement.</div>
 `},
 newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html:`
-<p class="lead">These are the rules most likely to trip up someone who studied a few years ago. The FAA leans on them now.</p>
+<p class="lead">These are the rules most likely to trip up someone using pre-2021 material. Learn the rule that is in force—not a headline about a proposed rule.</p>
+
+<div class="key"><b>2026 exam-status check:</b> The Operations Over People/Night rule took effect <b>April 21, 2021</b>. Remote ID operator compliance began <b>September 16, 2023</b>, and the FAA's temporary enforcement discretion ended <b>March 16, 2024</b>. A June 2025 FAA review aligned UAG questions with the current ACS and FAA handbooks but <b>did not change UAG topics</b>. The FAA's August 2025 BVLOS/Part 108 proposal is <b>not a final rule</b>: for the exam, Part 107 still requires VLOS unless the FAA grants a waiver.</div>
 
 <div class="teach"><b>How to learn newer rules:</b>
 <ol style="margin:8px 0;padding-left:18px">
-<li><b>Remote ID first</b> — three compliance paths (drone, module, FRIA).</li>
-<li><b>Categories by risk</b> — lighter/safer = lower category number. Cat 1 is easiest; Cat 4 needs an airworthiness certificate.</li>
-<li><b>Ask two questions</b> for ops-over-people: <i>Which category is my drone?</i> then <i>Is this situation allowed for that category?</i></li>
-<li><b>Night = training + lights</b> — both required, no waiver.</li>
-<li><b>Drill below</b> until category matching is instant.</li>
+<li><b>Remote ID first:</b> remember <i>built in, add on, special zone</i>—Standard RID, broadcast module, FRIA.</li>
+<li><b>Categories by evidence:</b> Cat 1 is weight/design; Cats 2–3 require FAA-accepted compliance; Cat 4 requires an airworthiness certificate.</li>
+<li><b>Ask three questions over people:</b> Is the aircraft eligible? Who/what is below? Is the flight merely transiting or sustained?</li>
+<li><b>Night = training + lights.</b> Controlled airspace authorization is a separate question.</li>
+<li><b>Run ADM before launch:</b> PAVE finds the hazards; I’M SAFE zooms in on the pilot; 3P turns findings into action.</li>
 </ol></div>
 
 <div class="mnemonic"><div class="letters">1 · 2 · 3 · 4</div>
-<p style="margin:6px 0 0"><b>1</b> = ≤0.55 lb &nbsp;·&nbsp; <b>2</b> = ≤11 ft-lb &nbsp;·&nbsp; <b>3</b> = ≤25 ft-lb (crowd limits) &nbsp;·&nbsp; <b>4</b> = airworthiness certificate</p></div>
+<p style="margin:6px 0 0"><b>1</b> = ≤0.55 lb &nbsp;·&nbsp; <b>2</b> = 11 ft-lb injury-severity threshold &nbsp;·&nbsp; <b>3</b> = 25 ft-lb threshold + location limits &nbsp;·&nbsp; <b>4</b> = Part 21 airworthiness certificate</p></div>
 
 <h3>Remote ID (RID)</h3>
-<p>Think of Remote ID as a digital license plate that <b>broadcasts</b> over radio frequency so anyone nearby (and the FAA) can identify your drone in flight.</p>
+<p>Think of Remote ID as a <b>local broadcast digital license plate</b>. A nearby receiver can receive the message; this is not the same as filing a flight plan or using ADS-B.</p>
 <ul>
-<li>Required for <b>all drones that must be registered</b>.</li>
-<li>It broadcasts: drone ID, drone <b>latitude/longitude/altitude</b>, drone <b>velocity</b>, the <b>control station</b> location & elevation, a <b>time mark</b>, and emergency status.</li>
+<li>Aircraft that are registered or required to be registered must comply. Because <b>every Part 107 aircraft must be registered regardless of weight</b>, every Part 107 aircraft must comply unless operating under an allowed alternative such as a FRIA or specific FAA authorization.</li>
+<li><b>Standard RID (built in)</b> broadcasts from takeoff to shutdown: aircraft ID, aircraft position/geometric altitude/velocity, <b>control-station</b> position/elevation, time mark, and emergency status.</li>
+<li><b>Broadcast module (add on)</b> broadcasts module serial number, aircraft position/geometric altitude/velocity, <b>takeoff-location</b> position/elevation, and time mark. The pilot must keep the aircraft within VLOS.</li>
+<li><b>FRIA (special zone)</b>: both the pilot and non-RID aircraft stay inside the FRIA and the pilot maintains VLOS. An RID-equipped aircraft must keep broadcasting even inside a FRIA.</li>
 </ul>
-<div class="key"><b>Three ways to comply:</b> ① fly a <b>Standard Remote ID drone</b> (broadcasts built-in); ② attach a <b>Remote ID broadcast module</b>; ③ fly within an <b>FAA-Recognized Identification Area (FRIA)</b> — and keep the drone within VLOS.</div>
+<div class="key"><b>RID memory hooks:</b> Standard = <b>station moves</b>; module = <b>launch point stays</b>. Verify RID before takeoff. If it stops broadcasting in flight, <b>land as soon as practicable</b>.</div>
 
 <h3>Operations over people — visual ladder</h3>
-<p>Each step up = more capability but stricter proof of safety:</p>
+<p>“Over” means directly over any part of a person. First exclude direct participants and people protected by a covered structure or stationary covered vehicle; then use the applicable category:</p>
 <svg viewBox="0 0 400 200" class="diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Operations over people category ladder">
 <rect width="400" height="200" fill="#fafbfc"/>
 <g font-family="sans-serif" font-size="10">
 <rect x="20" y="140" width="80" height="44" fill="#e8f5e9" stroke="#1f9d57" stroke-width="2" rx="4"/><text x="60" y="158" text-anchor="middle" font-weight="700" fill="#1b5e20">CAT 1</text><text x="60" y="174" text-anchor="middle" fill="#1b5e20">≤0.55 lb</text>
-<rect x="110" y="110" width="80" height="74" fill="#e3f2fd" stroke="#2f6fd6" stroke-width="2" rx="4"/><text x="150" y="128" text-anchor="middle" font-weight="700" fill="#0d47a1">CAT 2</text><text x="150" y="144" text-anchor="middle" fill="#0d47a1">≤11 ft-lb</text><text x="150" y="174" text-anchor="middle" fill="#0d47a1">over people ✓</text>
-<rect x="200" y="75" width="80" height="109" fill="#fff3e0" stroke="#f4a72f" stroke-width="2" rx="4"/><text x="240" y="93" text-anchor="middle" font-weight="700" fill="#e65100">CAT 3</text><text x="240" y="109" text-anchor="middle" fill="#e65100">≤25 ft-lb</text><text x="240" y="155" text-anchor="middle" fill="#e65100">no open-air</text><text x="240" y="169" text-anchor="middle" fill="#e65100">assemblies</text>
+<rect x="110" y="110" width="80" height="74" fill="#e3f2fd" stroke="#2f6fd6" stroke-width="2" rx="4"/><text x="150" y="128" text-anchor="middle" font-weight="700" fill="#0d47a1">CAT 2</text><text x="150" y="144" text-anchor="middle" fill="#0d47a1">11 ft-lb threshold</text><text x="150" y="174" text-anchor="middle" fill="#0d47a1">over people ✓</text>
+<rect x="200" y="75" width="80" height="109" fill="#fff3e0" stroke="#f4a72f" stroke-width="2" rx="4"/><text x="240" y="93" text-anchor="middle" font-weight="700" fill="#e65100">CAT 3</text><text x="240" y="109" text-anchor="middle" fill="#e65100">25 ft-lb threshold</text><text x="240" y="155" text-anchor="middle" fill="#e65100">no open-air</text><text x="240" y="169" text-anchor="middle" fill="#e65100">assemblies</text>
 <rect x="290" y="30" width="90" height="154" fill="#f3e5f5" stroke="#b4318a" stroke-width="2" rx="4"/><text x="335" y="48" text-anchor="middle" font-weight="700" fill="#6a1b9a">CAT 4</text><text x="335" y="100" text-anchor="middle" fill="#6a1b9a">Part 21</text><text x="335" y="116" text-anchor="middle" fill="#6a1b9a">airworthiness</text><text x="335" y="132" text-anchor="middle" fill="#6a1b9a">certificate</text>
 </g>
-<text x="200" y="18" font-family="sans-serif" font-size="11" font-weight="700" fill="#46586a" text-anchor="middle">Risk ladder — higher step = more requirements</text>
+<text x="200" y="18" font-family="sans-serif" font-size="11" font-weight="700" fill="#46586a" text-anchor="middle">Eligibility ladder — each category has different proof and limits</text>
 </svg>
 <table class="ref"><tr><th>Cat</th><th>Key requirement</th><th>Over people?</th></tr>
-<tr><td><b>1</b></td><td>≤ 0.55 lb (250 g), no exposed rotating parts that can lacerate</td><td>Yes — unrestricted over people</td></tr>
-<tr><td><b>2</b></td><td>Injury ≤ <b>11 ft-lb</b>, no lacerating parts, FAA-accepted means of compliance</td><td>Yes — over people (not sustained over open assemblies for some ops)</td></tr>
-<tr><td><b>3</b></td><td>Injury ≤ <b>25 ft-lb</b>, no lacerating parts</td><td>Limited — not over open-air assemblies; closed/restricted sites or brief transit only</td></tr>
-<tr><td><b>4</b></td><td>Has an airworthiness certificate, operated per its limitations</td><td>Yes — per certificate limitations</td></tr></table>
-<p><b>Over moving vehicles:</b> permitted for Cat 1–2 under their rules; Cat 3 is more limited (no sustained flight over open-air assemblies). Cat 4 follows its airworthiness limitations.</p>
+<tr><td><b>1</b></td><td>≤ 0.55 lb (250 g) throughout flight, including attachments; no exposed rotating parts that would lacerate skin</td><td>Yes; sustained flight over an open-air assembly also requires RID broadcasting</td></tr>
+<tr><td><b>2</b></td><td>Below the <b>11 ft-lb injury-severity threshold</b>; no lacerating parts or safety defects; FAA-accepted Declaration of Compliance, label and instructions</td><td>Yes; sustained flight over an open-air assembly also requires RID broadcasting</td></tr>
+<tr><td><b>3</b></td><td>Below the <b>25 ft-lb injury-severity threshold</b>; same compliance evidence as Cat 2</td><td>Never over open-air assemblies; otherwise only under the location/transit limits below</td></tr>
+<tr><td><b>4</b></td><td>Part 21 airworthiness certificate; maintained and operated under its approved limitations</td><td>Only if limitations allow; sustained flight over an open-air assembly also requires RID broadcasting</td></tr></table>
+<div class="teach"><b>Do not self-certify Cat 2 or 3 by doing kinetic-energy math.</b> The number describes an <i>injury-severity threshold</i>, not simply the aircraft's raw impact energy. Verify the aircraft/configuration has an FAA-accepted Declaration of Compliance, the proper category label, and current operating instructions.</div>
+<ul>
+<li><b>Category 3 location rule:</b> either (1) use a closed/restricted-access site where everyone is on notice, or (2) do not sustain flight over anyone except a direct participant or someone protected by a covered structure/stationary vehicle. Cat 3 is never allowed over an open-air assembly.</li>
+<li><b>Sustained vs transit:</b> hovering, circling, or repeated passes are sustained. A brief, one-time crossing incidental to an unrelated point-to-point flight is not sustained.</li>
+<li><b>Moving vehicles, Cats 1–3:</b> either remain within/over a closed or restricted-access site and notify every person in a moving vehicle, or do not maintain sustained flight over moving vehicles. Cat 4 follows its approved limitations.</li>
+</ul>
 
 <h3>🛠 Practice: category & scenario matcher</h3>
 <p class="muted">Read each drone scenario — pick the correct category, then answer the follow-up restriction question.</p>
@@ -458,18 +467,36 @@ newreg:{title:'Newer Rules: Remote ID, Ops Over People & Night',icon:'🆕',html
 
 <h3>Night & civil twilight operations</h3>
 <ul>
-<li>Night flight is allowed <b>without a waiver</b> if you have completed the <b>updated recurrent/initial training</b> AND the drone has <b>anti-collision lighting visible for 3 statute miles</b> with a flash rate sufficient to avoid collision.</li>
-<li><b>Civil twilight</b> (roughly 30 min before sunrise / after sunset) operations also require that anti-collision lighting.</li>
+<li>Night flight is allowed without a waiver when the remote PIC has completed the <b>updated initial knowledge test or required recurrent training</b> and the aircraft has <b>anti-collision lighting visible for at least 3 statute miles</b> with a flash rate sufficient to avoid collision.</li>
+<li><b>Civil twilight</b> is the period from the published beginning of morning civil twilight to sunrise, and from sunset to the published end of evening civil twilight. Use the Air Almanac; “about 30 minutes” is only a memory aid. The same lighting rule applies.</li>
+<li>The aircraft must be <b>equipped</b> with compliant lighting. The remote PIC may reduce its intensity in flight only when doing so is in the interest of safety, such as preventing glare that harms VLOS.</li>
+<li>Night permission does <b>not</b> replace controlled-airspace authorization. If the location is in Class B, C, D, or surface Class E, obtain authorization separately.</li>
 </ul>
 <div class="exq"><span class="lbl">Example problem</span>
 <p>To operate a small UA at night under Part 107, the aircraft must be equipped with anti-collision lighting visible for at least how far?</p>
 <div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
 <div class="ans">3 statute miles, with a flash rate sufficient to avoid a collision.</div></div>
+
+<h3>ADM: turn rules into a safe decision</h3>
+<p><b>Aeronautical Decision-Making (ADM)</b> is the systematic mental process of choosing the best action for the circumstances. It is not a waiver and not one checklist—it is the decision process that uses tools such as PAVE, I’M SAFE, and 3P.</p>
+<div class="mnemonic"><div class="letters">PAVE → I’M SAFE → 3P</div>
+<p style="margin:6px 0 0">Scan the whole mission → inspect the pilot → act on the risk. Think of PAVE as the <b>wide-angle lens</b> and I’M SAFE as the <b>zoom lens</b> on P.</p></div>
+<table class="ref"><tr><th>Tool</th><th>Meaning</th><th>Drone-pilot prompts</th></tr>
+<tr><td><b>PAVE</b></td><td><b>P</b>ilot · <b>A</b>ircraft · en<b>V</b>ironment · <b>E</b>xternal pressures</td><td>Am I fit/current? Is the drone legal, charged and capable? What about weather, airspace, people and obstacles? Is a client, schedule or “must finish” attitude pushing me?</td></tr>
+<tr><td><b>I’M SAFE</b></td><td><b>I</b>llness · <b>M</b>edication · <b>S</b>tress · <b>A</b>lcohol · <b>F</b>atigue · <b>E</b>motion</td><td>Any symptom, drug side effect, distraction, alcohol or aftereffect, tiredness, or strong emotion that can impair judgment? Some FAA material uses E for Eating; nutrition/hydration still matter.</td></tr>
+<tr><td><b>3P</b></td><td><b>P</b>erceive · <b>P</b>rocess · <b>P</b>erform</td><td>Find the hazard → judge likelihood/severity → eliminate, mitigate, delay, divert, land or cancel.</td></tr></table>
+<div class="exq"><span class="lbl">ADM example</span>
+<p>A client insists on one more low-battery pass over moving traffic as gusts increase. How do the tools organize the decision?</p>
+<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div>
+<div class="ans"><b>PAVE:</b> aircraft battery, gusty environment and client pressure are hazards; I’M SAFE checks whether stress/fatigue is weakening the pilot; <b>3P:</b> perceive them, process their combined risk, then perform the safe response—land and delay or redesign the shot. External pressure never changes a regulation or battery limit.</div></div>
+
 <h3>Waivers & authorizations</h3>
 <ul>
-<li>Many limits (e.g., BVLOS, over people without meeting a category, ops from moving vehicle over populated areas) can be <b>waived</b> via FAA if you show you can do it safely.</li>
-<li>To fly in <b>controlled airspace</b>, get authorization — fastest is <b>LAANC</b> (near-real-time) or DroneZone.</li>
+<li>A <b>waiver</b> permits deviation from a listed operating rule after an FAA safety case; an <b>airspace authorization</b> grants access to controlled airspace. They are not interchangeable.</li>
+<li>Waiver provisions include VLOS, operations over people/moving vehicles outside category conditions, and portions of the night rule. Until a waiver is issued, follow the ordinary rule.</li>
+<li>For controlled airspace, use <b>LAANC</b> where available or apply through DroneZone. Do not call the tower for permission.</li>
 </ul>
+<p class="muted"><b>Validated sources:</b> current <a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-F/part-107" target="_blank" rel="noopener">14 CFR Part 107</a> and <a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-F/part-89" target="_blank" rel="noopener">Part 89</a>; <a href="https://www.faa.gov/uas/commercial_operators/operations_over_people" target="_blank" rel="noopener">FAA Operations Over People overview</a>; <a href="https://www.faa.gov/uas/getting_started/remote_id" target="_blank" rel="noopener">FAA Remote ID</a>; <a href="https://www.faa.gov/documentLibrary/media/Advisory_Circular/AC_107-2A_Editorial_Update.pdf" target="_blank" rel="noopener">AC 107-2A</a>; FAA Pilot’s Handbook of Aeronautical Knowledge, Chapter 2; and the FAA June 2025 Airman Testing Community Advisory.</p>
 <div class="bridge"><b>Bridge →</b> "Controlled airspace" just came up. To know <i>where</i> you need authorization, you need to read the sky like a pilot. Next: <b>Airspace</b>.</div>
 `},
 airspace:{title:'The Airspace System (A–G)',icon:'🛫',html:`
@@ -1256,8 +1283,8 @@ adm:{title:'Decision-Making, CRM & Physiology',icon:'🧠',html:`
 <tr><td>Invulnerability</td><td>"It won't happen to me."</td><td>It could happen to me.</td></tr>
 <tr><td>Macho</td><td>"I can do it."</td><td>Taking chances is foolish.</td></tr>
 <tr><td>Resignation</td><td>"What's the use?"</td><td>I'm not helpless; I can make a difference.</td></tr></table>
-<h3>Self-assessment: IMSAFE</h3>
-<p><b>I</b>llness · <b>M</b>edication · <b>S</b>tress · <b>A</b>lcohol · <b>F</b>atigue · <b>E</b>motion. If any are a problem, don't fly.</p>
+<h3>Self-assessment: I’M SAFE</h3>
+<p><b>I</b>llness · <b>M</b>edication · <b>S</b>tress · <b>A</b>lcohol · <b>F</b>atigue · <b>E</b>motion. If a factor could impair safe operation, mitigate it or do not fly. Some FAA material uses E for Eating; nutrition and hydration still matter.</p>
 <h3>Risk assessment: PAVE & 3P</h3>
 <ul>
 <li><b>PAVE</b>: <b>P</b>ilot, <b>A</b>ircraft, en<b>V</b>ironment, <b>E</b>xternal pressures.</li>
@@ -1288,7 +1315,7 @@ const DECKS={
   ["Min visibility from the control station?","3 statute miles (not nautical)."],
   ["Required cloud clearance under Part 107?","500 ft below clouds and 2,000 ft horizontally from clouds."],
   ["Min age for a remote pilot certificate?","16 years old."],
-  ["At what weight must a drone be registered?","0.55 lb (250 g) or more — mark the registration number on the exterior."],
+  ["Which drones must be registered for Part 107?","Every drone flown under Part 107, regardless of weight. The ≤0.55 lb exception is only for aircraft flown exclusively under the recreational exception."],
   ["Max total weight of a small UA (drone + payload)?","Less than 55 lb at takeoff."],
   ["How often is recurrent knowledge training required?","Every 24 calendar months — free online course on FAASafety.gov (ALC-677)."],
   ["When must you report an accident to the FAA?","Within 10 days: serious injury/loss of consciousness, OR ≥ $500 property damage (excluding the drone)."],
@@ -1301,16 +1328,23 @@ const DECKS={
   ["When must you show your remote pilot certificate?","On request by FAA, NTSB, TSA, or any law enforcement officer."],
  ],
  newreg:[
-  ["What does Remote ID broadcast in flight?","Drone ID, drone lat/long/altitude, velocity, control-station location & elevation, time mark, and emergency status."],
-  ["Three ways to comply with Remote ID?","① Standard Remote ID drone ② Remote ID broadcast module ③ Fly inside an FAA-Recognized Identification Area (FRIA)."],
-  ["Who needs Remote ID?","Any drone that must be registered (≥ 0.55 lb) — unless flying in a FRIA."],
-  ["Category 1 ops-over-people — weight limit?","≤ 0.55 lb (250 g) with no exposed rotating parts that can lacerate skin."],
-  ["Category 2 — max kinetic energy on impact?","≤ 11 ft-lb; no lacerating exposed parts; FAA-accepted means of compliance."],
-  ["Category 3 — max kinetic energy on impact?","≤ 25 ft-lb; cannot fly over open-air assemblies; only closed/restricted sites or brief transit over people."],
-  ["Category 4 ops-over-people requirement?","Airworthiness certificate issued under Part 21; operated per its limitations."],
+  ["Three ways to meet Remote ID requirements?","① Standard Remote ID aircraft ② Remote ID broadcast module ③ Non-RID aircraft operated entirely inside a FRIA with the pilot inside and VLOS maintained."],
+  ["Standard RID vs broadcast module location?","Standard RID broadcasts the live control-station location; a module broadcasts the aircraft's takeoff location. Both broadcast aircraft position, altitude, velocity, ID and a time mark."],
+  ["Who needs Remote ID under Part 107?","Every Part 107 aircraft must be registered regardless of weight, so each must comply unless an allowed alternative such as FRIA operation or specific FAA authorization applies."],
+  ["Remote ID stops broadcasting in flight—what action?","Land as soon as practicable. RID must function from takeoff to shutdown."],
+  ["Category 1 ops-over-people requirements?","≤0.55 lb throughout the operation, including attachments, with no exposed rotating parts that would lacerate skin."],
+  ["Category 2 injury-severity threshold?","Less severe than the injury caused by 11 ft-lb transferred on impact; also no lacerating parts/safety defects and an FAA-accepted Declaration of Compliance."],
+  ["Category 3 injury-severity threshold and main limit?","Less severe than the injury caused by 25 ft-lb transferred on impact; never over an open-air assembly and subject to location/sustained-flight limits."],
+  ["Can a pilot calculate impact energy and self-certify Cat 2/3?","No. Verify the aircraft/configuration's FAA-accepted Declaration of Compliance, category label and operating instructions."],
+  ["Category 4 ops-over-people requirement?","Part 21 airworthiness certificate; maintained and operated within approved limitations that permit the operation."],
+  ["Sustained flight over an open-air assembly?","Cat 1, 2 or 4 requires RID broadcasting; Cat 3 is never permitted. Brief incidental one-time transit is not sustained flight."],
+  ["When may Cat 1–3 fly over people in moving vehicles?","At a closed/restricted-access site with vehicle occupants on notice, or when not maintaining sustained flight over moving vehicles."],
   ["Night ops — what lighting is required?","Anti-collision lighting visible for 3 statute miles, with a flash rate sufficient to avoid collision."],
   ["Night ops — what training is required?","Updated initial or recurrent training (covers night rules) — no waiver needed if both training and lighting are met."],
-  ["Civil twilight — what extra requirement?","Same anti-collision lighting as night (visible 3 SM). Roughly 30 min before sunrise / after sunset."],
+  ["Civil twilight — what extra requirement?","The same anti-collision lighting as night, visible for at least 3 SM. Use published civil-twilight times; 30 minutes is only approximate."],
+  ["ADM, PAVE and I’M SAFE relationship?","ADM is the systematic decision process; PAVE scans Pilot, Aircraft, enVironment and External pressures; I’M SAFE examines the Pilot factor."],
+  ["I’M SAFE?","Illness, Medication, Stress, Alcohol, Fatigue, Emotion (some FAA sources use E for Eating)."],
+  ["PAVE?","Pilot, Aircraft, enVironment, External pressures."],
   ["Fastest way to get controlled-airspace authorization?","LAANC — near-real-time approval via FAA-approved apps using UAS Facility Maps."],
   ["LAANC can't approve your grid — what next?","Apply through DroneZone; further FAA review may be required."],
  ],
@@ -1493,7 +1527,7 @@ const DECKS={
   ["Antidote to Invulnerability?","It could happen to me."],
   ["Antidote to Macho?","Taking chances is foolish."],
   ["Antidote to Resignation?","I'm not helpless — I can make a difference."],
-  ["IMSAFE checklist?","Illness, Medication, Stress, Alcohol, Fatigue, Emotion."],
+  ["I’M SAFE checklist?","Illness, Medication, Stress, Alcohol, Fatigue, Emotion."],
   ["PAVE risk model?","Pilot, Aircraft, enVironment, External pressures."],
   ["3P decision model?","Perceive hazards → Process risk → Perform the best response."],
   ["DECIDE model?","Detect, Estimate, Choose a course, Identify solutions, Do it, Evaluate."],
@@ -1510,7 +1544,7 @@ const DECKS={
 const QUIZ={
  regs:[
   {q:"The maximum allowable groundspeed for a small UA is:",opts:["87 knots","100 knots","60 knots","45 knots"],a:0,e:"87 knots (100 mph). Watch units."},
-  {q:"A small UA must be registered if it weighs at least:",opts:["0.25 lb","0.55 lb","2 lb","5 lb"],a:1,e:"0.55 lb (250 g) or more requires registration."},
+  {q:"Which aircraft must be registered when flown under Part 107?",opts:["Only aircraft over 0.55 lb","Only aircraft carrying a payload","Every aircraft, regardless of weight","Only aircraft with a camera"],a:2,e:"Every Part 107 aircraft must be registered. The ≤0.55 lb exception applies only when flown exclusively under the recreational exception."},
   {q:"The maximum altitude for Part 107 operations is generally:",opts:["500 ft AGL","400 ft MSL","400 ft AGL","1,000 ft AGL"],a:2,e:"400 ft AGL, or within 400 ft of a structure you may go 400 ft above its top."},
   {q:"An accident causing $700 in property damage must be reported to the FAA within:",opts:["24 hours","10 days","30 days","No report needed"],a:1,e:"≥ $500 damage (or serious injury) → report within 10 days."},
   {q:"Minimum flight visibility from the control station is:",opts:["1 SM","3 SM","5 SM","No minimum"],a:1,e:"3 statute miles."},
@@ -1524,10 +1558,17 @@ const QUIZ={
   {q:"To fly at night, the drone must have anti-collision lighting visible for at least:",opts:["1 SM","3 SM","5 SM","No requirement"],a:1,e:"3 statute miles, flashing to avoid collision."},
   {q:"Which is NOT a way to comply with Remote ID?",opts:["Standard Remote ID drone","Broadcast module","Filing a NOTAM before each flight","Flying within a FRIA"],a:2,e:"The three methods are standard RID drone, broadcast module, or a FRIA."},
   {q:"A Category 1 drone for operations over people must weigh:",opts:["≤ 0.55 lb (250 g)","≤ 2 lb","≤ 5 lb","Any weight"],a:0,e:"Cat 1 ≤ 0.55 lb with no exposed lacerating parts."},
-  {q:"Remote ID broadcasts all of the following EXCEPT:",opts:["Drone location/altitude","Control station location","Pilot's home address","Velocity & time mark"],a:2,e:"It broadcasts the control station location, not the pilot's home address."},
+  {q:"Which location does an add-on Remote ID broadcast module transmit?",opts:["Pilot's home address","Live control-station location","Aircraft's takeoff location","Nearest airport"],a:2,e:"A module transmits the takeoff location; Standard RID transmits the control-station location."},
+  {q:"A Part 107 aircraft weighs 0.4 lb. Which statement is correct?",opts:["No registration or RID is required","Registration is required, so it must comply with RID","RID applies only at night","Only Category 2 registration applies"],a:1,e:"All Part 107 aircraft must be registered regardless of weight; registered aircraft must comply with RID."},
+  {q:"Remote ID stops broadcasting after takeoff. The pilot must:",opts:["Continue if below 400 ft","File a NOTAM after landing","Land as soon as practicable","Turn on ADS-B Out"],a:2,e:"Remote ID must broadcast from takeoff to shutdown; if it fails in flight, land as soon as practicable."},
   {q:"Category 3 operations over people:",opts:["Are unrestricted","Cannot be conducted over open-air assemblies","Require no compliance","Allow sustained flight over crowds"],a:1,e:"Cat 3 cannot fly over open-air assemblies; only closed sites or brief transit."},
+  {q:"How does a pilot establish that an aircraft is eligible for Category 2 or 3?",opts:["Calculate kinetic energy personally","Verify the FAA-accepted Declaration of Compliance, label and instructions","Ask a visual observer","Register it as Category 1"],a:1,e:"Cat 2/3 eligibility requires formal FAA-accepted compliance; a pilot does not self-certify from a calculation."},
+  {q:"For sustained flight over an open-air assembly, which statement is correct?",opts:["Cat 3 is allowed with LAANC","Cat 1, 2 and 4 require RID broadcasting; Cat 3 is prohibited","Every category is unrestricted","A visual observer replaces RID"],a:1,e:"Cat 1/2/4 need RID broadcasting for sustained flight over an open-air assembly; Cat 3 cannot operate there."},
+  {q:"For Category 1–3 operations over moving vehicles, one permitted condition is:",opts:["The aircraft remains under 100 mph","The operation does not maintain sustained flight over moving vehicles","The pilot files a flight plan","Every occupant holds a remote pilot certificate"],a:1,e:"Either avoid sustained flight over moving vehicles or use a closed/restricted-access site with occupants on notice."},
   {q:"Civil twilight operations require:",opts:["A waiver","Anti-collision lighting","No special equipment","A visual observer only"],a:1,e:"Anti-collision lighting visible for 3 SM, same as night."},
   {q:"To fly at night under Part 107 without a waiver, you must:",opts:["File a NOTAM only","Complete updated FAA training and use anti-collision lighting","Use a visual observer only","Obtain LAANC authorization"],a:1,e:"Night ops require updated initial/recurrent training plus 3 SM anti-collision lighting."},
+  {q:"PAVE identifies hazards in which four areas?",opts:["Pilot, Aircraft, enVironment, External pressures","Plan, Altitude, Visibility, Equipment","People, Airspace, Vehicles, Emergencies","Pilot, Authorization, Velocity, Endurance"],a:0,e:"PAVE = Pilot, Aircraft, enVironment, External pressures. I’M SAFE expands the Pilot check."},
+  {q:"I’M SAFE is primarily used to evaluate:",opts:["Aircraft airworthiness","Pilot fitness for flight","Remote ID signal strength","Airspace authorization"],a:1,e:"Illness, Medication, Stress, Alcohol, Fatigue, Emotion—an honest pilot self-assessment."},
  ],
  airspace:[
   {q:"Which airspace requires NO authorization for a drone?",opts:["Class B","Class C","Class D","Class G"],a:3,e:"Class G is uncontrolled — no authorization needed."},
@@ -1647,7 +1688,7 @@ const QUIZ={
  ],
  adm:[
   {q:"\"I can do it\" reflects which hazardous attitude?",opts:["Impulsivity","Macho","Resignation","Anti-authority"],a:1,e:"Macho. Antidote: taking chances is foolish."},
-  {q:"IMSAFE is a checklist for:",opts:["Aircraft preflight","Pilot self-assessment","Airspace check","Weather briefing"],a:1,e:"Illness, Medication, Stress, Alcohol, Fatigue, Emotion."},
+  {q:"I’M SAFE is a checklist for:",opts:["Aircraft preflight","Pilot self-assessment","Airspace check","Weather briefing"],a:1,e:"Illness, Medication, Stress, Alcohol, Fatigue, Emotion."},
   {q:"PAVE stands for Pilot, Aircraft, enVironment, and:",opts:["Energy","External pressures","Equipment","Endurance"],a:1,e:"External pressures (e.g., 'the client is waiting')."},
   {q:"The antidote to the 'Invulnerability' attitude is:",opts:["Follow the rules","It could happen to me","Not so fast","I'm not helpless"],a:1,e:"Invulnerability → 'It could happen to me.'"},
   {q:"Alcohol rule for remote pilots:",opts:["No rules apply","8 hours bottle-to-throttle, BAC < 0.04","24 hours abstinence","BAC < 0.08"],a:1,e:"8 hours bottle-to-throttle and BAC under 0.04; never impaired."},
@@ -1837,7 +1878,7 @@ const REF={
 <tr><td>Max groundspeed</td><td>87 kt / 100 mph</td></tr>
 <tr><td>Min visibility</td><td>3 SM</td></tr>
 <tr><td>Cloud clearance</td><td>500 ft below, 2,000 ft horizontal</td></tr>
-<tr><td>Registration weight</td><td>≥ 0.55 lb (250 g)</td></tr>
+<tr><td>Part 107 registration</td><td>Every aircraft, regardless of weight</td></tr>
 <tr><td>Max aircraft weight</td><td>&lt; 55 lb</td></tr>
 <tr><td>Min pilot age</td><td>16</td></tr>
 <tr><td>Recurrent training</td><td>Every 24 calendar months</td></tr>
@@ -1845,7 +1886,7 @@ const REF={
 <tr><td>Night lighting visible</td><td>3 SM</td></tr>
 <tr><td>Alcohol</td><td>8 hr bottle-to-throttle, BAC &lt; 0.04</td></tr>
 <tr><td>Cat 1 weight</td><td>≤ 0.55 lb</td></tr>
-<tr><td>Cat 2 / Cat 3 injury</td><td>≤ 11 ft-lb / ≤ 25 ft-lb</td></tr>
+<tr><td>Cat 2 / Cat 3 injury threshold</td><td>11 ft-lb / 25 ft-lb severity reference</td></tr>
 <tr><td>30° bank load factor</td><td>1.15 G</td></tr>
 <tr><td>45° bank load factor</td><td>1.41 G</td></tr>
 <tr><td>60° bank load factor</td><td>2.00 G</td></tr>
@@ -1855,7 +1896,7 @@ const REF={
 <div class="card"><h3>Decision-making models</h3>
 <table class="ref">
 <tr><th>Model</th><th>Expansion</th></tr>
-<tr><td>IMSAFE</td><td>Illness, Medication, Stress, Alcohol, Fatigue, Emotion</td></tr>
+<tr><td>I’M SAFE</td><td>Illness, Medication, Stress, Alcohol, Fatigue, Emotion</td></tr>
 <tr><td>PAVE</td><td>Pilot, Aircraft, enVironment, External pressures</td></tr>
 <tr><td>3P</td><td>Perceive, Process, Perform</td></tr>
 <tr><td>DECIDE</td><td>Detect, Estimate, Choose, Identify, Do, Evaluate</td></tr>
@@ -2580,26 +2621,26 @@ function initPatternStepper(){psLeg='upwind';psRedraw();}
 /* ---- Interactive: Newer rules — category matcher ---- */
 const NR_SCENARIOS=[
  {scenario:'A drone weighs <b>0.4 lb (180 g)</b> with fully enclosed prop guards — no exposed lacerating rotating parts.',cat:1,
-  followQ:'May this Category 1 drone conduct sustained operations over people?',followOpts:['Yes — Cat 1 is permitted over people','No — never over people','Only with a waiver','Only in a FRIA'],followA:0,
-  followE:'Category 1 (≤0.55 lb, no lacerating exposed parts) may fly over people without the crowd restrictions that apply to Cat 3.'},
- {scenario:'A <b>2.2 lb</b> drone has a kinetic energy of <b>9 ft-lb</b> on impact and an <b>FAA-accepted Declaration of Compliance</b>.',cat:2,
-  followQ:'What is the maximum impact energy allowed for Category 2?',followOpts:['11 ft-lb','25 ft-lb','0.55 lb','55 lb'],followA:0,
-  followE:'Category 2 limit is ≤11 ft-lb kinetic energy on impact, with no lacerating exposed parts and FAA-accepted means of compliance.'},
- {scenario:'A <b>4 lb</b> drone has <b>20 ft-lb</b> impact energy, no lacerating exposed parts, and meets Cat 3 requirements.',cat:3,
+  followQ:'May it sustain flight over one nonparticipant who is not part of an open-air assembly?',followOpts:['Yes — if all Cat 1 requirements are met','No — never over a person','Only with a waiver','Only in a FRIA'],followA:0,
+  followE:'Category 1 may operate over people. Sustained flight over an open-air assembly is a separate case and requires RID broadcasting.'},
+ {scenario:'A <b>2.2 lb</b> aircraft is labeled Category 2, has current instructions, and its configuration appears on an <b>FAA-accepted Declaration of Compliance</b>.',cat:2,
+  followQ:'Could the pilot establish Category 2 eligibility using only a personal impact-energy calculation?',followOpts:['No — formal FAA-accepted compliance is required','Yes — any calculator is enough','Yes — if under 25 ft-lb','Only at night'],followA:0,
+  followE:'Category 2 uses the 11 ft-lb injury-severity reference, but the pilot verifies the accepted Declaration of Compliance, label, configuration and instructions rather than self-certifying.'},
+ {scenario:'A <b>4 lb</b> aircraft is labeled Category 3 and its exact configuration is covered by an <b>FAA-accepted Declaration of Compliance</b>.',cat:3,
   followQ:'May this Category 3 drone fly over an open-air concert (open-air assembly)?',followOpts:['Yes, unrestricted','No — not over open-air assemblies','Yes, with LAANC only','Yes, at night only'],followA:1,
-  followE:'Category 3 cannot operate over open-air assemblies. Only closed/restricted-access sites or brief transit over individuals.'},
+  followE:'Category 3 can never operate over an open-air assembly. Elsewhere, it must satisfy the closed/restricted-site or no-sustained-flight conditions.'},
  {scenario:'A UAS holds a <b>Special Airworthiness Certificate</b> issued under Part 21 and will be operated per its approved limitations.',cat:4,
   followQ:'Category 4 operations must comply with:',followOpts:['Only Part 107 basic rules','The airworthiness certificate limitations','No restrictions','Remote ID waiver only'],followA:1,
   followE:'Category 4 requires an airworthiness certificate — you must operate within that certificate\'s limitations.'},
  {scenario:'A drone weighs exactly <b>0.55 lb (250 g)</b> with protected props — the maximum for Category 1.',cat:1,
   followQ:'If it weighed 0.56 lb instead, could it still be Category 1?',followOpts:['Yes','No — over the 0.55 lb Cat 1 limit','Only at night','Only over vehicles'],followA:1,
   followE:'Category 1 requires ≤0.55 lb (250 g). Even slightly over requires a higher category (if compliance can be demonstrated).'},
- {scenario:'A <b>3 lb</b> drone with <b>24 ft-lb</b> impact energy and no lacerating parts.',cat:3,
-  followQ:'Category 3 impact energy limit is:',followOpts:['11 ft-lb','25 ft-lb','0.55 lb','100 ft-lb'],followA:1,
-  followE:'Category 3 = ≤25 ft-lb. Category 2 = ≤11 ft-lb. Know both numbers — the FAA tests them directly.'},
- {scenario:'A <b>1.8 lb</b> racing drone with exposed carbon-fiber blades and <b>8 ft-lb</b> impact energy plus FAA-accepted compliance.',cat:2,
-  followQ:'Why is this NOT Category 1 even though it is under 2 lb?',followOpts:['Too fast','Over 0.55 lb weight limit for Cat 1','Needs a medical certificate','Remote ID not installed'],followA:1,
-  followE:'Category 1 max weight is 0.55 lb — this drone is too heavy regardless of impact energy.'}
+ {scenario:'A manufacturer-labeled <b>Category 3</b> drone has no exposed lacerating parts or known safety defect and is listed on an FAA-accepted Declaration of Compliance.',cat:3,
+  followQ:'Which injury-severity reference belongs to Category 3?',followOpts:['11 ft-lb','25 ft-lb','0.55 lb','100 ft-lb'],followA:1,
+  followE:'Category 3 uses the 25 ft-lb injury-severity reference; Category 2 uses 11 ft-lb. These are not permission to self-certify from raw impact energy.'},
+ {scenario:'A <b>1.8 lb</b> aircraft is labeled Category 2, has protected rotors and current instructions, and is listed on an FAA-accepted Declaration of Compliance.',cat:2,
+  followQ:'Why can this NOT qualify for Category 1?',followOpts:['Too fast','Over the 0.55 lb Category 1 limit','Needs a medical certificate','Remote ID not installed'],followA:1,
+  followE:'Category 1 max weight is 0.55 lb throughout the flight, including everything attached. A compliant heavier aircraft may instead qualify for Category 2 or 3.'}
 ];
 let nrIdx=0,nrPick=null,nrScore={ok:0,tot:0},nrPhase='cat';
 function initNewregDrill(){nrIdx=0;nrScore={ok:0,tot:0};nrPick=null;nrPhase='cat';nrShow();}
@@ -2652,13 +2693,16 @@ function nrNext(){nrIdx=(nrIdx+1)%NR_SCENARIOS.length;nrShow();}
 /* ---- Interactive: Remote ID & night drill ---- */
 const RID_DRILLS=[
  {q:'Which is <b>NOT</b> a valid way to comply with Remote ID?',opts:['Standard Remote ID drone','Remote ID broadcast module','Filing a NOTAM before each flight','Flying in a FRIA'],a:2,e:'The three compliance methods are standard RID drone, broadcast module, or FRIA — not NOTAMs.'},
- {q:'Remote ID is required for:',opts:['All toy drones','Drones that must be registered (≥0.55 lb)','Only commercial flights','Only night operations'],a:1,e:'Registration threshold = Remote ID requirement (unless in a FRIA).'},
+ {q:'A <b>0.4 lb aircraft flown under Part 107</b> is:',opts:['Exempt from registration and RID','Required to register and comply with RID','Exempt unless flown at night','Required to use Category 2'],a:1,e:'Every Part 107 aircraft must be registered regardless of weight, so it must comply with RID unless an allowed alternative applies.'},
  {q:'To fly at night without a waiver you need:',opts:['LAANC authorization only','Updated FAA training AND anti-collision lighting','A visual observer only','A Category 4 certificate'],a:1,e:'Night = updated initial/recurrent training + 3 SM anti-collision lighting.'},
  {q:'Anti-collision lighting for night/civil twilight must be visible for:',opts:['1 statute mile','3 statute miles','5 statute miles','10 statute miles'],a:1,e:'3 statute miles, with flash rate sufficient to avoid collision.'},
- {q:'Remote ID broadcasts all of the following EXCEPT:',opts:['Drone location & altitude','Control station location','Pilot\'s home address','Velocity & time mark'],a:2,e:'It broadcasts control station location — not the pilot\'s home address.'},
+ {q:'Which location is broadcast by an <b>add-on RID module</b>?',opts:['Pilot\'s home address','Live control-station location','Aircraft takeoff location','Nearest FRIA'],a:2,e:'Module = takeoff location. Standard RID = control-station location.'},
+ {q:'Remote ID fails after takeoff. What must the person manipulating the controls do?',opts:['Continue below 400 ft','Land as soon as practicable','Call the tower','Switch to ADS-B Out'],a:1,e:'RID must broadcast from takeoff to shutdown. If it stops, land as soon as practicable.'},
  {q:'Civil twilight operations require:',opts:['A waiver from the FAA','Anti-collision lighting (same as night)','No special equipment','Category 1 drone only'],a:1,e:'Civil twilight needs the same 3 SM anti-collision lighting as night ops.'},
  {q:'A FRIA (FAA-Recognized Identification Area) allows you to:',opts:['Fly without registration','Fly without Remote ID broadcast (with limits)','Exceed 400 ft AGL','Skip recurrent training'],a:1,e:'In a FRIA you can fly without broadcasting Remote ID — but must keep VLOS and follow other rules.'},
- {q:'Category 3 operations over people — which is TRUE?',opts:['Unrestricted over crowds','Cannot fly over open-air assemblies','No weight limit','No compliance documentation needed'],a:1,e:'Cat 3 cannot operate over open-air assemblies — only closed sites or brief transit.'}
+ {q:'Category 3 operations over people — which is TRUE?',opts:['Unrestricted over crowds','Cannot fly over open-air assemblies','No eligibility evidence is needed','LAANC removes its ground restrictions'],a:1,e:'Cat 3 can never operate over an open-air assembly and has additional location/sustained-flight restrictions.'},
+ {q:'What does <b>PAVE</b> check?',opts:['Pilot, Aircraft, enVironment, External pressures','Position, Altitude, Velocity, Energy','People, Airspace, Vehicles, Equipment','Plan, Assess, Verify, Execute'],a:0,e:'PAVE is the wide-angle hazard scan: Pilot, Aircraft, enVironment, External pressures.'},
+ {q:'In <b>I’M SAFE</b>, the F stands for:',opts:['Forecast','Fatigue','Flight plan','FRIA'],a:1,e:'I’M SAFE = Illness, Medication, Stress, Alcohol, Fatigue, Emotion.'}
 ];
 let ridIdx=0,ridScore={ok:0,tot:0};
 function initRidDrill(){ridIdx=0;ridScore={ok:0,tot:0};ridShow();}
