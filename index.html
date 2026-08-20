@@ -255,7 +255,7 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:16px 0;}
   <!-- FLASHCARDS -->
   <section class="view" id="view-cards">
     <h2 class="sec">Flashcards</h2>
-    <p class="lead">Leitner spaced repetition: cards you miss come back sooner; cards you know move up boxes and appear less often. Repeat a deck until everything reaches the top box.</p>
+    <p class="lead">Each topic stays in its own deck. Cards are shuffled and dealt once per pass, so you see the whole deck in a fresh random order before it reshuffles. Rate each card to track mastery.</p>
     <div class="pills" id="cardPills"></div>
     <div class="box-info"><span id="deckLabel"></span><span id="deckCount"></span></div>
     <div class="fcwrap">
@@ -1497,6 +1497,45 @@ const DECKS={
  ["Frost before flight?","Remove it completely — frost reduces lift and increases drag."],
  ["Part 107 weather minimums?","At least 3 SM visibility; 500 ft below and 2,000 ft horizontally from clouds."],
  ["Five-look weather scan?","Now, Next, Nasty, Nearby, Numbers: observations, forecasts, hazards, local update, limits."],
+ ["What is the ASOS/AWOS density-altitude question trap?","Do not assume both systems always report density altitude whenever it is more than 1,000 ft above airport elevation. The core exam association is that ASOS performs the observing functions used to generate METAR reports."],
+ ["Why does unequal heating of Earth's surface affect weather?","Different surfaces and locations warm at different rates, creating temperature and pressure differences that drive air movement, wind, and weather."],
+ ["Why can altimeter settings differ between nearby reporting points?","Atmospheric pressure varies from place to place, partly because of unequal heating. Since an altimeter setting is based on local pressure, reporting points can have different settings."],
+ ["What does the Coriolis force do to moving air?","Earth's rotation creates an apparent deflection: to the right in the Northern Hemisphere and to the left in the Southern Hemisphere."],
+ ["What is radiation fog?","Fog formed when the ground loses heat by radiation, usually overnight, and cools nearby moist air to its dew point."],
+ ["What conditions most favor radiation fog?","Warm, moist air over low, flat terrain on a clear, calm night."],
+ ["Why do clear skies favor radiation fog?","Without cloud cover, the ground radiates heat away efficiently overnight and cools the air directly above it toward the dew point."],
+ ["Why do calm or very light winds favor radiation fog?","Little mixing occurs, allowing air next to the cold ground to cool enough to reach saturation."],
+ ["Why does low terrain favor radiation fog?","Cold, dense air settles into low areas such as valleys and basins; if it is moist enough, cooling to the dew point produces fog."],
+ ["How do temperature and dew point relate to fog or cloud formation?","As temperature approaches the dew point, relative humidity approaches saturation. At saturation, water vapor can condense into the droplets that form fog or clouds."],
+ ["Radiation fog vs advection fog?","Radiation fog forms when cooling ground chills nearby air, usually overnight. Advection fog forms when moist air moves over a colder surface and cools to its dew point."],
+ ["What is an air-mass thunderstorm?","A relatively isolated storm in unstable air, commonly triggered when surface heating makes warm, moist air rise."],
+ ["What is a steady-state thunderstorm?","A longer-lived storm sustained by continuing lift from a weather system, such as a front, convergence, or an upper-level feature."],
+ ["What is a squall line?","A long, narrow, organized line or band of thunderstorms—not one individual thunderstorm."],
+ ["Why are squall lines especially dangerous?","They can form a difficult-to-circumnavigate barrier containing severe turbulence, strong updrafts and downdrafts, lightning, hail, and heavy precipitation."],
+ ["What are the three stages of a thunderstorm?","Cumulus: updraft dominates. Mature: updrafts and downdrafts coexist and hazards peak. Dissipating: downdraft dominates and cuts off the warm, moist inflow."],
+ ["What characterizes a thunderstorm's cumulus stage?","Strong updrafts carry warm, moist air upward and build the cloud vertically; the storm is primarily an updraft system."],
+ ["What characterizes a thunderstorm's mature stage?","Strong updrafts and downdrafts coexist with precipitation. This is generally the most dangerous stage, with turbulence, lightning, hail, and other hazards possible."],
+ ["What characterizes a thunderstorm's dissipating stage?","The downdraft dominates, cutting off the supply of rising warm, moist air; the updraft weakens and the storm dissipates."],
+ ["Must thunderstorm precipitation reach the ground to create a downdraft?","No. Falling precipitation and evaporative cooling can create descending, denser air within the storm even if the precipitation evaporates before reaching the ground."],
+ ["How does precipitation strengthen a thunderstorm downdraft?","Falling precipitation drags surrounding air downward, while evaporation cools the air so it becomes denser and sinks."],
+ ["Can thunderstorm updrafts and downdrafts exist at the same time?","Yes. Both coexist during the mature stage while precipitation falls and the updraft continues feeding warm, moist air into the storm."],
+ ["What happens when a thunderstorm's downdraft overwhelms its updraft?","The downdraft cuts off warm, moist inflow, the updraft weakens, and the storm enters the dissipating stage."],
+ ["What is standard sea-level atmospheric pressure?","29.92 inches of mercury (inHg)."],
+ ["What is standard sea-level temperature?","15°C (59°F)."],
+ ["What standard temperature lapse rate should you know?","About 2°C (3.5°F) colder per 1,000 ft of altitude gained in the standard atmosphere."],
+ ["Using the exam's rough pressure rule, what is pressure at 3,000 ft?","Start at 29.92 inHg and subtract about 1.00 inHg per 1,000 ft: 29.92 − 3.00 = 26.92 inHg. This is a simplified estimate, not an exact pressure law."],
+ ["What does an altimeter use to indicate altitude?","It senses atmospheric pressure and applies the selected altimeter setting. An incorrect setting can make indicated altitude differ from true altitude relative to the reference."],
+ ["What does “high to low, look out below” mean?","Flying from higher pressure to lower pressure without resetting the altimeter makes true altitude lower than indicated—you are lower than the altimeter says."],
+ ["In a TAF, what does PROB40 mean?","A 40% probability of the specified precipitation or thunderstorms and associated conditions during the stated period."],
+ ["In a legacy test-supplement TAF, how is a four-digit period such as 2022 read?","As 2000Z through 2200Z: the first pair is the start hour and the second pair is the end hour. Current TAFs normally include day and hour as DDHH/DDHH."],
+ ["In a legacy test-supplement TAF, what does the period 1216 mean?","1200Z through 1600Z. Current TAF period groups normally include the day as well as the hour."],
+ ["How does a legacy TAF period such as 2202 cross midnight?","It runs from 2200Z through 0200Z the next day."],
+ ["What is the difference between FM2200 and 2022 in a legacy TAF example?","FM2200 starts new prevailing conditions at 2200Z; 2022 is a bounded 2000Z–2200Z period attached to a probability or temporary group."],
+ ["What does 1SM mean in a TAF?","Forecast visibility of 1 statute mile."],
+ ["What does TSRA mean in a TAF?","Thunderstorm with rain."],
+ ["What does OVC008CB mean in a TAF?","Overcast cumulonimbus with a cloud base at 800 ft AGL: OVC = overcast, 008 = 800 ft, and CB = cumulonimbus."],
+ ["Why is 2000Z the answer for “PROB40 2022 1SM TSRA OVC008CB”?","The probability period begins at 2000Z, and its 1 SM visibility is below the Part 107 minimum of 3 SM. The question asks for the earliest time visibility may fall below the minimum."],
+ ["How do you find when a TAF may first forecast visibility below 3 SM?","Find a visibility value below 3 SM, identify the forecast group containing it, and use the beginning of that group's time period. A PROB group means the condition is possible, not certain."],
  ],
  loading:[
   ["What is load factor?","Total lift divided by aircraft weight, expressed in Gs. Unaccelerated straight-and-level flight is 1 G."],
@@ -2061,8 +2100,9 @@ function openLesson(id){
  if(id==='loading')setTimeout(initBankTool,30);
 }
 
-/* ---- Flashcards (Leitner) ---- */
+/* ---- Flashcards (shuffled decks + mastery boxes) ---- */
 let curDeck='regs', curCard=null, cardFlipped=false;
+const cardQueues={}, lastCardByDeck={};
 function initCardState(){
  Object.keys(DECKS).forEach(d=>DECKS[d].forEach((c,i)=>{
    const key=d+'_'+i; if(!(key in state.cards)) state.cards[key]=1;
@@ -2082,12 +2122,18 @@ function deckProgress(d){
  return {mastered,total:arr.length};
 }
 function pickCard(){
- // weighted: lower box = more likely
  const arr=DECKS[curDeck];
- const pool=[];
- arr.forEach((c,i)=>{const box=state.cards[curDeck+'_'+i]||1;const w=Math.max(1,6-box);for(let k=0;k<w;k++)pool.push(i);});
- if(!pool.length)return null;
- return pool[Math.floor(Math.random()*pool.length)];
+ if(!arr.length)return null;
+ if(!cardQueues[curDeck]||!cardQueues[curDeck].length){
+   cardQueues[curDeck]=shuffle(arr.map((c,i)=>i));
+   // Do not deal the previous pass's last card first after a reshuffle.
+   if(arr.length>1&&cardQueues[curDeck][0]===lastCardByDeck[curDeck]){
+     [cardQueues[curDeck][0],cardQueues[curDeck][1]]=[cardQueues[curDeck][1],cardQueues[curDeck][0]];
+   }
+ }
+ const i=cardQueues[curDeck].shift();
+ lastCardByDeck[curDeck]=i;
+ return i;
 }
 function nextCard(){
  cardFlipped=false;el('flashcard').classList.remove('flip');
