@@ -52,6 +52,8 @@ h2.sec{font-size:20px;margin:4px 0 12px;}
 .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
 .pill{padding:8px 13px;border-radius:99px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
 .pill.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.pills.scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -16px 10px;padding:0 16px;}
+.pills.scroll::-webkit-scrollbar{display:none;}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
 .tile:active{transform:scale(.97);}
@@ -60,9 +62,9 @@ h2.sec{font-size:20px;margin:4px 0 12px;}
 .tile .d{color:var(--muted);font-size:12px;margin-top:3px;}
 .tile .meter{height:5px;border-radius:99px;background:var(--line);margin-top:10px;overflow:hidden;}
 .tile .meter>i{display:block;height:100%;background:var(--good);width:0;}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
-.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;font-size:11px;color:var(--muted);}
-.stat b{display:block;font-size:22px;color:var(--navy);line-height:1.1;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0;}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center;font-size:10.5px;color:var(--muted);line-height:1.25;}
+.stat b{display:block;font-size:21px;color:var(--navy);line-height:1.1;margin-bottom:2px;}
 .stat.due b{color:var(--accent);}
 /* Notes */
 .lect{margin-bottom:22px;}
@@ -202,7 +204,7 @@ nav.tabs button.on{color:var(--navy);}
   <section class="view" id="view-cards">
     <h2 class="sec">Flashcards</h2>
     <p class="lead">Say the answer out loud or in your head <i>before</i> flipping, then rate honestly. Your rating decides when the card returns.</p>
-    <div class="pills" id="cardPills"></div>
+    <div class="pills scroll" id="cardPills"></div>
     <div class="pills" id="modePills"></div>
     <div class="box-info"><span id="deckLabel"></span><span id="deckCount"></span></div>
     <div id="cardStage"></div>
@@ -212,7 +214,7 @@ nav.tabs button.on{color:var(--navy);}
   <section class="view" id="view-learn">
     <h2 class="sec">Learn mode</h2>
     <p class="lead">Adaptive practice from the same cards: new material shows up as multiple choice, software procedures as “put the steps in order”, and cards you already know as written recall.</p>
-    <div class="pills" id="learnPills"></div>
+    <div class="pills scroll" id="learnPills"></div>
     <div id="learnStage"></div>
   </section>
 </main>
@@ -483,9 +485,10 @@ function renderProgress(){
 }
 function renderHome(){
   const due=dueCount('all'),nw=newCount('all');
-  const mastered=CARDS.filter(c=>stageOf(c.id)==='mastered'||stageOf(c.id)==='known').length;
+  const learning=CARDS.filter(c=>stageOf(c.id)==='learning').length;
+  const sticking=CARDS.filter(c=>stageOf(c.id)==='mastered'||stageOf(c.id)==='known').length;
   document.getElementById('homeStats').innerHTML=
-    `<div class="stat due"><b>${due}</b>due now</div><div class="stat"><b>${nw}</b>new</div><div class="stat"><b>${mastered}</b>/${CARDS.length} sticking</div>`;
+    `<div class="stat due"><b>${due}</b>due now</div><div class="stat"><b>${nw}</b>new</div><div class="stat"><b>${learning}</b>learning</div><div class="stat"><b>${sticking}</b>sticking<br>(7+ days)</div>`;
   const nextDue=CARDS.map(c=>cs(c.id)).filter(c=>c&&c.due>Date.now()).sort((a,b)=>a.due-b.due)[0];
   let hint='';
   if(due)hint=`${due} card${due>1?'s':''} ha${due>1?'ve':'s'} slipped below 90% predicted recall — a 3–5 minute review now is worth more than a long session later.`;
