@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GEOG 3800">
+<meta name="theme-color" content="#0f4c5c">
+<title>GEOG 3800 Data Visualization — Study Guide</title>
+<link rel="stylesheet" href="../shared/topics.css">
+<style>
+:root{
+  --navy:#0f4c5c; --navy2:#1f8a70; --sky:#2a9d8f; --accent:#f4a72f;
+  --bg:#f4f6f9; --card:#fff; --ink:#16222e; --muted:#5d6b78;
+  --line:#e2e8f0; --good:#1f9d57; --bad:#d6453d; --warn:#b26a00;
+  --tblue:#4e79a7; --tgreen:#59a14f;
+  --shadow:0 2px 10px rgba(16,34,46,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-text-size-adjust:100%;line-height:1.5;}
+a{color:var(--sky);}
+header{position:sticky;top:0;z-index:40;background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;padding:calc(env(safe-area-inset-top) + 12px) 16px 12px;box-shadow:var(--shadow);}
+header .row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+header h1{font-size:17px;margin:0;font-weight:700;}
+header .sub{font-size:11px;opacity:.85;margin-top:1px;}
+.progbar{height:6px;background:rgba(255,255,255,.22);border-radius:99px;margin-top:10px;overflow:hidden;}
+.progbar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s;}
+main{padding:16px 16px 96px;max-width:760px;margin:0 auto;}
+.view{display:none;animation:fade .25s ease;}
+.view.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+h2.sec{font-size:20px;margin:4px 0 12px;}
+.lead{color:var(--muted);font-size:14px;margin:-4px 0 16px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px;}
+.card h3{margin:0 0 8px;font-size:16px;}
+.card p{margin:8px 0;font-size:14.5px;}
+.muted{color:var(--muted);font-size:13px;}
+.center{text-align:center;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--navy);color:#fff;border:none;
+  border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600;cursor:pointer;width:100%;}
+.btn.alt{background:#fff;color:var(--navy);border:1.5px solid var(--navy);}
+.btn.ghost{background:#eef2f7;color:var(--ink);}
+.btn.sm{padding:9px 12px;font-size:13px;width:auto;}
+.btn:disabled{opacity:.5;}
+.btn:active{filter:brightness(.95);}
+.btnrow{display:flex;gap:10px;}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.pill{padding:8px 13px;border-radius:99px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.pill.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
+.tile:active{transform:scale(.97);}
+.tile .ic{font-size:24px;}
+.tile .t{font-weight:700;margin-top:8px;font-size:14.5px;}
+.tile .d{color:var(--muted);font-size:12px;margin-top:3px;}
+.tile .meter{height:5px;border-radius:99px;background:var(--line);margin-top:10px;overflow:hidden;}
+.tile .meter>i{display:block;height:100%;background:var(--good);width:0;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;font-size:11px;color:var(--muted);}
+.stat b{display:block;font-size:22px;color:var(--navy);line-height:1.1;}
+.stat.due b{color:var(--accent);}
+/* Notes */
+.lect{margin-bottom:22px;}
+.lect h3{color:var(--navy);border-left:4px solid var(--accent);padding-left:10px;margin:18px 0 10px;font-size:16px;}
+.note{background:#fffdf5;border:1px solid #efe4c2;border-left:4px solid #e2cf8a;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14.5px;white-space:pre-line;}
+.note .lab{display:block;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#9a6a00;margin-bottom:3px;}
+.ann{border-radius:10px;padding:10px 12px;margin:6px 0 12px 14px;font-size:14px;border:1px solid var(--line);background:#fff;}
+.ann .lab{display:block;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px;}
+.ann.x{background:#eef7f5;border-color:#bfe0d8;}.ann.x .lab{color:var(--navy2);}
+.ann.c{background:#fdeeed;border-color:#f3c2be;}.ann.c .lab{color:var(--bad);}
+.ann.t{background:#eaf3fb;border-color:#c5ddf3;}.ann.t .lab{color:#2f6fd6;}
+.ann.e{background:#f3f7f3;border:1px dashed #b8d6b8;}.ann.e .lab{color:var(--good);}
+.ann ul,.ann ol{margin:6px 0;padding-left:18px;}
+.ann li{margin:3px 0;}
+.ann .rev{margin-top:8px;font-size:12.5px;color:var(--sky);font-weight:700;cursor:pointer;}
+.ann .hid{display:none;margin-top:8px;color:#1c5e36;font-weight:600;}
+.ann.show .hid{display:block;}
+body.notesonly .ann{display:none;}
+table.ref{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;}
+table.ref th,table.ref td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top;}
+table.ref th{background:#f2f5f8;}
+.pillblue,.pillgreen{display:inline-block;color:#fff;border-radius:99px;padding:1px 9px;font-size:12px;font-weight:700;}
+.pillblue{background:var(--tblue);}.pillgreen{background:var(--tgreen);}
+.kbd{background:#eef2f7;border-radius:6px;padding:1px 6px;font-size:12px;font-family:ui-monospace,Menlo,monospace;}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);margin:-6px 0 12px;}
+.toggle input{width:18px;height:18px;accent-color:var(--navy);}
+/* Flashcards */
+.box-info{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-bottom:8px;}
+.fcwrap{perspective:1200px;}
+.flashcard{position:relative;min-height:250px;transition:transform .45s;transform-style:preserve-3d;cursor:pointer;}
+.flashcard.flip{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);
+  border-radius:18px;padding:22px 18px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:auto;}
+.fc-back{transform:rotateY(180deg);background:#f4fbf9;}
+.fc-tag{position:absolute;top:12px;left:14px;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--sky);}
+.fc-hint{position:absolute;bottom:10px;font-size:11px;color:var(--muted);}
+.fc-face .q{font-size:18px;font-weight:700;line-height:1.35;}
+.fc-face .a{font-size:15.5px;font-weight:600;line-height:1.4;text-align:left;width:100%;}
+.fc-face .a ol{margin:4px 0;padding-left:20px;}
+.fc-face .a li{margin:4px 0;}
+.fc-face .why{margin-top:10px;font-size:13px;font-weight:500;color:#1c5e36;background:#e8f5e9;border-radius:10px;padding:8px 10px;text-align:left;width:100%;}
+.fc-face .why b{color:var(--good);}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;}
+.rate button{border:none;border-radius:12px;padding:10px 4px;color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;line-height:1.2;}
+.rate button small{display:block;font-weight:600;font-size:10.5px;opacity:.85;}
+.rate .r1{background:var(--bad);}.rate .r2{background:#e08a00;}.rate .r3{background:var(--good);}.rate .r4{background:#2f6fd6;}
+.rate.hidden{visibility:hidden;}
+.done{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 16px;text-align:center;}
+.done .big{font-size:40px;}
+/* Learn */
+.lq{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);}
+.lq .eyebrow{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--sky);}
+.lq .prompt{font-size:17px;font-weight:700;margin:6px 0 12px;line-height:1.35;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;font-size:14px;cursor:pointer;line-height:1.35;}
+.opt:active{background:#f6f8fa;}
+.opt.ok{border-color:var(--good);background:#e8f5e9;}
+.opt.no{border-color:var(--bad);background:#fdeeed;}
+.opt.dim{opacity:.55;}
+.steps .opt{display:flex;gap:10px;align-items:flex-start;}
+.steps .opt .n{flex:0 0 22px;height:22px;border-radius:50%;background:#eef2f7;color:var(--navy);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.steps .opt.ok .n{background:var(--good);color:#fff;}
+.steps .opt.shake{animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+textarea.write{width:100%;min-height:90px;border:1.5px solid var(--line);border-radius:12px;padding:10px;font-size:15px;font-family:inherit;resize:vertical;}
+.feedback{margin-top:12px;border-radius:12px;padding:12px;font-size:14px;}
+.feedback.ok{background:#e8f5e9;border:1px solid #b8d6b8;}
+.feedback.no{background:#fdeeed;border:1px solid #f3c2be;}
+.feedback .lab{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:4px;}
+.feedback .ans{font-weight:600;}
+.feedback .ans ol{margin:4px 0;padding-left:20px;}
+.feedback .why{margin-top:8px;color:#1c5e36;font-size:13.5px;}
+.lprog{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin:0 0 12px;}
+.lprog>i{display:block;height:100%;background:var(--navy2);width:0;transition:width .3s;}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;padding:6px 4px calc(env(safe-area-inset-bottom) + 6px);}
+nav.tabs button{flex:1;background:none;border:none;color:var(--muted);font-size:10.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 2px;}
+nav.tabs button .ic{font-size:20px;line-height:1;}
+nav.tabs button.on{color:var(--navy);}
+.badge{display:inline-block;min-width:18px;padding:1px 6px;border-radius:99px;background:var(--accent);color:#16222e;font-size:10px;font-weight:800;margin-left:4px;vertical-align:middle;}
+.key{background:#fff6e6;border:1px solid #f3d89a;border-radius:12px;padding:12px;margin:12px 0;font-size:14px;}
+.key b{color:#9a6a00;}
+</style>
+</head>
+<body>
+<header>
+  <div class="topicbar" data-active="geog3800" data-root="../"></div>
+  <div class="row">
+    <div>
+      <h1>GEOG 3800 — Data Visualization</h1>
+      <div class="sub" id="subline">Notes explained · flashcards · learn mode</div>
+    </div>
+    <button class="btn sm ghost" id="resetBtn" style="width:auto">Reset</button>
+  </div>
+  <div class="progbar"><i id="overallProg"></i></div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="view active" id="view-home">
+    <h2 class="sec">GEOG 3800 👋</h2>
+    <p class="lead">Built from your Week 2 lecture notes: levels of measurement, tidy data, and the Tableau/Excel tools for reshaping and cleaning data.</p>
+    <div class="card">
+      <h3>Today</h3>
+      <div class="stats" id="homeStats"></div>
+      <div class="btnrow" style="margin-top:6px">
+        <button class="btn" onclick="startCards('all','due')">Review due cards</button>
+        <button class="btn alt" onclick="go('learn')">Learn mode</button>
+      </div>
+      <p class="muted" id="homeHint" style="margin:10px 0 0"></p>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="go('notes')">
+      <h3>📝 Your notes, explained</h3>
+      <p class="muted" style="margin:4px 0 0">Your Week 2 notes line by line, with elaborations, two corrections worth knowing before the exam, and quick self-checks.</p>
+    </div>
+    <h2 class="sec" style="margin-top:18px">Decks</h2>
+    <p class="lead">Tap a deck to review just that topic. The bar shows how much of the deck is in long-term memory.</p>
+    <div class="tiles" id="deckTiles"></div>
+    <div class="card" style="margin-top:16px">
+      <h3>How this guide schedules reviews</h3>
+      <p class="muted" style="margin:4px 0 0">Every card carries a memory model borrowed from the FSRS algorithm that Anki uses: a <b>stability</b> (how many days until you'd have a ~90% chance of recalling it) and a <b>difficulty</b>. Rating a card honestly — Again, Hard, Good, Easy — updates both, and a card comes back when its predicted recall drops below 90%. Learn mode (Quizlet-style) starts new cards as multiple-choice, then switches to written recall or step-ordering once they stick.</p>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="view" id="view-notes">
+    <h2 class="sec">Your notes, explained</h2>
+    <p class="lead">Yellow blocks are your notes. Below each one: <b>Explain</b> expands the concept, <b>Check this</b> flags something to fix in your notes, <b>Tool tip</b> is software-specific, and <b>Try it</b> is a quick self-test.</p>
+    <label class="toggle"><input type="checkbox" id="notesOnly"> Show notes only (hide explanations)</label>
+    <div id="notesBody"></div>
+    <div class="btnrow" style="margin-top:8px">
+      <button class="btn" onclick="startCards('all','due')">Drill these as flashcards →</button>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="view" id="view-cards">
+    <h2 class="sec">Flashcards</h2>
+    <p class="lead">Say the answer out loud or in your head <i>before</i> flipping, then rate honestly. Your rating decides when the card returns.</p>
+    <div class="pills" id="cardPills"></div>
+    <div class="pills" id="modePills"></div>
+    <div class="box-info"><span id="deckLabel"></span><span id="deckCount"></span></div>
+    <div id="cardStage"></div>
+  </section>
+
+  <!-- LEARN -->
+  <section class="view" id="view-learn">
+    <h2 class="sec">Learn mode</h2>
+    <p class="lead">Adaptive practice from the same cards: new material shows up as multiple choice, software procedures as “put the steps in order”, and cards you already know as written recall.</p>
+    <div class="pills" id="learnPills"></div>
+    <div id="learnStage"></div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button data-go="home" class="on"><span class="ic">🏠</span>Home</button>
+  <button data-go="notes"><span class="ic">📝</span>Notes</button>
+  <button data-go="cards"><span class="ic">🃏</span><span>Cards<span class="badge" id="dueBadge" style="display:none"></span></span></button>
+  <button data-go="learn"><span class="ic">🧠</span>Learn</button>
+</nav>
+
+<script>
+/* ============================================================
+   PERSISTENCE
+============================================================ */
+const STORE='geog3800v1';
+let state=JSON.parse(localStorage.getItem(STORE)||'{}');
+state.cards=state.cards||{};   // id -> {s,d,last,due,reps,lapses}
+state.notesOnly=!!state.notesOnly;
+function save(){localStorage.setItem(STORE,JSON.stringify(state));renderProgress();}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+function go(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.go===v));
+  window.scrollTo(0,0);
+  if(v==='home')renderHome();
+  if(v==='cards'&&!session)renderCardStart();
+  if(v==='learn'&&!learn)renderLearnStart();
+}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.getElementById('resetBtn').onclick=()=>{
+  if(confirm('Reset all GEOG 3800 progress (card scheduling)?')){
+    state={cards:{},notesOnly:state.notesOnly};session=null;learn=null;save();renderAll();go('home');
+  }
+};
+
+/* ============================================================
+   CONTENT: DECKS
+============================================================ */
+const DECKS=[
+ {id:'noir',icon:'📏',title:'Levels of measurement',blurb:'Nominal · Ordinal · Interval · Ratio'},
+ {id:'tidy',icon:'🧹',title:'Tidy data & shape',blurb:'Tall vs wide, splitting fields'},
+ {id:'tools',icon:'🛠️',title:'Tableau & Excel tools',blurb:'Data Interpreter, Pivot, Split'},
+ {id:'disc',icon:'🔵',title:'Discrete vs continuous',blurb:'Blue pills, green pills'},
+];
+
+/* ============================================================
+   CONTENT: NOTES + ANNOTATIONS
+   n = your note (verbatim)   x = explain   c = check this (correction)
+   t = tool tip   e = try it (self-check with hidden answer)
+============================================================ */
+const NOTES=[
+{title:'Lecture 1 — Different types of data',items:[
+ {n:`Nominal scale data
+1. Quantitative/ categorical
+2. Names, colors, Labels, gender, etc.
+3. Order does not matter.`},
+ {c:`Your note says <b>quantitative</b> — nominal data is the opposite: <b>qualitative</b> (categorical). It names things; it doesn't measure amounts. Even when nominal data is written with digits (ZIP codes, jersey numbers, county FIPS codes) the numbers are just labels — you can't add or average them. Suggested edit: "Qualitative / categorical".`},
+ {x:`<b>Nominal</b> comes from the Latin <i>nomen</i>, "name." The only things you can legitimately do with nominal data are <b>count</b> how many fall in each category and report the <b>mode</b> (most common category). No median (there's no order to find a middle of) and no mean.<br>Geography examples: land-use class (residential / commercial / forest), state name, soil type, dominant crop, yes/no flags.<br><b>Visualization:</b> encode nominal categories with <b>hue</b> (a qualitative palette) or <b>shape</b>. A bar chart of counts per category is fine; a line chart connecting categories is wrong because there's no order to follow.`},
+ {n:`Ordinal Scale Data
+1. Ranking/ placement. E.g 1st, 2nd ,3rd. We just know one is better, its not measurable though.
+2. The order matters
+3. Differences cannot be measured`},
+ {x:`<b>Ordinal</b> = order. You know that 1st &gt; 2nd &gt; 3rd, but the <i>gap</i> between 1st and 2nd may be nothing like the gap between 2nd and 3rd. That's why "differences cannot be measured": subtraction doesn't mean anything.<br>Legit statistics: <b>median</b>, percentiles, min/max. Averaging ordinal codes (e.g., a mean Likert score of 3.4) is common but technically shaky.<br>Geography examples: hurricane category 1–5, soil drainage class (poorly → well drained), road hierarchy (local → collector → arterial), survey answers (strongly disagree → strongly agree), "low / medium / high" risk.<br><b>Visualization:</b> use an <b>ordered</b> encoding — a sequential (light→dark) color ramp or ordered size steps — so the viewer sees the ranking. A rainbow palette on ordinal data hides the order.`},
+ {n:`Interval Scale Data
+1. The order matters
+2. Differences can be measured (except ratios)
+3. No true "0" starting point`},
+ {x:`<b>Interval</b> adds equal, measurable spacing: the difference between 10° and 20° is the same amount of heat as between 20° and 30°. What it lacks is a <b>true zero</b> — 0°C doesn't mean "no temperature," it's just where water freezes. Because zero is arbitrary, <b>ratios are meaningless</b>: 20°C is <i>not</i> twice as hot as 10°C (convert to °F — 68 vs 50 — and the "ratio" changes).<br>Legit statistics: everything ordinal allows plus <b>mean</b> and standard deviation; you can add and subtract but not multiply or divide values.<br>Examples: temperature in °C/°F, calendar years and dates (year 0 is arbitrary), pH, elevation relative to a datum such as sea level, standardized test scores.`},
+ {t:`<b>Chart choice:</b> bar length says "this much from zero." For interval data that message is false, so prefer <b>dot plots or line charts</b> (position) over bars for things like temperature. If you must use bars for °C, expect the exam to call it misleading.`},
+ {n:`Ratio Scale Data
+1. The order Matters
+2. Differences are measurable (including ratios)
+3. Contains "0" starting point`},
+ {x:`<b>Ratio</b> is the top of the ladder: order + equal intervals + a <b>true zero</b> that means "none of it." Now ratios are valid: 40 mm of rain <i>is</i> twice 20 mm; a county with 0 people has no population.<br>Legit statistics: everything, including geometric mean and coefficient of variation.<br>Examples: rainfall (mm), population, distance, area, elevation <i>above ground</i>, income, counts of anything, temperature in <b>Kelvin</b> (0 K = no thermal energy).<br><b>Same thing, different level:</b> temperature is interval in °C but ratio in Kelvin. The <i>scale</i> you measure with decides the level, not the phenomenon.`},
+ {x:`<b>Memory hook — NOIR</b> (French for "black"): <b>N</b>ominal → <b>O</b>rdinal → <b>I</b>nterval → <b>R</b>atio. Each step keeps everything below it and adds one property:
+<table class="ref"><tr><th>Level</th><th>Named</th><th>Ordered</th><th>Equal gaps</th><th>True zero</th><th>Best stat</th></tr>
+<tr><td>Nominal</td><td>✓</td><td></td><td></td><td></td><td>mode</td></tr>
+<tr><td>Ordinal</td><td>✓</td><td>✓</td><td></td><td></td><td>median</td></tr>
+<tr><td>Interval</td><td>✓</td><td>✓</td><td>✓</td><td></td><td>mean</td></tr>
+<tr><td>Ratio</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>mean, ratios</td></tr></table>
+<b>Why a visualization class cares:</b> the level tells you which visual channels are honest. Nominal → hue/shape; ordinal → ordered lightness or size; interval/ratio → position on an axis and length. It also predicts how Tableau will treat the field: nominal/ordinal usually land as <span class="pillblue">discrete dimensions</span>, interval/ratio as <span class="pillgreen">continuous measures</span>.`},
+ {e:`<b>Classify each:</b> (a) ZIP code, (b) hurricane category, (c) year a building was built, (d) annual rainfall in mm, (e) survey answer "somewhat satisfied", (f) number of drone flights last month.`,
+  ans:`(a) nominal — digits used as labels · (b) ordinal — ranked, unequal gaps · (c) interval — year 0 is arbitrary, "twice as old" doesn't come from dividing years · (d) ratio — true zero · (e) ordinal · (f) ratio — counts have a true zero (0 flights) even though they are whole numbers.`},
+]},
+{title:'Lecture video 2 — Requirements for "Tidy data"',items:[
+ {n:`1. Each column or field of data represents a single variable.
+2. Each row needs to represent a unique observation
+3. Data set needs to be complete or at least all the cells are accounted for.`},
+ {x:`These come from Hadley Wickham's 2014 paper <i>Tidy Data</i>, which is the reason Tableau, R, and Python tools all expect the same shape.<br><b>Rule 1 — one variable per column:</b> a column called "Columbus, OH" or "Jan 2024 sales" is hiding two variables. Month names as column headers are the classic violation — the variable <i>Month</i> is smeared across many columns instead of living in one.<br><b>Rule 2 — one observation per row:</b> every row is one "thing measured once" (one station on one day; one county in one year). If a row is really a total, a subtotal, or a note, it isn't an observation.<br><b>Rule 3 — complete / accounted for:</b> missing values should be <i>explicitly</i> blank or "NA" in a real cell, not implied by a merged cell, a skipped row, or a footnote. Tableau reads merged cells as one value plus a run of nulls, which silently breaks aggregation.<br>(Wickham's own third rule is "each type of observational unit forms its own table" — e.g., keep stations in one table and readings in another and join them.)`},
+ {n:`Another way to think about prepping data is to think about "tall data" is good and "wide data" is bad. Which means that there should be less fields than rows.`},
+ {x:`<b>Wide</b> spreads one variable across many columns. <b>Tall</b> (also called <i>long</i>) stacks it into one column plus a value column. Example, rainfall by city:
+<table class="ref"><tr><th colspan="4">Wide (3 rows × 4 columns)</th></tr><tr><th>City</th><th>Jan</th><th>Feb</th><th>Mar</th></tr><tr><td>Columbus</td><td>70</td><td>60</td><td>78</td></tr><tr><td>Toledo</td><td>52</td><td>50</td><td>64</td></tr><tr><td>Dayton</td><td>66</td><td>58</td><td>77</td></tr></table>
+<table class="ref"><tr><th colspan="3">Tall (9 rows × 3 columns)</th></tr><tr><th>City</th><th>Month</th><th>Rainfall</th></tr><tr><td>Columbus</td><td>Jan</td><td>70</td></tr><tr><td>Columbus</td><td>Feb</td><td>60</td></tr><tr><td>Columbus</td><td>Mar</td><td>78</td></tr><tr><td colspan="3" style="text-align:center;color:var(--muted)">… one row per city-month …</td></tr></table>
+Same information, but now <i>Month</i> is a field you can drop on the Columns shelf, filter, sort, or color by. "Fewer fields than rows" is the quick smell test: 50 cities × 12 months should be 600 rows × 3 columns, not 50 rows × 13 columns.`},
+ {n:`A way to get wide data into tall data is to use the "pivot" function in tableau.
+Machines read tables better with tall tables.
+An example of swathing from wide to tall data could be creating a column for dates rather than a column for each date.`},
+ {x:`"Machines read tall tables better" because software treats a <b>column</b> as a variable. In wide data the variable <i>Month</i> doesn't exist as a column, so Tableau can't aggregate across months, can't put them on one axis, and would need a separate calculation per column. After pivoting, one drag of <i>Month</i> to Columns and <i>Rainfall</i> to Rows makes the chart.<br><b>Naming trap:</b> Tableau's <b>Pivot</b> reshapes wide → tall (Power Query calls the same thing <b>Unpivot</b>). Excel's <b>PivotTable</b> does roughly the <i>reverse</i> — it summarizes tall data into a wide crosstab. Same word, opposite direction.`},
+ {n:`Columns containing multiple descriptors need to be split. In excel the tool is called "Text to columns" found in the data tools section. In Tableau, the command is named "split" or something obvious.`},
+ {t:`<b>Excel:</b> select the column → <span class="kbd">Data</span> tab → <span class="kbd">Data Tools</span> group → <span class="kbd">Text to Columns</span>. The wizard asks <i>Delimited</i> (split on comma, space, tab, or a custom character) or <i>Fixed width</i>, then lets you set each new column's format and destination.<br><b>Tableau:</b> on the Data Source page (or in the Data pane) click the field's dropdown ▾ → <span class="kbd">Split</span> (Tableau auto-detects the separator) or <span class="kbd">Custom Split</span> (you choose the separator, which side to split from, and how many columns). It creates calculated fields and leaves the original intact.<br>Typical targets: "City, State", "Lat, Long" in one cell, "Last, First", "2024-Q3".`},
+ {e:`A column holds values like <b>"Franklin County, OH"</b>. Which tidy rule is broken, and what would the Tableau and Excel fixes be called?`,
+  ans:`Rule 1 (one variable per column — county and state are two variables). Tableau: Split / Custom Split on ", ". Excel: Data ▸ Text to Columns ▸ Delimited ▸ comma.`},
+]},
+{title:'Lecture video 3 — Data Interpreter',items:[
+ {n:`Data interpreter in Tableau cleans data from Excell that may be messy.
+When you use the Data interpreter, Tableau generates a report in red and green of what it did in the spreadsheet.`},
+ {x:`Real-world spreadsheets are built for humans: a title in row 1, a blank row, a two-row merged header, notes at the bottom, maybe two little tables side by side. Tableau expects the first row to be headers and everything below to be data. The <b>Data Interpreter</b> scans the sheet, guesses where the real table starts and ends, drops titles/notes/footers/blank rows, flattens stacked headers, and can detect sub-tables so you can pick one.`},
+ {t:`<b>Where:</b> Data Source page → under the list of sheets on the left → check <span class="kbd">Use Data Interpreter</span> (Tableau shows the option when it thinks the sheet is messy). <b>Verify:</b> click <span class="kbd">Review the results…</span> — Tableau writes an Excel workbook that color-codes the original sheet, showing which cells it treated as headers, which as data, and which it discarded. Always open it: the interpreter is a good guess, not a guarantee, and dropping a data row silently is worse than a messy header.`},
+]},
+{title:'Lecture 4 video — Pivoting in Tableau',items:[
+ {n:`Pivoting data in Tableau helps bring the data into a tall chart rather than a wide one.
+To pivot the data you select the data you want cleaned up and hit the drop down menu and select pivot. You may need to change column names.`},
+ {t:`<b>Step by step (Data Source page):</b>
+<ol><li>Connect to the Excel / CSV / Google Sheet and drag the sheet onto the canvas.</li><li>In the preview grid, click the first column header you want to fold (e.g., <i>Jan</i>), then <span class="kbd">Shift</span>-click (range) or <span class="kbd">Ctrl/Cmd</span>-click the others.</li><li>Click the dropdown ▾ on any selected header.</li><li>Choose <span class="kbd">Pivot</span>.</li><li>Tableau replaces the selected columns with two new ones: <b>Pivot Field Names</b> (the old headers) and <b>Pivot Field Values</b> (the cell contents). Double-click each header to rename them to what they really are (e.g., <i>Month</i>, <i>Rainfall</i>).</li></ol>
+To undo or extend it later, click ▾ on the pivot field → <i>Remove Pivot</i> or <i>Add Data to Pivot</i>. Pivot is available for Excel, text, Google Sheets and PDF connections; for most databases you'd reshape with Custom SQL or Tableau Prep.`},
+ {e:`After pivoting Jan/Feb/Mar columns, what are the two new fields called by default, and what should you rename them to for a rainfall dataset?`,
+  ans:`"Pivot Field Names" → Month; "Pivot Field Values" → Rainfall (or whatever the measure is).`},
+]},
+{title:'Other things to consider — Discrete vs. continuous',items:[
+ {n:`Discrete data = Individual, separate values or categories. Can I count these or put them into distinct groups? These are usually headers/ categories. Tableau represents discrete in blue.`},
+ {x:`<b>Discrete</b> values are separate and countable — you can list them: Ohio, Michigan, Indiana; 2022, 2023, 2024; small, medium, large. In Tableau a <span class="pillblue">blue</span> field dropped on a shelf creates <b>headers</b> (one label per value), which is why your note says "usually headers/categories." Nominal and ordinal data are always discrete.`},
+ {n:`Continuous data = A measurement that can take values along a numerical scale. This data creates a values along an axis. In tableau it is red`},
+ {c:`Tableau shows continuous fields in <span class="pillgreen">green</span>, not red. The color pair to memorize is <span class="pillblue">blue = discrete</span> and <span class="pillgreen">green = continuous</span>. (Red in Tableau usually means an error or a broken field reference.)`},
+ {x:`<b>Continuous</b> values fall anywhere along a range and the in-between values are meaningful (12.7 mm of rain, 3:42 pm). A green field creates an <b>axis</b> with a scale rather than a list of labels. Interval and ratio measurements are usually continuous.<br><b>Rule of thumb:</b> <span class="pillblue">blue = buckets/headers</span>, <span class="pillgreen">green = axis</span>.<br><b>Two separate ideas:</b> <i>Dimension vs Measure</i> is the field's <b>role</b> (does it categorize, or does it get aggregated with SUM/AVG?). <i>Discrete vs Continuous</i> is how it's <b>drawn</b> (headers or axis). Most dimensions are discrete and most measures are continuous, but you can flip either one: right-click a field → <span class="kbd">Convert to Continuous</span> / <span class="kbd">Convert to Discrete</span>. A date is the classic example: discrete YEAR(Date) gives one header per year; continuous Date gives a timeline axis.`},
+ {e:`You drag <i>Sales</i> to Columns and get an axis, but you wanted one header per sales value (say, to build a crosstab). What do you do?`,
+  ans:`Right-click the Sales pill → Convert to Discrete (it turns blue and creates headers). Or make bins if you want ranges instead of every value.`},
+ {e:`Number of siblings: discrete or continuous? And which NOIR level?`,
+  ans:`Discrete (countable whole numbers) — but <b>ratio</b> scale (true zero, 4 is twice 2). The two classifications answer different questions: NOIR is about what math is legal, discrete/continuous is about how the values are spaced. Tableau will default it to a continuous measure, which is fine for an axis.`},
+]}
+];
+
+/* ============================================================
+   CONTENT: FLASHCARDS
+   q = prompt · a = answer (string, or array = ordered steps) · why = elaboration
+============================================================ */
+const CARDS=[
+// Levels of measurement
+{id:'n1',deck:'noir',q:'What are the four levels (scales) of measurement, lowest to highest?',a:'Nominal → Ordinal → Interval → Ratio (NOIR).',why:'Each level keeps the properties of the one below and adds one: order, then equal measurable gaps, then a true zero. The level decides which charts and statistics are honest.'},
+{id:'n2',deck:'noir',q:'Nominal scale data — definition and two examples.',a:'Categories or labels with no inherent order (qualitative). Examples: land-use class, county name, color, gender, ZIP code.',why:'Numbers can still be nominal (ZIP codes, jersey numbers) — you can\'t average them. Your notes say "quantitative"; the correct word is qualitative.'},
+{id:'n3',deck:'noir',q:'Which statistics are meaningful for nominal data?',a:'Counts / percentages per category and the mode (most frequent category).',why:'No order means there is no "middle" for a median; no magnitude means no mean.'},
+{id:'n4',deck:'noir',q:'Ordinal scale data — what do you know, and what do you NOT know?',a:'You know the order or rank (1st, 2nd, 3rd; low / medium / high). You do NOT know the size of the gaps between ranks.',why:'1st vs 2nd could be a photo finish while 2nd vs 3rd is a mile. Use median and percentiles rather than means.'},
+{id:'n5',deck:'noir',q:'Give three geography examples of ordinal data.',a:'Hurricane category (1–5), soil drainage class (poor → excellent), Likert survey answers (strongly disagree → strongly agree), road hierarchy (local / collector / arterial).',why:'Each is ranked but the steps between ranks are not equal amounts of anything.'},
+{id:'n6',deck:'noir',q:'Interval scale data — the defining feature and its consequence.',a:'Equal, measurable differences but NO true zero — so ratios are meaningless.',why:'20°C is not "twice as warm" as 10°C, because 0°C is an arbitrary point (water freezing), not "no temperature."'},
+{id:'n7',deck:'noir',q:'Classic examples of interval data.',a:'Temperature in °C or °F, calendar years and dates, pH, elevation relative to a datum such as sea level.',why:'Each has an arbitrary zero: year 0, 0°C, sea level.'},
+{id:'n8',deck:'noir',q:'Ratio scale data — defining feature and examples.',a:'Order + equal intervals + a true zero (zero = none of the quantity), so ratios are valid. Examples: rainfall in mm, population, distance, area, income, temperature in Kelvin.',why:'"Twice as much" statements are only valid at the ratio level.'},
+{id:'n9',deck:'noir',q:'Is temperature interval or ratio?',a:'°C and °F are interval; Kelvin is ratio (0 K = no thermal energy).',why:'Same phenomenon, different scale — the scale you measure with decides the level, not the thing measured.'},
+{id:'n10',deck:'noir',q:'Which level of measurement is "number of drone flights per month"?',a:'Ratio — there is a true zero (no flights) and 10 flights is twice 5.',why:'Counts are ratio data even though they are discrete whole numbers.'},
+{id:'n11',deck:'noir',q:'Which level of measurement is "finishing position in a race"?',a:'Ordinal — ranked, but the gaps between places are not equal or measurable.',why:'Times would be ratio; positions are only ranks.'},
+{id:'n12',deck:'noir',q:'Which level of measurement is a ZIP code?',a:'Nominal — the digits are labels; arithmetic on them is meaningless.',why:'Adding two ZIP codes or averaging them produces nonsense, which is the tell for nominal data.'},
+{id:'n13',deck:'noir',q:'How does level of measurement guide visual encoding?',a:'Nominal → hue or shape (qualitative palette). Ordinal → ordered lightness or size (sequential palette). Interval / ratio → position on an axis, length, or a continuous color ramp.',why:'A rainbow palette on ordinal data hides the order; a sequential palette on nominal data implies an order that isn\'t there.'},
+{id:'n14',deck:'noir',q:'Why is a bar chart risky for interval data such as °C?',a:'Bar length implies a ratio from zero, but interval data has no true zero — a 20° bar looks "twice" a 10° bar. Use dots or a line (position) instead.',why:'Position encodes differences honestly; length encodes ratios.'},
+{id:'n15',deck:'noir',q:'How do the NOIR levels usually map to Tableau\'s blue and green?',a:'Nominal & ordinal → dimensions, discrete (blue). Interval & ratio → measures, continuous (green).',why:'Tableau guesses from the data type; you can override by converting a field or dragging a measure into Dimensions.'},
+// Tidy data
+{id:'t1',deck:'tidy',q:'The three requirements for tidy data (from class).',a:['Each column / field represents a single variable.','Each row represents a unique observation.','The dataset is complete — every cell accounted for (explicit blanks or NA, no merged cells or stray notes).'],why:'From Hadley Wickham\'s 2014 paper "Tidy Data." His own third rule is "each type of observational unit forms a table."'},
+{id:'t2',deck:'tidy',q:'What does "tall data good, wide data bad" mean?',a:'Prefer many rows and few columns (long format). Wide format spreads one variable — e.g., Month — across many columns (Jan, Feb, Mar…).',why:'In tall format, Month is a single field you can drop on an axis, filter, and color by.'},
+{id:'t3',deck:'tidy',q:'Make this wide table tall: columns City | Jan | Feb | Mar holding rainfall values.',a:'Columns City | Month | Rainfall, with one row per city-month (three rows per city).',why:'"Month" was hiding in the headers; pivoting moves header names into a column of their own.'},
+{id:'t4',deck:'tidy',q:'A wide table has 50 cities and 12 month-columns. How many rows and columns after making it tall?',a:'600 rows (50 × 12) and 3 columns: City, Month, Value.',why:'Tall trades width for length — that is exactly the point, and it is why "fewer fields than rows" is the smell test.'},
+{id:'t5',deck:'tidy',q:'Why do machines / Tableau "read tall tables better"?',a:'Because one field per variable lets Tableau aggregate, filter, sort and encode that variable directly. Wide data forces you to handle every column separately.',why:'Wide data has no "Month" column, so there is nothing to put on the axis.'},
+{id:'t6',deck:'tidy',q:'A single column holds "Columbus, OH". What\'s wrong, and what\'s the fix in Excel and Tableau?',a:'Two variables (city, state) in one field — violates rule 1. Excel: Data ▸ Text to Columns. Tableau: field dropdown ▸ Split or Custom Split.',why:'Splitting lets you filter by state and label by city independently.'},
+{id:'t7',deck:'tidy',q:'What choices does Excel\'s Text to Columns wizard give you?',a:'Delimited (split on comma, space, tab, or a custom character) or Fixed width — then the destination cell and each new column\'s data format.',why:'It lives on the Data tab in the Data Tools group.'},
+{id:'t8',deck:'tidy',q:'Spot the tidy-data violations: a sheet with a title row, merged header cells, a "Total" row, and notes typed under the table.',a:'Non-data rows (title, totals, notes) mixed into the data, and merged headers so columns aren\'t single variables. Fix: strip them — Tableau\'s Data Interpreter can do most of it.',why:'Tableau reads the first row as headers and every row below as an observation, so each of these becomes garbage data.'},
+// Tools
+{id:'k1',deck:'tools',q:'What does Tableau\'s Data Interpreter do?',a:'Detects and cleans messy Excel/CSV structure: skips titles, notes, footers and blank rows/columns, flattens merged or multi-row headers, and can detect sub-tables.',why:'Turn it on with the checkbox under the sheet list on the Data Source page.'},
+{id:'k2',deck:'tools',q:'After running Data Interpreter, how do you check what it changed?',a:'Click "Review the results…" — Tableau generates an Excel workbook with color-coded cells (red/green in class) showing what was kept vs. removed.',why:'Always review it: the interpreter is a guess, and dropping a data row silently is worse than a messy header.'},
+{id:'k3',deck:'tools',q:'What does Pivot do in Tableau?',a:'Converts wide data to tall: the selected columns become two new fields — "Pivot Field Names" (the old headers) and "Pivot Field Values" (the cell values).',why:'Rename the two new fields to what they actually are, e.g., Month and Rainfall.'},
+{id:'k4',deck:'tools',q:'Steps to pivot columns in Tableau (Data Source page).',a:['Connect to the data and open the Data Source page.','Click the first column header, then Shift-/Ctrl-click the others to select them.','Click the dropdown ▾ on a selected header.','Choose Pivot.','Double-click "Pivot Field Names" / "Pivot Field Values" and rename them (e.g., Month, Rainfall).'],why:'Later: ▾ on the pivot field → Remove Pivot or Add Data to Pivot.'},
+{id:'k5',deck:'tools',q:'Is Tableau\'s Pivot the same as an Excel PivotTable?',a:'No — nearly the opposite. Tableau Pivot reshapes wide → tall (like Power Query "Unpivot"). An Excel PivotTable summarizes tall data into a wide crosstab.',why:'Same word, opposite direction — a classic exam trap.'},
+{id:'k6',deck:'tools',q:'Where do you find Split in Tableau, and what\'s the difference from Custom Split?',a:'Field dropdown ▾ on the Data Source page or Data pane. Split auto-detects the separator; Custom Split lets you choose the separator, which side to split from, and how many columns.',why:'Both create calculated fields and leave the original column intact.'},
+{id:'k7',deck:'tools',q:'Which connection types support Tableau\'s Pivot?',a:'Excel, text/CSV, Google Sheets, and PDF connections (some databases via Custom SQL). Otherwise reshape in Tableau Prep or at the source.',why:'If the Pivot option is missing from the menu, the connection type is usually why.'},
+{id:'k8',deck:'tools',q:'Steps to split a "City, State" column in Excel.',a:['Select the column.','Data tab → Data Tools → Text to Columns.','Choose Delimited → Next.','Tick Comma as the delimiter → Next.','Set the column formats / destination → Finish.'],why:'Add an empty column to the right first, or Excel will overwrite whatever is next to your data.'},
+// Discrete vs continuous
+{id:'d1',deck:'disc',q:'Discrete data — definition, and how Tableau shows it.',a:'Individual, separate values or categories you can count or bucket. Tableau colors discrete fields BLUE; on a shelf they create headers / labels.',why:'Ask: "Can I count these or put them into distinct groups?"'},
+{id:'d2',deck:'disc',q:'Continuous data — definition, and how Tableau shows it.',a:'Values along an unbroken numeric range (measurements) where in-between values are meaningful. Tableau colors continuous fields GREEN; on a shelf they create an axis.',why:'Your notes say red — Tableau uses green. Red in Tableau usually signals an error or broken field.'},
+{id:'d3',deck:'disc',q:'Blue pill vs green pill: what does each create on a shelf?',a:'Blue (discrete) → headers / labels / buckets. Green (continuous) → a continuous axis with a scale.',why:'Rule of thumb: blue = bins, green = axis.'},
+{id:'d4',deck:'disc',q:'Is Dimension / Measure the same thing as Discrete / Continuous?',a:'No. Dimension vs Measure is the field\'s role (categorize vs. aggregate). Discrete vs Continuous is how it\'s drawn (headers vs. axis). A date dimension can be discrete (YEAR headers) or continuous (timeline).',why:'Most dimensions are discrete and most measures are continuous, but either can be converted: right-click ▸ Convert to Continuous / Discrete.'},
+{id:'d5',deck:'disc',q:'You want a measure to show as separate headers instead of an axis. What do you do?',a:'Right-click the field ▸ Convert to Discrete (the pill turns blue). Or create bins if you want ranges rather than every value.',why:'This is how you turn a chart axis into a crosstab column.'},
+{id:'d6',deck:'disc',q:'Quick test for discrete vs continuous.',a:'"Can I count these or sort them into distinct groups?" → discrete. "Can it take any value in a range, with meaningful in-between values?" → continuous.',why:'12 states is discrete; 12.7 mm of rain is continuous.'},
+{id:'d7',deck:'disc',q:'"Number of siblings": discrete or continuous? Which NOIR level?',a:'Discrete (countable whole numbers) but ratio scale (true zero; 4 is twice 2). Tableau will still default it to a continuous measure, which is fine for an axis.',why:'Discrete/continuous describes how values are spaced; NOIR describes what math is legal. They are separate classifications.'},
+{id:'d8',deck:'disc',q:'Which NOIR levels are always discrete, and which are usually continuous?',a:'Nominal and ordinal are always discrete. Interval and ratio are usually continuous (except counts, which are discrete numbers).',why:'That is why nominal/ordinal fields land as blue dimensions and interval/ratio as green measures.'},
+];
+const CARD_BY_ID=Object.fromEntries(CARDS.map(c=>[c.id,c]));
+const DECK_BY_ID=Object.fromEntries(DECKS.map(d=>[d.id,d]));
+
+/* ============================================================
+   SCHEDULER — FSRS-4.5 with default parameters
+   Memory state per card: s = stability (days until recall ≈ 90%),
+   d = difficulty (1–10). Retrievability R = (1 + t/(9s))^-1.
+   A card is due when R < 0.9, i.e. when t ≥ s.
+   Grades: 1 Again · 2 Hard · 3 Good · 4 Easy
+============================================================ */
+const W=[0.4872,1.4003,3.7145,13.8206,5.1618,1.2298,0.8975,0.0010,1.54575,0.1192,1.01925,1.9395,0.11,0.29605,2.2698,0.2315,2.9898];
+const DAY=864e5, TARGET_R=0.9;
+const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+function cs(id){return state.cards[id];}
+function retrievability(c,now){
+  if(!c||!c.s)return 0;
+  const t=Math.max(0,(now-c.last)/DAY);
+  return Math.pow(1+t/(9*c.s),-1);
+}
+function isDue(id,now){const c=cs(id);return !!c&&retrievability(c,now)<TARGET_R;}
+function isNew(id){return !cs(id);}
+// Pure: returns the memory state a card would have after grade g.
+function nextState(prev,g,now){
+  let c;
+  if(!prev){
+    c={s:W[g-1],d:clamp(W[4]-(g-3)*W[5],1,10),reps:0,lapses:0};
+  }else{
+    c=Object.assign({},prev);
+    const R=retrievability(c,now);
+    if(g===1){
+      c.lapses++;
+      const s=W[11]*Math.pow(c.d,-W[12])*(Math.pow(c.s+1,W[13])-1)*Math.exp(W[14]*(1-R));
+      c.s=clamp(s,0.3,c.s);
+    }else{
+      const hard=g===2?W[15]:1, easy=g===4?W[16]:1;
+      let f=1+Math.exp(W[8])*(11-c.d)*Math.pow(c.s,-W[9])*(Math.exp(W[10]*(1-R))-1)*hard*easy;
+      // Reviewing early (R≈1) gives ~no growth in FSRS; keep a small floor so
+      // "practice anyway" sessions still move cards forward a little.
+      f=Math.max(f,g===2?1.0:g===3?1.15:1.4);
+      c.s=clamp(c.s*f,0.3,3650);
+    }
+    const d=c.d-W[6]*(g-3);
+    c.d=clamp(W[7]*W[4]+(1-W[7])*d,1,10);
+  }
+  c.reps++;c.last=now;c.due=now+c.s*DAY;
+  return c;
+}
+function rate(id,g,now){
+  now=now||Date.now();
+  const c=nextState(cs(id),g,now);
+  state.cards[id]=c;save();
+  return c;
+}
+function previewInterval(id,g){return nextState(cs(id),g,Date.now()).s;}
+function stageOf(id){
+  const c=cs(id);if(!c)return 'new';
+  if(c.s<7)return 'learning';if(c.s<30)return 'known';return 'mastered';
+}
+function fmtDays(d){
+  if(d<1)return '<1 day';if(d<1.5)return '1 day';if(d<30)return Math.round(d)+' days';
+  if(d<365)return Math.round(d/30*10)/10+' mo';return Math.round(d/365*10)/10+' yr';
+}
+function deckCards(deck){return deck==='all'?CARDS:CARDS.filter(c=>c.deck===deck);}
+function deckMastery(deck){
+  const cards=deckCards(deck);
+  return cards.reduce((a,c)=>a+Math.min(1,(cs(c.id)?cs(c.id).s:0)/30),0)/cards.length;
+}
+function dueCount(deck){const now=Date.now();return deckCards(deck).filter(c=>isDue(c.id,now)).length;}
+function newCount(deck){return deckCards(deck).filter(c=>isNew(c.id)).length;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function ansHtml(a){return Array.isArray(a)?'<ol>'+a.map(s=>'<li>'+s+'</li>').join('')+'</ol>':a;}
+function ansText(a){return Array.isArray(a)?a.join(' → '):a;}
+
+/* ============================================================
+   RENDER: PROGRESS + HOME
+============================================================ */
+function renderProgress(){
+  const m=Math.round(deckMastery('all')*100);
+  document.getElementById('overallProg').style.width=m+'%';
+  const due=dueCount('all');
+  const b=document.getElementById('dueBadge');
+  b.style.display=due?'inline-block':'none';b.textContent=due;
+}
+function renderHome(){
+  const due=dueCount('all'),nw=newCount('all');
+  const mastered=CARDS.filter(c=>stageOf(c.id)==='mastered'||stageOf(c.id)==='known').length;
+  document.getElementById('homeStats').innerHTML=
+    `<div class="stat due"><b>${due}</b>due now</div><div class="stat"><b>${nw}</b>new</div><div class="stat"><b>${mastered}</b>/${CARDS.length} sticking</div>`;
+  const nextDue=CARDS.map(c=>cs(c.id)).filter(c=>c&&c.due>Date.now()).sort((a,b)=>a.due-b.due)[0];
+  let hint='';
+  if(due)hint=`${due} card${due>1?'s':''} ha${due>1?'ve':'s'} slipped below 90% predicted recall — a 3–5 minute review now is worth more than a long session later.`;
+  else if(nw)hint=`Nothing is due. Start the ${nw} new card${nw>1?'s':''} — new cards begin as multiple choice in Learn mode.`;
+  else if(nextDue)hint=`All caught up. Next card comes back in ${fmtDays((nextDue.due-Date.now())/DAY)}.`;
+  document.getElementById('homeHint').textContent=hint;
+  document.getElementById('deckTiles').innerHTML=DECKS.map(d=>{
+    const due=dueCount(d.id),nw=newCount(d.id);
+    return `<div class="tile" onclick="startCards('${d.id}','due')"><div class="ic">${d.icon}</div><div class="t">${d.title}</div>
+      <div class="d">${deckCards(d.id).length} cards · ${due?due+' due':nw?nw+' new':'up to date'}</div>
+      <div class="meter"><i style="width:${Math.round(deckMastery(d.id)*100)}%"></i></div></div>`;
+  }).join('');
+}
+
+/* ============================================================
+   RENDER: NOTES
+============================================================ */
+function renderNotes(){
+  const LAB={x:'Explain',c:'Check this',t:'Tool tip',e:'Try it'};
+  document.getElementById('notesBody').innerHTML=NOTES.map(l=>`<div class="lect"><h3>${l.title}</h3>`+
+    l.items.map(it=>{
+      if(it.n)return `<div class="note"><span class="lab">Your note</span>${it.n}</div>`;
+      const k=Object.keys(LAB).find(k=>it[k]);
+      const body=it[k]+(k==='e'?`<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div><div class="hid">${it.ans}</div>`:'');
+      return `<div class="ann ${k}"><span class="lab">${LAB[k]}</span>${body}</div>`;
+    }).join('')+'</div>').join('');
+  const cb=document.getElementById('notesOnly');
+  cb.checked=state.notesOnly;document.body.classList.toggle('notesonly',state.notesOnly);
+  cb.onchange=()=>{state.notesOnly=cb.checked;document.body.classList.toggle('notesonly',cb.checked);save();};
+}
+
+/* ============================================================
+   FLASHCARDS
+============================================================ */
+let curDeck='all', curMode='due', session=null;
+function renderCardPills(){
+  document.getElementById('cardPills').innerHTML=[{id:'all',title:'All'},...DECKS].map(d=>
+    `<span class="pill ${curDeck===d.id?'on':''}" onclick="setDeck('${d.id}')">${d.title}${dueCount(d.id)?' <span class="badge">'+dueCount(d.id)+'</span>':''}</span>`).join('');
+  document.getElementById('modePills').innerHTML=[['due','Due + new'],['all','Whole deck']].map(([m,l])=>
+    `<span class="pill ${curMode===m?'on':''}" onclick="setMode('${m}')">${l}</span>`).join('');
+}
+function setDeck(d){curDeck=d;session=null;renderCardStart();}
+function setMode(m){curMode=m;session=null;renderCardStart();}
+function startCards(deck,mode){curDeck=deck;curMode=mode;session=null;go('cards');beginSession();}
+function buildQueue(){
+  const now=Date.now(),cards=deckCards(curDeck);
+  if(curMode==='all')return shuffle(cards.map(c=>c.id));
+  const due=cards.filter(c=>isDue(c.id,now)).sort((a,b)=>retrievability(cs(a.id),now)-retrievability(cs(b.id),now)).map(c=>c.id);
+  const fresh=cards.filter(c=>isNew(c.id)).map(c=>c.id);
+  return due.concat(fresh);
+}
+function renderCardStart(){
+  renderCardPills();
+  const q=buildQueue(),label=curDeck==='all'?'All decks':DECK_BY_ID[curDeck].title;
+  document.getElementById('deckLabel').textContent=label;
+  document.getElementById('deckCount').textContent=`${deckCards(curDeck).length} cards`;
+  const stage=document.getElementById('cardStage');
+  if(!q.length){
+    const next=deckCards(curDeck).map(c=>cs(c.id)).filter(Boolean).sort((a,b)=>a.due-b.due)[0];
+    stage.innerHTML=`<div class="done"><div class="big">🎉</div><h3>Nothing due in ${label}</h3>
+      <p class="muted">${next?'Next card returns in '+fmtDays((next.due-Date.now())/DAY)+'.':''} Reviewing early barely changes the schedule, so practice if you want to.</p>
+      <button class="btn alt" style="margin-top:8px" onclick="setMode('all')">Practice the whole deck anyway</button></div>`;
+    return;
+  }
+  const due=q.filter(id=>!isNew(id)).length,nw=q.length-due;
+  stage.innerHTML=`<div class="done"><div class="big">🃏</div><h3>${q.length} card${q.length>1?'s':''} ready</h3>
+    <p class="muted">${curMode==='all'?'Whole deck, shuffled.':`${due} due · ${nw} new`}</p>
+    <button class="btn" style="margin-top:8px" onclick="beginSession()">Start</button></div>`;
+}
+function beginSession(){
+  const q=buildQueue();
+  if(!q.length){renderCardStart();return;}
+  session={queue:q,done:0,total:q.length,again:0,flipped:false};
+  renderCardPills();renderCard();
+}
+function renderCard(){
+  const s=session;
+  if(!s.queue.length){
+    document.getElementById('cardStage').innerHTML=`<div class="done"><div class="big">✅</div><h3>Session complete</h3>
+      <p class="muted">${s.total} card${s.total>1?'s':''} reviewed · ${s.again} sent back for another look.</p>
+      <div class="btnrow" style="margin-top:8px"><button class="btn alt" onclick="session=null;renderCardStart()">Back to decks</button><button class="btn" onclick="go('learn')">Try Learn mode</button></div></div>`;
+    session=null;renderCardPills();return;
+  }
+  const id=s.queue[0],c=CARD_BY_ID[id],st=cs(id);
+  document.getElementById('deckCount').textContent=`${s.total-s.queue.length+1} / ${s.total}`;
+  document.getElementById('deckLabel').textContent=DECK_BY_ID[c.deck].title+(st?` · seen ${st.reps}× · ${stageOf(id)}`:' · new');
+  const preview=g=>fmtDays(previewInterval(id,g));
+  document.getElementById('cardStage').innerHTML=`
+    <div class="fcwrap"><div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-face fc-front"><span class="fc-tag">${DECK_BY_ID[c.deck].title}</span><div class="q">${c.q}</div><span class="fc-hint">tap to flip</span></div>
+      <div class="fc-face fc-back"><span class="fc-tag">Answer</span><div class="a">${ansHtml(c.a)}</div>${c.why?`<div class="why"><b>Why it matters:</b> ${c.why}</div>`:''}<span class="fc-hint">tap to flip back</span></div>
+    </div></div>
+    <div class="rate hidden" id="rateRow">
+      <button class="r1" onclick="rateCard(1)">Again<small>${preview(1)}</small></button>
+      <button class="r2" onclick="rateCard(2)">Hard<small>${preview(2)}</small></button>
+      <button class="r3" onclick="rateCard(3)">Good<small>${preview(3)}</small></button>
+      <button class="r4" onclick="rateCard(4)">Easy<small>${preview(4)}</small></button>
+    </div>
+    <p class="muted center" style="margin-top:10px">Flip, then rate how well you recalled it. Numbers show when the card would return.</p>`;
+}
+function flipCard(){
+  const el=document.getElementById('flashcard');el.classList.toggle('flip');
+  session.flipped=true;document.getElementById('rateRow').classList.remove('hidden');
+}
+function rateCard(g){
+  const id=session.queue.shift();
+  rate(id,g);
+  if(g===1){session.again++;session.queue.splice(Math.min(3,session.queue.length),0,id);session.total++;}
+  renderCard();
+}
+
+/* ============================================================
+   LEARN MODE — adaptive format per card
+   new / weak (s < 3d) → multiple choice · steps cards → order the steps
+   sticking (s ≥ 3d)   → written recall, self-graded
+============================================================ */
+let learnDeck='all', learn=null;
+function renderLearnPills(){
+  document.getElementById('learnPills').innerHTML=[{id:'all',title:'All'},...DECKS].map(d=>
+    `<span class="pill ${learnDeck===d.id?'on':''}" onclick="learnDeck='${d.id}';learn=null;renderLearnStart()">${d.title}</span>`).join('');
+}
+function renderLearnStart(){
+  renderLearnPills();
+  const cards=deckCards(learnDeck),now=Date.now();
+  const due=cards.filter(c=>isDue(c.id,now)).length,nw=cards.filter(c=>isNew(c.id)).length;
+  document.getElementById('learnStage').innerHTML=`<div class="done"><div class="big">🧠</div><h3>${learnDeck==='all'?'All decks':DECK_BY_ID[learnDeck].title}</h3>
+    <p class="muted">${cards.length} cards · ${due} due · ${nw} new. A round is up to 10 questions, due and new cards first.</p>
+    <button class="btn" style="margin-top:8px" onclick="beginLearn()">Start a round</button></div>`;
+}
+function beginLearn(){
+  const now=Date.now(),cards=deckCards(learnDeck);
+  const due=shuffle(cards.filter(c=>isDue(c.id,now))),fresh=cards.filter(c=>isNew(c.id)),rest=shuffle(cards.filter(c=>!isDue(c.id,now)&&!isNew(c.id)));
+  const q=due.concat(fresh,rest).slice(0,10).map(c=>c.id);
+  learn={queue:q,total:q.length,i:0,right:0};
+  renderLearnQ();
+}
+function learnFormat(id){
+  const c=CARD_BY_ID[id],st=cs(id);
+  if(Array.isArray(c.a))return 'steps';
+  return (!st||st.s<3)?'mcq':'write';
+}
+function renderLearnQ(){
+  const L=learn,stage=document.getElementById('learnStage');
+  if(L.i>=L.queue.length){
+    stage.innerHTML=`<div class="done"><div class="big">${L.right===L.total?'🏆':'👍'}</div><h3>${L.right} / ${L.total} on the first try</h3>
+      <p class="muted">Results feed the same schedule as the flashcards — misses come back sooner.</p>
+      <div class="btnrow" style="margin-top:8px"><button class="btn alt" onclick="learn=null;renderLearnStart()">Done</button><button class="btn" onclick="beginLearn()">Another round</button></div></div>`;
+    learn=null;return;
+  }
+  const id=L.queue[L.i],c=CARD_BY_ID[id],fmt=learnFormat(id);
+  const head=`<div class="lprog"><i style="width:${Math.round(L.i/L.total*100)}%"></i></div>
+    <div class="lq"><div class="eyebrow">${L.i+1} / ${L.total} · ${DECK_BY_ID[c.deck].title} · ${fmt==='mcq'?'Multiple choice':fmt==='steps'?'Put the steps in order':'Write it from memory'}</div><div class="prompt">${c.q}</div>`;
+  if(fmt==='mcq'){
+    const pool=CARDS.filter(o=>o.id!==id&&!Array.isArray(o.a));
+    const same=shuffle(pool.filter(o=>o.deck===c.deck)),other=shuffle(pool.filter(o=>o.deck!==c.deck));
+    const distract=same.concat(other).slice(0,3).map(o=>o.a);
+    const opts=shuffle([c.a,...distract]);
+    stage.innerHTML=head+`<div class="opts" id="opts">${opts.map((o,i)=>`<button class="opt" data-ok="${o===c.a}" onclick="answerMcq(this)">${o}</button>`).join('')}</div><div id="fb"></div></div>`;
+  }else if(fmt==='steps'){
+    const steps=c.a.map((s,i)=>({s,i}));
+    L.stepNext=0;L.stepMiss=0;
+    stage.innerHTML=head+`<p class="muted" style="margin:-4px 0 10px">Tap the steps in the correct order.</p><div class="opts steps" id="opts">${shuffle(steps).map(o=>`<button class="opt" data-i="${o.i}" onclick="answerStep(this)"><span class="n">?</span><span>${o.s}</span></button>`).join('')}</div><div id="fb"></div></div>`;
+  }else{
+    stage.innerHTML=head+`<textarea class="write" id="writeBox" placeholder="Type your answer, then check…"></textarea>
+      <button class="btn" style="margin-top:10px" onclick="checkWrite()">Check answer</button><div id="fb"></div></div>`;
+    setTimeout(()=>document.getElementById('writeBox').focus(),50);
+  }
+}
+function feedbackHtml(ok,c,extra){
+  return `<div class="feedback ${ok?'ok':'no'}"><span class="lab">${ok?'Correct':'Not quite'}</span><div class="ans">${ansHtml(c.a)}</div>${c.why?`<div class="why"><b>Why:</b> ${c.why}</div>`:''}${extra||''}</div>`;
+}
+function answerMcq(btn){
+  const id=learn.queue[learn.i],c=CARD_BY_ID[id];
+  const ok=btn.dataset.ok==='true';
+  document.querySelectorAll('#opts .opt').forEach(b=>{b.disabled=true;if(b.dataset.ok==='true')b.classList.add('ok');else if(b===btn)b.classList.add('no');else b.classList.add('dim');});
+  if(ok)learn.right++;
+  rate(id,ok?3:1);
+  document.getElementById('fb').innerHTML=feedbackHtml(ok,c,`<button class="btn" style="margin-top:10px" onclick="learn.i++;renderLearnQ()">Continue →</button>`);
+}
+function answerStep(btn){
+  const L=learn,id=L.queue[L.i],c=CARD_BY_ID[id];
+  const i=+btn.dataset.i;
+  if(btn.classList.contains('ok'))return;
+  if(i===L.stepNext){
+    btn.classList.add('ok');btn.querySelector('.n').textContent=L.stepNext+1;L.stepNext++;
+    if(L.stepNext===c.a.length){
+      const g=L.stepMiss===0?3:L.stepMiss<=2?2:1;
+      if(L.stepMiss===0)L.right++;
+      rate(id,g);
+      document.getElementById('fb').innerHTML=feedbackHtml(L.stepMiss===0,c,`<p class="muted" style="margin:8px 0 0">${L.stepMiss} wrong tap${L.stepMiss===1?'':'s'}.</p><button class="btn" style="margin-top:10px" onclick="learn.i++;renderLearnQ()">Continue →</button>`);
+    }
+  }else{
+    L.stepMiss++;btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');
+  }
+}
+function checkWrite(){
+  const id=learn.queue[learn.i],c=CARD_BY_ID[id];
+  const typed=document.getElementById('writeBox').value.trim();
+  document.getElementById('writeBox').disabled=true;
+  document.querySelector('#view-learn .lq .btn').style.display='none';
+  document.getElementById('fb').innerHTML=`<div class="feedback ok" style="background:#f4fbf9;border-color:#bfe0d8"><span class="lab" style="color:var(--navy2)">Model answer</span><div class="ans">${ansHtml(c.a)}</div>${c.why?`<div class="why"><b>Why:</b> ${c.why}</div>`:''}
+    ${typed?`<p class="muted" style="margin:8px 0 0">You wrote: “${typed.replace(/</g,'&lt;')}”</p>`:''}
+    <p style="margin:10px 0 6px;font-weight:700">How close were you?</p>
+    <div class="rate"><button class="r1" onclick="gradeWrite(1)">Missed it</button><button class="r2" onclick="gradeWrite(2)">Partly</button><button class="r3" onclick="gradeWrite(3)">Got it</button><button class="r4" onclick="gradeWrite(4)">Nailed it</button></div></div>`;
+}
+function gradeWrite(g){
+  const id=learn.queue[learn.i];
+  if(g>=3)learn.right++;
+  rate(id,g);learn.i++;renderLearnQ();
+}
+
+/* ============================================================
+   BOOT
+============================================================ */
+function renderAll(){renderProgress();renderHome();renderNotes();renderCardStart();renderLearnStart();}
+renderAll();
+</script>
+<script src="../shared/topics.js"></script>
+</body>
+</html>
