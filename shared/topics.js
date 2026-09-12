@@ -8,7 +8,8 @@
   var TOPICS=[
     {id:'home',    label:'All topics',                short:'Topics',     href:'index.html'},
     {id:'part107', label:'FAA Part 107',              short:'Part 107',   href:'part107/index.html'},
-    {id:'geog3800',label:'GEOG 3800 Data Visualization',short:'GEOG 3800',href:'geog3800/index.html'}
+    {id:'geog3800',label:'GEOG 3800 Data Visualization',short:'GEOG 3800',href:'geog3800/index.html'},
+    {id:'stats1045',label:'STATS 1045 Intro to Statistics',short:'STATS 1045',href:'stats1045/index.html'}
   ];
   function render(bar){
     var active=bar.getAttribute('data-active')||'home';

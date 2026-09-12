@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STATS 1045">
+<meta name="theme-color" content="#3d2a5c">
+<title>STATS 1045 Intro to Statistics — Study Guide</title>
+<link rel="stylesheet" href="../shared/topics.css">
+<style>
+:root{
+  --navy:#3d2a5c; --navy2:#6a4c93; --sky:#8a6bbe; --accent:#f4a72f;
+  --bg:#f4f6f9; --card:#fff; --ink:#16222e; --muted:#5d6b78;
+  --line:#e2e8f0; --good:#1f9d57; --bad:#d6453d; --warn:#b26a00;
+  --shadow:0 2px 10px rgba(16,34,46,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-text-size-adjust:100%;line-height:1.5;}
+a{color:var(--sky);}
+header{position:sticky;top:0;z-index:40;background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;padding:calc(env(safe-area-inset-top) + 12px) 16px 12px;box-shadow:var(--shadow);}
+header .row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+header h1{font-size:17px;margin:0;font-weight:700;}
+header .sub{font-size:11px;opacity:.85;margin-top:1px;}
+.progbar{height:6px;background:rgba(255,255,255,.22);border-radius:99px;margin-top:10px;overflow:hidden;}
+.progbar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s;}
+main{padding:16px 16px 96px;max-width:760px;margin:0 auto;}
+.view{display:none;animation:fade .25s ease;}
+.view.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+h2.sec{font-size:20px;margin:4px 0 12px;}
+.lead{color:var(--muted);font-size:14px;margin:-4px 0 16px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px;}
+.card h3{margin:0 0 8px;font-size:16px;}
+.card p{margin:8px 0;font-size:14.5px;}
+.muted{color:var(--muted);font-size:13px;}
+.center{text-align:center;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--navy);color:#fff;border:none;
+  border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600;cursor:pointer;width:100%;}
+.btn.alt{background:#fff;color:var(--navy);border:1.5px solid var(--navy);}
+.btn.ghost{background:#eef2f7;color:var(--ink);}
+.btn.sm{padding:9px 12px;font-size:13px;width:auto;}
+.btn:disabled{opacity:.5;}
+.btn:active{filter:brightness(.95);}
+.btnrow{display:flex;gap:10px;}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.pill{padding:8px 13px;border-radius:99px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.pill.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.pills.scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -16px 10px;padding:0 16px;}
+.pills.scroll::-webkit-scrollbar{display:none;}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
+.tile:active{transform:scale(.97);}
+.tile .ic{font-size:24px;}
+.tile .t{font-weight:700;margin-top:8px;font-size:14.5px;}
+.tile .d{color:var(--muted);font-size:12px;margin-top:3px;}
+.tile .meter{height:5px;border-radius:99px;background:var(--line);margin-top:10px;overflow:hidden;}
+.tile .meter>i{display:block;height:100%;background:var(--good);width:0;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0;}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center;font-size:10.5px;color:var(--muted);line-height:1.25;}
+.stat b{display:block;font-size:21px;color:var(--navy);line-height:1.1;margin-bottom:2px;}
+.stat.due b{color:var(--accent);}
+/* Notes */
+.lect{margin-bottom:22px;}
+.lect h3{color:var(--navy);border-left:4px solid var(--accent);padding-left:10px;margin:18px 0 10px;font-size:16px;}
+.note{background:#fffdf5;border:1px solid #efe4c2;border-left:4px solid #e2cf8a;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14.5px;white-space:pre-line;}
+.note .lab{display:block;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#9a6a00;margin-bottom:3px;}
+.ann{border-radius:10px;padding:10px 12px;margin:6px 0 12px 14px;font-size:14px;border:1px solid var(--line);background:#fff;}
+.ann .lab{display:block;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px;}
+.ann.x{background:#f1edf8;border-color:#d6cbe8;}.ann.x .lab{color:var(--navy2);}
+.ann.c{background:#fdeeed;border-color:#f3c2be;}.ann.c .lab{color:var(--bad);}
+.ann.t{background:#eaf3fb;border-color:#c5ddf3;}.ann.t .lab{color:#2f6fd6;}
+.ann.e{background:#f3f7f3;border:1px dashed #b8d6b8;}.ann.e .lab{color:var(--good);}
+.ann ul,.ann ol{margin:6px 0;padding-left:18px;}
+.ann li{margin:3px 0;}
+.ann .rev{margin-top:8px;font-size:12.5px;color:var(--sky);font-weight:700;cursor:pointer;}
+.ann .hid{display:none;margin-top:8px;color:#1c5e36;font-weight:600;}
+.ann.show .hid{display:block;}
+body.notesonly .ann{display:none;}
+table.ref{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;}
+table.ref th,table.ref td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top;}
+table.ref th{background:#f2f5f8;}
+.kbd{background:#eef2f7;border-radius:6px;padding:1px 6px;font-size:12px;font-family:ui-monospace,Menlo,monospace;}
+.formula{font-family:ui-monospace,Menlo,monospace;background:#16222e;color:#fff;border-radius:9px;padding:9px 10px;margin:7px 0;font-size:13px;overflow-x:auto;}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);margin:-6px 0 12px;}
+.toggle input{width:18px;height:18px;accent-color:var(--navy);}
+/* Flashcards */
+.box-info{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-bottom:8px;}
+.fcwrap{perspective:1200px;}
+.flashcard{position:relative;min-height:250px;transition:transform .45s;transform-style:preserve-3d;cursor:pointer;}
+.flashcard.flip{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);
+  border-radius:18px;padding:22px 18px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:auto;}
+.fc-back{transform:rotateY(180deg);background:#f6f3fb;}
+.fc-tag{position:absolute;top:12px;left:14px;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--sky);}
+.fc-hint{position:absolute;bottom:10px;font-size:11px;color:var(--muted);}
+.fc-face .q{font-size:18px;font-weight:700;line-height:1.35;}
+.fc-face .a{font-size:15.5px;font-weight:600;line-height:1.4;text-align:left;width:100%;}
+.fc-face .a ol{margin:4px 0;padding-left:20px;}
+.fc-face .a li{margin:4px 0;}
+.fc-face .why{margin-top:10px;font-size:13px;font-weight:500;color:#1c5e36;background:#e8f5e9;border-radius:10px;padding:8px 10px;text-align:left;width:100%;}
+.fc-face .why b{color:var(--good);}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;}
+.rate button{border:none;border-radius:12px;padding:10px 4px;color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;line-height:1.2;}
+.rate button small{display:block;font-weight:600;font-size:10.5px;opacity:.85;}
+.rate .r1{background:var(--bad);}.rate .r2{background:#e08a00;}.rate .r3{background:var(--good);}.rate .r4{background:#2f6fd6;}
+.rate.hidden{visibility:hidden;}
+.done{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 16px;text-align:center;}
+.done .big{font-size:40px;}
+/* Learn + Practice */
+.lq{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);}
+.lq .eyebrow{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--sky);}
+.lq .prompt{font-size:17px;font-weight:700;margin:6px 0 12px;line-height:1.35;}
+.lq .prompt .data{display:block;font-family:ui-monospace,Menlo,monospace;font-size:16px;background:#f2f5f8;border-radius:8px;padding:6px 10px;margin-top:8px;letter-spacing:.5px;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;font-size:14px;cursor:pointer;line-height:1.35;font-family:inherit;color:inherit;}
+.opt:active{background:#f6f8fa;}
+.opt.ok{border-color:var(--good);background:#e8f5e9;}
+.opt.no{border-color:var(--bad);background:#fdeeed;}
+.opt.dim{opacity:.55;}
+.opt .letter{display:inline-block;width:22px;font-weight:800;color:var(--navy2);}
+.steps .opt{display:flex;gap:10px;align-items:flex-start;}
+.steps .opt .n{flex:0 0 22px;height:22px;border-radius:50%;background:#eef2f7;color:var(--navy);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.steps .opt.ok .n{background:var(--good);color:#fff;}
+.steps .opt.shake{animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+textarea.write{width:100%;min-height:90px;border:1.5px solid var(--line);border-radius:12px;padding:10px;font-size:15px;font-family:inherit;resize:vertical;}
+.answerrow{display:flex;gap:8px;align-items:stretch;}
+.answerrow input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;font-size:16px;font-family:inherit;}
+.answerrow input:focus{outline:none;border-color:var(--navy2);}
+.answerrow .btn{width:auto;padding:0 16px;}
+.inhint{font-size:12px;color:var(--muted);margin:6px 2px 0;}
+.feedback{margin-top:12px;border-radius:12px;padding:12px;font-size:14px;}
+.feedback.ok{background:#e8f5e9;border:1px solid #b8d6b8;}
+.feedback.no{background:#fdeeed;border:1px solid #f3c2be;}
+.feedback .lab{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:4px;}
+.feedback .ans{font-weight:600;}
+.feedback .ans ol{margin:4px 0;padding-left:20px;}
+.feedback .why{margin-top:8px;color:#1c5e36;font-size:13.5px;}
+.feedback .src{margin-top:8px;font-size:11.5px;color:var(--muted);font-weight:600;}
+.lprog{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin:0 0 12px;}
+.lprog>i{display:block;height:100%;background:var(--navy2);width:0;transition:width .3s;}
+.ptile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;}
+.ptile:active{transform:scale(.985);}
+.ptile .ic{font-size:26px;flex:0 0 auto;}
+.ptile .t{font-weight:700;font-size:15px;}
+.ptile .tricky{font-size:12.5px;color:var(--muted);margin-top:3px;}
+.ptile .tricky b{color:var(--bad);}
+.ptile .meta{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.ptile .meta span{background:#eef2f7;border-radius:99px;padding:2px 8px;font-weight:700;}
+.ptile .meta span.best{background:#e8f5e9;color:#1c5e36;}
+.missed{margin-top:12px;text-align:left;}
+.missed li{font-size:13px;margin:6px 0;}
+.scorebig{font-size:46px;font-weight:800;text-align:center;}
+.scorebig.pass{color:var(--good);}.scorebig.fail{color:var(--bad);}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;padding:6px 4px calc(env(safe-area-inset-bottom) + 6px);}
+nav.tabs button{flex:1;background:none;border:none;color:var(--muted);font-size:10.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 2px;}
+nav.tabs button .ic{font-size:20px;line-height:1;}
+nav.tabs button.on{color:var(--navy);}
+.badge{display:inline-block;min-width:18px;padding:1px 6px;border-radius:99px;background:var(--accent);color:#16222e;font-size:10px;font-weight:800;margin-left:4px;vertical-align:middle;}
+.key{background:#fff6e6;border:1px solid #f3d89a;border-radius:12px;padding:12px;margin:12px 0;font-size:14px;}
+.key b{color:#9a6a00;}
+</style>
+</head>
+<body>
+<header>
+  <div class="topicbar" data-active="stats1045" data-root="../"></div>
+  <div class="row">
+    <div>
+      <h1>STATS 1045 — Intro to Statistics</h1>
+      <div class="sub" id="subline">Chapter 1 · slides explained · cards · practice</div>
+    </div>
+    <button class="btn sm ghost" id="resetBtn" style="width:auto">Reset</button>
+  </div>
+  <div class="progbar"><i id="overallProg"></i></div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="view active" id="view-home">
+    <h2 class="sec">STATS 1045 👋</h2>
+    <p class="lead">Built from the Chapter 1 slides (1.1 Six-step method · 1.2 Exploring data · 1.3 Random processes) and the Ch. 1 quiz review.</p>
+    <div class="card">
+      <h3>Today</h3>
+      <div class="stats" id="homeStats"></div>
+      <div class="btnrow" style="margin-top:6px">
+        <button class="btn" onclick="startCards('all','due')">Review due cards</button>
+        <button class="btn alt" onclick="go('practice')">Practice questions</button>
+      </div>
+      <p class="muted" id="homeHint" style="margin:10px 0 0"></p>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="go('notes')">
+      <h3>📝 Slides, explained</h3>
+      <p class="muted" style="margin:4px 0 0">The key slides from 1.1, 1.2 and 1.3 with plain-English explanations, worked answers to the in-class questions, and the traps the quiz review points at.</p>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="go('practice')">
+      <h3>✅ Practice question bank <span class="badge" id="homeQCount"></span></h3>
+      <p class="muted" style="margin:4px 0 0">Multiple choice, type-the-number and put-in-order questions grouped by the concepts students most often get wrong. Includes generated calculation problems (mean, median, IQR, SD) with fresh numbers every time.</p>
+    </div>
+    <h2 class="sec" style="margin-top:18px">Flashcard decks</h2>
+    <div class="tiles" id="deckTiles"></div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="view" id="view-notes">
+    <h2 class="sec">Slides, explained</h2>
+    <p class="lead">Yellow blocks quote the slides. <b>Explain</b> unpacks the idea, <b>Watch out</b> is a common trap, <b>Tip</b> is how to answer it on a quiz, and <b>Try it</b> is a self-check from the slides.</p>
+    <label class="toggle"><input type="checkbox" id="notesOnly"> Show slide text only (hide explanations)</label>
+    <div id="notesBody"></div>
+    <div class="btnrow" style="margin-top:8px">
+      <button class="btn alt" onclick="startCards('all','due')">Flashcards →</button>
+      <button class="btn" onclick="go('practice')">Practice questions →</button>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="view" id="view-cards">
+    <h2 class="sec">Flashcards</h2>
+    <p class="lead">Say the answer <i>before</i> flipping, then rate honestly. Your rating decides when the card returns.</p>
+    <div class="pills scroll" id="cardPills"></div>
+    <div class="pills" id="modePills"></div>
+    <div class="box-info"><span id="deckLabel"></span><span id="deckCount"></span></div>
+    <div id="cardStage"></div>
+  </section>
+
+  <!-- LEARN -->
+  <section class="view" id="view-learn">
+    <h2 class="sec">Learn mode</h2>
+    <p class="lead">Adaptive practice from the flashcards: new cards as multiple choice, procedures as “put the steps in order”, cards you know as written recall.</p>
+    <div class="pills scroll" id="learnPills"></div>
+    <div id="learnStage"></div>
+  </section>
+
+  <!-- PRACTICE -->
+  <section class="view" id="view-practice">
+    <h2 class="sec">Practice questions</h2>
+    <p class="lead">Quiz-style questions taken from or modeled on the class slides. Each concept lists the trap it hides. Answers are checked immediately with an explanation and the slide it came from.</p>
+    <div id="practiceStage"></div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button data-go="home" class="on"><span class="ic">🏠</span>Home</button>
+  <button data-go="notes"><span class="ic">📝</span>Slides</button>
+  <button data-go="cards"><span class="ic">🃏</span><span>Cards<span class="badge" id="dueBadge" style="display:none"></span></span></button>
+  <button data-go="learn"><span class="ic">🧠</span>Learn</button>
+  <button data-go="practice"><span class="ic">✅</span>Practice</button>
+</nav>
+
+<script>
+/* ============================================================
+   PERSISTENCE
+============================================================ */
+const STORE='stats1045v1';
+let state=JSON.parse(localStorage.getItem(STORE)||'{}');
+state.cards=state.cards||{};   // card id -> {s,d,last,due,reps,lapses}
+state.q=state.q||{};           // question id -> {tries,right}
+state.best=state.best||{};     // concept id -> best %
+state.notesOnly=!!state.notesOnly;
+function save(){localStorage.setItem(STORE,JSON.stringify(state));renderProgress();}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+function go(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.go===v));
+  window.scrollTo(0,0);
+  if(v==='home')renderHome();
+  if(v==='cards'&&!session)renderCardStart();
+  if(v==='learn'&&!learn)renderLearnStart();
+  if(v==='practice'&&!practice)renderPracticeStart();
+}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.getElementById('resetBtn').onclick=()=>{
+  if(confirm('Reset all STATS 1045 progress (card scheduling and practice scores)?')){
+    state={cards:{},q:{},best:{},notesOnly:state.notesOnly};session=null;learn=null;practice=null;save();renderAll();go('home');
+  }
+};
+
+/* ============================================================
+   CONTENT: DECKS
+============================================================ */
+const DECKS=[
+ {id:'six',icon:'🧭',title:'Six steps & research questions',blurb:'The investigation framework'},
+ {id:'vars',icon:'🔎',title:'Observational units & variables',blurb:'Categorical, quantitative, or not a variable'},
+ {id:'dist',icon:'📊',title:'Describing distributions',blurb:'Shape · center · spread · unusual'},
+ {id:'spread',icon:'📐',title:'SD, IQR & the empirical rule',blurb:'Computing and interpreting spread'},
+ {id:'prob',icon:'🎲',title:'Probability & simulation',blurb:'Long-run proportions'},
+];
+
+/* ============================================================
+   CONTENT: SLIDES + ANNOTATIONS
+   n = slide text   x = explain   c = watch out   t = tip   e = try it (ans)
+============================================================ */
+const NOTES=[
+{title:'1.1 — The six-step method, observational units & variables',items:[
+ {n:`Stat 1040/1045 — Why and How: data-based decision making. How do we know whether the data can be trusted? How correct are polls? How do we know whether one variable causes another?
+One of the overarching goals in Statistics is to explain variability. If everybody was the same, we wouldn't need statistics.`},
+ {x:`The whole course is about <b>variability</b>: people differ, measurements differ, samples differ. Statistics asks whether a pattern we see is a <i>genuine tendency</i> or just chance variation. Every later tool (p-values, confidence intervals) is a way of answering that question.`},
+ {n:`Observational unit — the person or thing being measured (people, cities, universities, attempt at a process).
+Variable — what is measured on an observational unit.
+  Categorical — a group or category designation, usually a word or phrase.
+  Quantitative — meaningful numerical value.
+Data — the values measured or categories reported on individual objects of interest.`},
+ {x:`Ask two questions of any study: <b>Who or what is one row of the spreadsheet?</b> That is the observational unit. <b>What is written in each column for that row?</b> Those are the variables. A variable has to be something you could record <i>for each individual unit</i>. "Quantitative" means the number is a meaningful amount — you could sensibly add, average, or compare sizes.`},
+ {c:`<b>Numbers are not automatically quantitative.</b> An area code, ZIP code, or jersey number is a label written with digits — a <b>categorical</b> variable. Averaging area codes is meaningless. Ask: "Is arithmetic on this number meaningful?"`},
+ {c:`<b>Summaries and research questions are not variables.</b> "Average age of people in our class" and "How many of you have not sent a text today?" describe <i>all</i> the units at once — they are summaries. "Do women send more texts than men?" is a research question; the variables hiding inside it are <i>gender</i> (categorical) and <i>number of texts</i> (quantitative). On the quiz the third choice, "not a variable," is there for exactly these.`},
+ {e:`<b>Example 2 (slide 8):</b> classify each — number of texts sent today; whether the most recent text was incoming or outgoing; time of first text (AM/PM); year in school; major; area code of the most recent text.`,
+  ans:`Number of texts → quantitative · incoming/outgoing → categorical · AM/PM → categorical (if recorded as a clock time like 10:00 it would be quantitative) · year in school → categorical · major → categorical · area code → categorical (a number used as a label).`},
+ {e:`<b>Quiz review slide 2:</b> hair color; height in pounds; miles per gallon; marital status; average age of people in our class.`,
+  ans:`Hair color → categorical · height in pounds → quantitative · miles per gallon → quantitative · marital status → categorical · average age → <b>not a variable</b> (a summary).`},
+ {n:`A research question often looks for patterns in a variable, or compares a variable across different groups, or looks for a relationship between variables.`},
+ {x:`Three shapes of research question, and how to spot them:
+<ul><li><b>Pattern in one variable</b> — "How much, on average…?" / "What proportion…?" One variable, one group.</li>
+<li><b>Compare a variable across groups</b> — "Do freshmen send more texts than seniors?" Two variables: a <i>categorical grouping</i> variable (year) and the response (texts).</li>
+<li><b>Relationship between two variables</b> — "Is house price related to size?" Two variables measured on the same units, often both quantitative.</li></ul>`},
+ {e:`<b>Example 3 (slides 12–14):</b> for each, name the observational unit and classify the variable(s). (a) How much did American consumers spend on Christmas presents in 2013? (b) What proportion of tropical storms turn into hurricanes? (c) Do students who pull all-nighters have lower GPAs? (d) Is the price of a house related to its size? (e) Does asking students about the number of texts first impact whether they assess themselves as texting too often?`,
+  ans:`(a) unit: American consumers; variable: amount spent (quantitative). (b) unit: tropical storms; variable: whether it became a hurricane (categorical). (c) unit: college students; variables: whether they pull all-nighters (categorical), GPA (quantitative). (d) unit: houses; variables: price (quantitative), size (quantitative). (e) unit: students; variables: whether they were asked about number of texts first (categorical), whether they assess themselves as texting too often (categorical).`},
+ {n:`Six steps of a statistical investigation:
+1. Ask a research question.  2. Design a study and collect data.  3. Explore the data.  4. Draw inferences beyond the data.  5. Formulate conclusions.  6. Look back and ahead.`},
+ {x:`<table class="ref"><tr><th>Step</th><th>What you do</th><th>Sleep-study version</th></tr>
+<tr><td>1 Ask</td><td>Confirm the question can be answered with data (compare groups, relate two characteristics, survey opinions).</td><td>Does sleep restriction affect teens' hunger and the appeal of sweet foods?</td></tr>
+<tr><td>2 Design & collect</td><td>Choose observational units, define variables, gather data systematically.</td><td>Units = adolescents; grouping variable = sleep condition (categorical); hunger rating, appeal of sweets, appeal of non-sweets, calories (all quantitative).</td></tr>
+<tr><td>3 Explore</td><td>Numerical and graphical summaries; look for patterns.</td><td>Average ratings; histograms of hunger, appeal, calorie intake.</td></tr>
+<tr><td>4 Infer</td><td>Genuine tendency or chance? How strong? (<b>p-value</b>)</td><td>Is the difference between sleep groups real or due to chance?</td></tr>
+<tr><td>5 Conclude</td><td>Can it generalize? Is cause-and-effect warranted?</td><td>Are these teens representative of all teens? Did the sleep restriction <i>cause</i> the change?</td></tr>
+<tr><td>6 Look back & ahead</td><td>Limitations; next studies.</td><td>Small sample, only measured after 5 nights, no activity data.</td></tr></table>`},
+ {t:`<b>Matching questions:</b> the quiz gives you a sentence and asks which step. Key words: <i>averages / histograms</i> → Step 3. <i>Genuine tendency vs chance</i> → Step 4. <i>Generalize / cause-and-effect</i> → Step 5. <i>Limitations / future studies</i> → Step 6. <i>Observational units / how obtained / variables</i> → Step 2. The question itself → Step 1.`},
+ {n:`Big idea: p-value — a measure of the strength of a tendency. Smaller p-value means stronger evidence of a genuine tendency.`},
+ {x:`For now, treat the p-value as a dial: <b>small p-value = the data would be surprising if nothing were going on</b>, so it's strong evidence of a real effect. In the sleep study the smallest p-value (biggest difference) was for the appeal of sweets/desserts. You will compute p-values by simulation later; in Chapter 1 you only need to know what a smaller one means and that it belongs to Step 4.`},
+]},
+{title:'1.2 — Exploring data: shape, center, variability, unusual observations',items:[
+ {n:`Graphical summaries: Categorical variable → bar graph (bars don't touch). Quantitative variable → histogram or dot plot. Each dot in a dot plot represents an observational unit; each histogram block can contain multiple observational units.`},
+ {x:`The graph follows the variable type. A <b>bar graph</b> has one separated bar per category. A <b>dotplot</b> puts one dot per observational unit above a number line — great for seeing individual values. A <b>histogram</b> groups values into bins so each bar can hold many units — better for the overall pattern; changing the bin width changes the look. Horizontal axis: the variable with units. Vertical axis: count (or percent) of observational units.`},
+ {n:`Four important features of a quantitative variable's distribution: Shape · Center · Variability (spread) · Unusual observations.`},
+ {x:`When asked to "describe the distribution," hit all four in order:
+<ul><li><b>Shape</b> — symmetric, or skewed? <b>Left skewed = long left tail</b>; <b>right skewed = long right tail</b>. Name the direction of the <i>tail</i>, not the bump.</li>
+<li><b>Center</b> — a typical value: <b>mean</b> (balance point of the histogram) or <b>median</b> (cuts the data in half). Mode = most common value.</li>
+<li><b>Variability</b> — <b>SD</b> (typical distance from the mean) or <b>IQR</b> (range of the middle half); range = max − min.</li>
+<li><b>Unusual observations</b> — outliers far from the pattern; try to explain them.</li></ul>`},
+ {n:`Mean: add the numbers and divide by how many. Ex 6, 12, 15, 8, 4 → (6+12+15+8+4)/5 = 9. On a histogram: the balance point.
+Median: the middle number after ordering. Ex 4, 6, 8, 12, 15 → 8. Ex 4, 6, 8, 9, 12, 15 → (8+9)/2 = 8.5. On a histogram: cuts it in half, 50% each side.`},
+ {t:`<b>Median with an even count:</b> order the values, average the two middle ones. Always order first — "the middle of the list as given" is the classic slip.`},
+ {x:`<b>Skew pulls the mean toward the tail.</b> Right skewed → mean &gt; median. Left skewed → mean &lt; median. Symmetric → mean ≈ median. Reason: the mean is a balance point, so a long tail acts like a weight far out on a seesaw; the median only counts how many values are on each side.`},
+ {n:`Standard Deviation (SD): a measure of the spread about the mean. Low SD (close to 0): values close to the mean. High SD: values more spread out. Ex 4, 6, 7, 8, 11, 12, 15 → SD = 3.55.
+Range = largest − smallest = 15 − 4 = 11.  IQR = Q3 − Q1 = 12 − 6 = 6 (range of the middle half).`},
+ {n:`Deviation = Observation − Mean. Positive above average, negative below. The sum of the deviations is zero.
+The SD measures the "average" (typical) deviation size from the mean: how far away, on average, the data are from the mean.`},
+ {x:`<b>How to calculate the SD (the class method):</b>
+<ol><li>Find the mean.</li><li>Find each deviation (value − mean). They add to 0.</li><li>Square each deviation (units get squared too).</li><li>Take the <b>mean</b> of the squared deviations.</li><li>Take the square root (units are back to normal).</li></ol>
+For 4, 6, 7, 8, 11, 12, 15: mean = 9; deviations −5, −3, −2, −1, 2, 3, 6; squares 25, 9, 4, 1, 4, 9, 36 (sum 88); 88 ÷ 7 = 12.57; √12.57 = <b>3.55</b>. ✓ matches the slide.
+<div class="formula">SD = √( Σ(x − mean)² ÷ n )</div>
+Note the class divides by <b>n</b> (the number of values). Some calculators' "sample SD" divides by n − 1 and would give 3.83 here — use the slide method on quizzes unless told otherwise.`},
+ {c:`<b>Check Your Understanding (slide 12):</b> the SD of −7, −7, −7, −7, −7 is <b>0</b>, not −7 or 7. Every value equals the mean, so every deviation is 0. The SD can never be negative, and it is 0 only when all values are identical.`},
+ {x:`<b>Interpreting an SD in words</b> (Super Bowl anthems, mean 108.465 s, SD 20.477 s): "Anthem lengths typically differ from the average of about 108.5 seconds by about 20.5 seconds." Template: <i>[values] typically fall about [SD] [units] from the mean of [mean] [units].</i> Do not say "95% are within 20.5 s" — that's the 2-SD rule, not the SD itself.`},
+ {x:`<b>IQR</b> = Q3 − Q1, the spread of the middle 50%. Q1 is the median of the lower half, Q3 the median of the upper half (with an odd count, leave the overall median out of both halves). For 4, 6, 7, 8, 11, 12, 15: lower half 4, 6, 7 → Q1 = 6; upper half 11, 12, 15 → Q3 = 12; IQR = 6.`},
+ {n:`Properties of the SD (symmetric distributions): about 68% of observations within 1 SD of the mean; about 95% within 2 SDs; about 99.7% within 3 SDs.
+One way to declare an observation "unusual" is if it falls more than 2 SD from the mean — happens less than 5% of the time, roughly. Unusual observations are the 5% in the "tails."`},
+ {x:`The <b>empirical rule (68–95–99.7)</b> works for symmetric, bell-shaped ("normal") distributions. Using the anthems: mean ± 2 SD = 108.465 ± 40.954 → about <b>67.5 s to 149.4 s</b> holds ~95% of anthems. So an anthem longer than ~150 s or shorter than ~67 s would be <i>unusual</i>. The 2-SD rule also gives a quick way to <b>estimate an SD from a picture</b>: almost all the data spans about 4 SDs, so SD ≈ (overall spread of the bulk) ÷ 4.`},
+ {t:`"Best guess for the next anthem, give or take?" → best guess = the <b>mean</b> (about 108 s); give or take = the <b>SD</b> (about 20 s).`},
+ {n:`Do extreme values (outliers) affect the center? the shape? the spread?`},
+ {x:`<table class="ref"><tr><th>Measure</th><th>Affected by outliers?</th></tr>
+<tr><td>Mean</td><td><b>Yes</b> — pulled toward the outlier</td></tr><tr><td>Median</td><td>Barely — <i>resistant</i></td></tr>
+<tr><td>SD</td><td><b>Yes</b> — squared deviations make it very sensitive</td></tr><tr><td>Range</td><td><b>Yes</b> — max or min <i>is</i> the outlier</td></tr><tr><td>IQR</td><td>Barely — <i>resistant</i> (middle half ignores the ends)</td></tr>
+<tr><td>Shape</td><td>Yes — outliers create or stretch a tail (skew)</td></tr></table>
+Rule: for <b>skewed</b> data or data with outliers, report <b>median and IQR</b>; for roughly symmetric data, <b>mean and SD</b>.`},
+ {e:`<b>Slide 23 — predict from context:</b> for GPA of high-school students, income of Americans, and ACT scores: what shape? how do mean and median compare? SD or IQR?`,
+  ans:`<b>GPA</b>: bunched near the top with a tail toward low values → left skewed; mean &lt; median; IQR is safer. <b>Income</b>: most people moderate, a few very high → right skewed; mean &gt; median; use median & IQR. <b>ACT scores</b>: roughly symmetric/bell-shaped; mean ≈ median; SD is fine.`},
+ {e:`<b>Quiz review slides 12–13 — three cities' daily temperatures (28 days each):</b> Lincoln's dots are spread widely, Sedona's are bunched, SLO's are centered farthest right. Which has the largest mean? the largest SD? Lincoln had 2 days at 72° or higher, Sedona 0, SLO 9 — what proportions?`,
+  ans:`Largest mean → SLO (center farthest right). Largest SD → Lincoln (most spread out). Unusual observations → Lincoln's two lowest values around 12–13°. Proportions ≥ 72°: Lincoln 2/28 ≈ 0.07, Sedona 0/28 = 0, SLO 9/28 ≈ 0.32.`},
+ {c:`<b>Observational units in that slide are the days</b> (each dot is one day's average temperature), even though the slide's label says "months." Each dot = one observational unit is the rule that tells you.`},
+]},
+{title:'1.3 — Exploring random processes: probability as a long-run proportion',items:[
+ {n:`The probability of an outcome is the long-run proportion of times an outcome from a random process occurs if the process is repeated indefinitely under identical conditions.
+A probability can be written as a decimal (0.3333), a fraction (1/3), or a percentage (33.33%). A probability is always between 0 and 1.`},
+ {x:`Three ingredients in the definition, and quizzes test each: <b>random process</b> (what is repeated — a coin toss, a door pick), <b>long-run</b> (repeated a huge number of times, not 3 or 10), and <b>proportion</b> (successes ÷ repetitions). A probability describes what happens <i>across many repetitions</i>, not what will happen on the next one.`},
+ {t:`<b>Interpretation template</b> (objective 1.3.1): "If [random process] were repeated a very large number of times, [outcome] would occur in about [probability] of the repetitions." Slide version: "In thousands of rounds of picking a door from 3 doors, the contestant is expected to pick the door with the car 1/3 of the time." Saying "there's a 1/3 chance" just restates the number — it is not an interpretation.`},
+ {c:`<b>Interpreting ≠ evaluating.</b> "A 20% chance of rain" <i>means</i> that in the long run, about 20% of days with weather like today's have rain. Whether 20% is "likely" or "unlikely" is a separate judgment. And 20% never means "it won't rain."`},
+ {n:`John Kerrich tossed a coin 10,000 times and got 5,067 heads. Long-run? Proportion? Did the long-run proportion equal the probability of heads?`},
+ {x:`Random process: tossing the coin. Proportion: 5,067 ÷ 10,000 = <b>0.5067</b>. It is very close to 0.5 but not exactly — with a finite number of tosses we always see some chance variability. The observed proportion (a <b>statistic</b>, p̂) estimates the true probability (a <b>parameter</b>, π); the law of averages says the estimate gets closer as the number of repetitions grows.`},
+ {n:`A random process is a repeatable process where the result for an individual attempt is not known in advance but there is a predictable pattern to the results in the long run. A simulation is an artificial re-creation of a random process.`},
+ {n:`Monty Hall: pick-and-hold wins about 1/3 of the time; pick-and-switch wins about 2/3.`},
+ {x:`Your first pick is right 1/3 of the time. Staying keeps that 1/3. When you switch, you win exactly when your first pick was wrong — 2/3 of the time — because Monty always removes a goat door. The applet table (50 → 10,000 games) shows the win percentages wobbling at first and settling near 33% and 67%: that settling <i>is</i> "the long run."`},
+ {n:`Simulate picking the car with physical devices: a 3-section spinner (one color = car); 3 tickets in a box (car, goat, goat); 3 cards (Jack = car, 7 = goat, 10 = goat); a die (1–2 = car door, 3–4 = goat, 5–6 = goat). Repeat many times and track the proportion of wins.`},
+ {x:`A good physical simulation matches the <b>number of equally likely outcomes</b> to the real process. Three doors → three equally likely results, so: 3 spinner sectors, 3 tickets, 3 cards, or a die with its six faces split into <b>three pairs</b>. Using "1 = car, 2–6 = goat" would be wrong — that gives the car 1/6 instead of 1/3. Then: repeat many times, record win/lose each time, and the proportion of wins estimates the probability.`},
+ {n:`The process to find long-run probabilities: identify the random process → simulate it → repeat many, many times (usually thousands) → the long run is reached when proportions seem stable and stop changing → count the outcomes of interest and divide by repetitions (long-run proportion) → that long-run proportion is the probability.`},
+ {e:`<b>Slide 15:</b> the instructor simulated rolling two dice 20,000 times. About what proportion of the rolls were 7s (2 decimals)?`,
+  ans:`There are 6 ways to make 7 out of 36 equally likely pairs → 6/36 = 0.1667 ≈ <b>0.17</b>. Seven is the most likely sum of two dice.`},
+ {n:`Accuracy improves with a larger number of repetitions. The exception: what if we want EXACTLY 50% heads? Is that more likely with fewer or more repetitions?`},
+ {c:`<b>The trick question of 1.3.</b> More repetitions → the observed proportion gets <b>closer</b> to the true probability. But hitting the probability <b>exactly</b> (e.g., exactly 50% heads) is <b>less</b> likely with more tosses: 5 of 10 is quite likely; exactly 5,000 of 10,000 is rare. Closer, but not exact.`},
+ {n:`Random sampling (2.1 preview): Sample — the observational units on which data are collected. Sample size — the number of observational units. Random sampling is a chance process. Statistic — a number summarizing the results of a sample.`},
+ {x:`Vocabulary that carries through the whole course: a <b>parameter</b> is the long-run/true value (symbols <b>π</b> for a proportion, <b>μ</b> for a mean); a <b>statistic</b> is the number you compute from your sample (<b>p̂</b>, <b>x̄</b>). Random sampling is itself a random process, so statistics vary from sample to sample — the same idea as Kerrich's 0.5067 not being exactly 0.5.`},
+]}
+];
+
+/* ============================================================
+   CONTENT: FLASHCARDS
+============================================================ */
+const CARDS=[
+// Six steps & research questions
+{id:'s1',deck:'six',q:'The six steps of a statistical investigation, in order.',a:['Ask a research question.','Design a study and collect data.','Explore the data.','Draw inferences beyond the data.','Formulate conclusions.','Look back and ahead.'],why:'Objective 1.1.1. Quizzes give you a sentence from a study and ask which step it belongs to.'},
+{id:'s2',deck:'six',q:'Step 1 — Ask a research question. What do you confirm?',a:'That the question can be addressed by collecting data. Typical questions compare groups, ask how two characteristics are related, or survey opinions.',why:'If no data could answer it, it is not a statistical research question.'},
+{id:'s3',deck:'six',q:'Step 2 — Design a study and collect data. What gets decided here?',a:'How to select the people or objects (observational units), which variables to measure, and how to gather the data carefully and systematically.',why:'"What are the observational units and how were they obtained?" is a Step 2 question.'},
+{id:'s4',deck:'six',q:'Step 3 — Explore the data. What does it involve?',a:'Numerical summaries (averages, proportions) and graphical summaries (dotplots, histograms) to look for patterns related to the question.',why:'Any sentence about averages or histograms is Step 3.'},
+{id:'s5',deck:'six',q:'Step 4 — Draw inferences beyond the data. What is the key question?',a:'Do the findings reflect a genuine tendency, or could the discrepancy be due to chance? How strong is the tendency (p-value)?',why:'"Genuine tendency vs chance" = Step 4.'},
+{id:'s6',deck:'six',q:'Step 5 — Formulate conclusions. Two questions asked here?',a:'Can the inferences be generalized to a larger group or process? Is a cause-and-effect conclusion warranted?',why:'"Generalize" and "cause-and-effect" are the Step 5 keywords.'},
+{id:'s7',deck:'six',q:'Step 6 — Look back and ahead. What do you do?',a:'Point out limitations of the study and suggest new studies to build on the findings.',why:'Sleep study: small sample, only measured after 5 nights, no activity data.'},
+{id:'s8',deck:'six',q:'The three kinds of research question.',a:'1) A pattern in one variable ("how much on average / what proportion"). 2) Compare a variable across groups. 3) A relationship between two variables.',why:'Comparing across groups always involves a categorical grouping variable plus a response variable.'},
+{id:'s9',deck:'six',q:'In this course\'s words, what is a p-value?',a:'A measure of the strength of a tendency. A smaller p-value means stronger evidence of a genuine tendency.',why:'It belongs to Step 4. In the sleep study the smallest p-value was for the appeal of sweet/dessert foods.'},
+{id:'s10',deck:'six',q:'Why do we need statistics at all, according to the slides?',a:'To explain variability. If everybody were the same, we wouldn\'t need statistics.',why:'Every later tool asks whether an observed pattern is real or just chance variability.'},
+// Observational units & variables
+{id:'v1',deck:'vars',q:'Observational unit — definition.',a:'The person or thing being measured (people, cities, universities, an attempt at a process). One row of the data.',why:'Ask "who or what is one row of the spreadsheet?"'},
+{id:'v2',deck:'vars',q:'Variable — definition.',a:'What is measured on each observational unit; any characteristic that can be assigned a number or a category.',why:'It must be recordable for each individual unit — not a summary of the whole group.'},
+{id:'v3',deck:'vars',q:'Categorical variable — definition and examples.',a:'A group or category designation, usually a word or phrase. Examples: major, marital status, hair color, incoming vs outgoing, area code.',why:'Area code is categorical even though it is written with digits.'},
+{id:'v4',deck:'vars',q:'Quantitative variable — definition and examples.',a:'A meaningful numerical value — arithmetic on it makes sense. Examples: height, number of texts sent today, miles per gallon, GPA.',why:'Test: would averaging these numbers mean something?'},
+{id:'v5',deck:'vars',q:'Is "average age of people in our class" a variable?',a:'No — it is a summary of all the observational units. The variable is age (quantitative), measured on each person.',why:'"Average of…", "proportion of…", "how many of you…" are summaries, not variables.'},
+{id:'v6',deck:'vars',q:'Is "Do women tend to send more texts than men?" a variable?',a:'No — it is a research question. The variables inside it are gender (categorical) and number of texts sent (quantitative).',why:'The quiz offers "not a variable" as a third choice for exactly this.'},
+{id:'v7',deck:'vars',q:'Time of your first text today recorded as AM/PM — categorical or quantitative? What if recorded as 10:00?',a:'AM/PM → categorical (two groups). Recorded as a clock time such as 10:00 → quantitative.',why:'How the value is recorded decides the type, not the thing being measured.'},
+{id:'v8',deck:'vars',q:'Sleep study: observational units and the variables with their types.',a:'Units: the adolescents in the study. Grouping variable: sleep condition (restricted vs healthy) — categorical. Hunger rating, appeal of sweet foods, appeal of non-sweet foods, daily calorie intake — quantitative.',why:'Comparing groups always has one categorical grouping variable.'},
+{id:'v9',deck:'vars',q:'"What proportion of tropical storms turn into hurricanes?" — observational unit and variable?',a:'Unit: a tropical storm. Variable: whether it became a hurricane (categorical). The proportion is the summary.',why:'Pattern-in-one-variable question; the summary is a proportion because the variable is categorical.'},
+{id:'v10',deck:'vars',q:'Which graph for a categorical variable? For a quantitative variable?',a:'Categorical → bar graph (bars don\'t touch). Quantitative → dotplot or histogram.',why:'In a dotplot each dot is one observational unit; a histogram bar can hold many.'},
+// Describing distributions
+{id:'d1',deck:'dist',q:'The four features to discuss for a quantitative variable\'s distribution.',a:'Shape, center, variability (spread), and unusual observations.',why:'Hit all four, in this order, whenever asked to "describe the distribution."'},
+{id:'d2',deck:'dist',q:'Left skewed vs right skewed — how do you tell?',a:'Name the direction of the long tail. Left skewed = long left tail (bulk on the right). Right skewed = long right tail (bulk on the left).',why:'Skew is the tail, not the bump.'},
+{id:'d3',deck:'dist',q:'Two measures of center and two measures of spread used in class.',a:'Center: mean and median. Spread: standard deviation (SD) and interquartile range (IQR). Range (max − min) is also mentioned.',why:'Pair them: mean with SD (symmetric), median with IQR (skewed).'},
+{id:'d4',deck:'dist',q:'Where are the mean and the median on a histogram?',a:'Mean = the balance point of the histogram. Median = the point that cuts the histogram in half (50% of the data on each side).',why:'Because the mean is a balance point, a long tail pulls it toward the tail.'},
+{id:'d5',deck:'dist',q:'How do you find the median of 6, 12, 15, 8, 4, 9?',a:'Order: 4, 6, 8, 9, 12, 15. Even count, so average the two middle values: (8 + 9) / 2 = 8.5.',why:'Order first. For an odd count the median is the single middle value (4, 6, 8, 12, 15 → 8).'},
+{id:'d6',deck:'dist',q:'How do the mean and median compare in a right-skewed distribution? Left-skewed? Symmetric?',a:'Right skewed: mean > median. Left skewed: mean < median. Symmetric: mean ≈ median.',why:'The mean is pulled toward the long tail; the median only counts how many values are on each side.'},
+{id:'d7',deck:'dist',q:'Which measures are affected by outliers, and which are resistant?',a:'Affected: mean, SD, range (and shape — outliers create a tail). Resistant: median and IQR.',why:'That is why skewed data are summarized with median and IQR.'},
+{id:'d8',deck:'dist',q:'Predict shape, mean vs median, and SD vs IQR for: GPA of high-school students; income of Americans; ACT scores.',a:'GPA: left skewed, mean < median, prefer IQR. Income: right skewed, mean > median, prefer IQR. ACT: roughly symmetric, mean ≈ median, SD is fine.',why:'Ceilings (4.0 GPA) make left skew; a few huge values (income) make right skew.'},
+{id:'d9',deck:'dist',q:'Dotplot vs histogram — what does each element represent?',a:'Dotplot: each dot is one observational unit (good for individual values). Histogram: each bar is a bin that can contain many units (good for overall pattern); bin width is a choice.',why:'Axis labels: horizontal = the variable with units; vertical = count or percent of observational units.'},
+{id:'d10',deck:'dist',q:'What is the mode of a distribution?',a:'The most common data value (the tallest bar on a histogram).',why:'A third measure of center mentioned in the quiz review alongside mean and median.'},
+// SD, IQR & empirical rule
+{id:'p1',deck:'spread',q:'What is a deviation, and what do all the deviations add up to?',a:'Deviation = observation − mean. Positive above the mean, negative below. The deviations always sum to 0.',why:'The mean balances the histogram, so the positives and negatives cancel exactly.'},
+{id:'p2',deck:'spread',q:'Interpret a standard deviation in words (anthems: mean 108.465 s, SD 20.477 s).',a:'Anthem lengths typically differ from the mean of about 108.5 seconds by about 20.5 seconds.',why:'Template: values typically fall about [SD] from the mean of [mean]. Not "95% within 20.5 s."'},
+{id:'p3',deck:'spread',q:'Steps to calculate the SD (class method).',a:['Find the mean of the observations.','Calculate each deviation from the mean.','Square the deviations.','Take the mean of the squared deviations.','Take the square root.'],why:'Divide by n (the class divides by the number of values). Squaring then rooting brings the units back to normal.'},
+{id:'p4',deck:'spread',q:'What is the SD of −7, −7, −7, −7, −7?',a:'0. Every value equals the mean, so every deviation is 0.',why:'An SD is never negative and is 0 only when all values are identical.'},
+{id:'p5',deck:'spread',q:'IQR — definition and the value for 4, 6, 7, 8, 11, 12, 15.',a:'IQR = Q3 − Q1, the range of the middle half of the data. Q1 = 6, Q3 = 12, so IQR = 6.',why:'Q1 is the median of the lower half (4, 6, 7), Q3 the median of the upper half (11, 12, 15).'},
+{id:'p6',deck:'spread',q:'Range — definition and the value for 4, 6, 7, 8, 11, 12, 15.',a:'Range = largest − smallest = 15 − 4 = 11.',why:'The range uses only two values, so a single outlier changes it completely.'},
+{id:'p7',deck:'spread',q:'The empirical rule (symmetric distributions).',a:'About 68% of observations within 1 SD of the mean, about 95% within 2 SDs, about 99.7% within 3 SDs.',why:'Only for symmetric, bell-shaped data.'},
+{id:'p8',deck:'spread',q:'One way to declare an observation "unusual"?',a:'It falls more than 2 SDs from the mean — which happens less than about 5% of the time (the 5% in the tails).',why:'Unusual = the tails outside the middle 95%.'},
+{id:'p9',deck:'spread',q:'Anthems: mean 108.465 s, SD 20.477 s. Interval holding ~95%? Best guess for the next anthem, give or take?',a:'Mean ± 2 SD = 108.465 ± 40.954 → about 67.5 s to 149.4 s. Best guess ≈ 108 s, give or take ≈ 20 s.',why:'Best guess = mean; give or take = SD.'},
+{id:'p10',deck:'spread',q:'Why does the SD end up in the same units as the data?',a:'Squaring the deviations squares the units; taking the square root at the end brings them back.',why:'Step 3 squares, step 5 un-squares.'},
+{id:'p11',deck:'spread',q:'How can you estimate an SD from a dotplot using the 2-SD rule?',a:'Almost all the data (≈95%) spans about 4 SDs (2 on each side), so SD ≈ width of the bulk of the data ÷ 4.',why:'Slide 21: "use the 2-SD empirical rule to estimate the size of a standard deviation."'},
+// Probability & simulation
+{id:'r1',deck:'prob',q:'Probability of an outcome — definition.',a:'The long-run proportion of times the outcome occurs if the random process is repeated indefinitely under identical conditions.',why:'Three ingredients: random process, long run, proportion.'},
+{id:'r2',deck:'prob',q:'Three ways to write a probability, and its possible range.',a:'Decimal (0.3333), fraction (1/3), or percentage (33.33%). Always between 0 and 1 (0% and 100%).',why:'A "probability" of 1.2 or −0.1 is impossible.'},
+{id:'r3',deck:'prob',q:'Random process — definition.',a:'A repeatable process where the result of an individual attempt is not known in advance, but there is a predictable pattern in the long run.',why:'Coin toss, die roll, spinner, picking a door, random sampling.'},
+{id:'r4',deck:'prob',q:'What is a simulation?',a:'An artificial re-creation of a random process, used to see how often outcomes occur in the long run.',why:'Physical (cards, dice, spinners) or computer (applets).'},
+{id:'r5',deck:'prob',q:'Kerrich tossed a coin 10,000 times and got 5,067 heads. Proportion? Did it equal the probability?',a:'5,067 / 10,000 = 0.5067. Close to 0.5 but not exactly — chance variability remains even in a long run.',why:'The observed proportion (statistic) estimates the probability (parameter).'},
+{id:'r6',deck:'prob',q:'Interpret "the probability of picking the door with the car is 1/3."',a:'In thousands of rounds of picking one of 3 doors, the contestant would pick the car door about 1/3 of the time.',why:'An interpretation talks about many repetitions — not about the next round.'},
+{id:'r7',deck:'prob',q:'The process to find a long-run probability by simulation, in order.',a:['Identify the random process (e.g., roll 2 dice and take the sum).','Simulate it (e.g., use a computer to roll the dice).','Repeat many, many times (usually thousands).','Long run reached: proportions stabilize and stop changing.','Count the outcome of interest and divide by the number of repetitions.','That long-run proportion is the probability.'],why:'Slide 16 of 1.3 gives these scrambled and asks for the order.'},
+{id:'r8',deck:'prob',q:'Effect of more repetitions on a simulated probability — and the exception.',a:'More repetitions → the approximate probability gets closer to the true probability. Exception: getting EXACTLY the probability (e.g., exactly 50% heads) becomes LESS likely.',why:'Closer, but not exact. 5/10 is common; exactly 5,000/10,000 is rare.'},
+{id:'r9',deck:'prob',q:'Monty Hall: long-run win rates for "stay" and "switch"?',a:'Stay ≈ 1/3 (33%). Switch ≈ 2/3 (67%).',why:'Switching wins whenever the first pick was wrong, which is 2/3 of the time.'},
+{id:'r10',deck:'prob',q:'Most likely sum when rolling two dice, and its probability?',a:'7, with probability 6/36 ≈ 0.17.',why:'Six of the 36 equally likely pairs add to 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1).'},
+{id:'r11',deck:'prob',q:'How do you simulate the 3-door car pick with a single die?',a:'Split the six faces into three pairs: 1–2 = the car door, 3–4 = a goat door, 5–6 = a goat door. Roll, record car or goat, repeat many times.',why:'Each door needs the same chance (1/3), so each gets two faces. "1 = car, 2–6 = goat" would give 1/6.'},
+{id:'r12',deck:'prob',q:'Sample, sample size, statistic, parameter — definitions and symbols.',a:'Sample: the observational units data are collected on. Sample size: how many units. Statistic: a number summarizing a sample (p̂, x̄). Parameter: the long-run/true value (π, μ).',why:'Random sampling is a random process, so statistics vary from sample to sample.'},
+];
+const CARD_BY_ID=Object.fromEntries(CARDS.map(c=>[c.id,c]));
+const DECK_BY_ID=Object.fromEntries(DECKS.map(d=>[d.id,d]));
+
+/* ============================================================
+   CONTENT: PRACTICE QUESTION BANK
+   Concepts group questions by the trap they hide.
+   Types: mc (opts, ans=index) · num (ans, tol) · text (ans=[alternatives])
+          · order (items in correct order) · gen (function → instance)
+============================================================ */
+const CONCEPTS=[
+ {id:'vars',icon:'🔎',title:'Variables: categorical, quantitative, or not a variable',tricky:'Numbers used as labels (area codes) are categorical; "average of…" / "how many…" are summaries, and a research question is not a variable.'},
+ {id:'steps',icon:'🧭',title:'Six steps & types of research question',tricky:'Matching a sentence to its step — "averages/histograms" is Step 3, "genuine tendency vs chance" is Step 4, "generalize / cause-and-effect" is Step 5.'},
+ {id:'center',icon:'⚖️',title:'Mean vs median',tricky:'Order before finding the median; skew pulls the mean toward the tail; outliers move the mean but barely touch the median.'},
+ {id:'spread',icon:'📐',title:'SD, IQR & range',tricky:'The SD of identical values is 0; deviations sum to 0; the class divides by n; IQR and median are the resistant pair.'},
+ {id:'rule',icon:'🔔',title:'Empirical rule & unusual observations',tricky:'68–95–99.7 applies to symmetric data; "unusual" = more than 2 SD from the mean; interpreting an SD is not the same as the 95% rule.'},
+ {id:'graphs',icon:'📊',title:'Graphs & comparing distributions',tricky:'Bar graph for categorical, dotplot/histogram for quantitative; each dot is one observational unit; widest spread = largest SD.'},
+ {id:'prob',icon:'🎲',title:'Probability as a long-run proportion',tricky:'An interpretation talks about many repetitions, never the next trial; interpreting a probability is not the same as judging it likely/unlikely.'},
+ {id:'sim',icon:'🔁',title:'Simulation & repetitions',tricky:'More repetitions → closer to the truth but LESS likely to be exact; a die must be split into equal pairs to mimic 3 doors.'},
+];
+const CONCEPT_BY_ID=Object.fromEntries(CONCEPTS.map(c=>[c.id,c]));
+const VQ=['Categorical variable','Quantitative variable','Not a variable'];
+const STEP_OPTS=['Step 1 — Ask a research question','Step 2 — Design a study and collect data','Step 3 — Explore the data','Step 4 — Draw inferences beyond the data','Step 5 — Formulate conclusions','Step 6 — Look back and ahead'];
+const RQ_OPTS=['A pattern in one variable','Comparing a variable across groups','A relationship between two variables'];
+const rnd=(lo,hi)=>lo+Math.floor(Math.random()*(hi-lo+1));
+const r2=x=>Math.round(x*100)/100;
+function genList(n,lo,hi,intMean){
+  let a;do{a=Array.from({length:n},()=>rnd(lo,hi));}while(intMean&&a.reduce((s,x)=>s+x,0)%n!==0);
+  return a;
+}
+const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
+function median(a){const s=a.slice().sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2;}
+function sdPop(a){const m=mean(a);return Math.sqrt(mean(a.map(x=>(x-m)**2)));}
+function quartiles(a){const s=a.slice().sort((x,y)=>x-y),m=s.length>>1;return [median(s.slice(0,m)),median(s.slice(s.length%2?m+1:m))];}
+const list=a=>a.join(', ');
+
+const QBANK=[
+// --- Variables ---
+{id:'q_v1',topic:'vars',type:'mc',q:'Classify: <b>Average age of people in our class</b>.',opts:VQ,ans:2,exp:'An average describes the whole group at once, so it is a summary. The variable would be <i>age</i>, recorded for each person.',src:'Ch. 1 quiz review, slide 3'},
+{id:'q_v2',topic:'vars',type:'mc',q:'Classify: <b>Area code of the phone for your most recent text message</b>.',opts:VQ,ans:0,exp:'A number used as a label. Averaging area codes means nothing, so it is categorical.',src:'1.1 slides 8–9'},
+{id:'q_v3',topic:'vars',type:'mc',q:'Classify: <b>Height in pounds</b>.',opts:VQ,ans:1,exp:'Odd units, but a meaningful measured number for each person — quantitative (the quiz-review key agrees).',src:'Ch. 1 quiz review, slide 3'},
+{id:'q_v4',topic:'vars',type:'text',q:'Classify <b>whether your most recent text message was incoming or outgoing</b>. Type <i>categorical</i> or <i>quantitative</i>.',ans:['categorical'],hint:'one word',exp:'Two groups (incoming / outgoing) — a category designation.',src:'1.1 slide 8'},
+{id:'q_v5',topic:'vars',type:'mc',q:'Classify: <b>Time of your first text message today, recorded as AM or PM</b>.',opts:VQ,ans:0,exp:'AM/PM is two categories. If it had been recorded as a clock time (10:00, 2:00) it would be quantitative — how a value is recorded decides the type.',src:'1.1 slides 8–9'},
+{id:'q_v6',topic:'vars',type:'mc',q:'Classify: <b>How many of you have not sent at least one text message today?</b>',opts:VQ,ans:2,exp:'"How many…" is a summary (a count) of the variable <i>whether or not you sent at least one text</i>, so it is not itself a variable.',src:'1.1 slides 10–11'},
+{id:'q_v7',topic:'vars',type:'mc',q:'Classify: <b>Do women tend to send more text messages than men?</b>',opts:VQ,ans:2,exp:'This is a research question. The variables inside it are gender (categorical) and number of texts sent (quantitative).',src:'1.1 slides 10–11'},
+{id:'q_v8',topic:'vars',type:'mc',q:'In the sleep-restriction study, what are the <b>observational units</b>?',opts:['The two sleep conditions (restricted vs healthy)','The adolescents who took part','The hunger and appeal ratings','The pictures of sweet and non-sweet foods'],ans:1,exp:'Each teen is measured (sleep, hunger rating, appeal ratings, calories). The sleep condition is the grouping variable, the ratings are variables, the pictures are the measuring instrument.',src:'1.1 slide 22'},
+{id:'q_v9',topic:'vars',type:'mc',q:'In the sleep study, the <b>grouping variable</b> (sleep restriction vs healthy sleep) is…',opts:['Categorical','Quantitative','Not a variable'],ans:0,exp:'Two groups — a category designation for each teen. Hunger rating, appeal ratings and calorie intake are the quantitative variables.',src:'1.1 slide 22'},
+{id:'q_v10',topic:'vars',type:'mc',q:'"What proportion of tropical storms turn into hurricanes?" The observational unit is…',opts:['A hurricane season','A tropical storm','The proportion of storms','The National Hurricane Center'],ans:1,exp:'Each storm is one unit; the variable is <i>whether it became a hurricane</i> (categorical); the proportion is the summary.',src:'1.1 slide 12'},
+{id:'q_v11',topic:'vars',type:'text',q:'"Is the price of a house related to its size?" What is the observational unit? (one word)',ans:['house','houses','a house','the house','each house','the houses'],hint:'one word',exp:'Each house has a price and a size recorded — both quantitative variables.',src:'1.1 slide 14'},
+{id:'q_v12',topic:'vars',type:'mc',q:'Classify: <b>Marital status</b>.',opts:VQ,ans:0,exp:'Single / married / divorced… — categories.',src:'Ch. 1 quiz review, slide 3'},
+{id:'q_v13',topic:'vars',type:'mc',q:'Classify: <b>Miles per gallon</b>.',opts:VQ,ans:1,exp:'A meaningful measured number for each car.',src:'Ch. 1 quiz review, slide 3'},
+{id:'q_v14',topic:'vars',type:'mc',q:'Which of these is a <b>summary</b> rather than a variable?',opts:['Whether a person graduated from high school','Proportion of the group who graduated from high school','Height of a person','Major'],ans:1,exp:'A proportion is about ALL the observational units in the group. The variable is <i>whether the person graduated</i> (categorical).',src:'1.1 slide 6'},
+{id:'q_v15',topic:'vars',type:'mc',q:'"Do college students who pull all-nighters tend to have lower GPAs than those who do not?" Classify the two variables.',opts:['Both categorical','Both quantitative','Whether they pull all-nighters (categorical) and GPA (quantitative)','Whether they pull all-nighters (quantitative) and GPA (categorical)'],ans:2,exp:'Comparing groups: the grouping variable (all-nighter yes/no) is categorical, the response (GPA) is quantitative.',src:'1.1 slide 13'},
+{id:'q_v16',topic:'vars',type:'mc',q:'"Does asking students about the number of texts they have sent <i>first</i> impact whether they assess themselves as texting too often?" Classify the two variables.',opts:['Both categorical','Both quantitative','Asked first (categorical), self-assessment (quantitative)','Asked first (quantitative), self-assessment (categorical)'],ans:0,exp:'Whether they were asked first (yes/no) and whether they say they text too often (yes/no) are both categories. The "number of texts" is bait — it is not one of the two variables in this question.',src:'1.1 slide 14'},
+// --- Six steps & research questions ---
+{id:'q_s1',topic:'steps',type:'mc',q:'Sleep study: "What are the average ratings for hunger and appeal of sweet and non-sweet foods? What is the average calorie intake? Examine the histograms." Which step?',opts:STEP_OPTS,ans:2,exp:'Averages and histograms are numerical and graphical summaries — exploring the data.',src:'Ch. 1 quiz review, slide 6 (A)'},
+{id:'q_s2',topic:'steps',type:'mc',q:'Sleep study: "Is there a genuine tendency regarding hunger ratings between the two groups, or is the discrepancy likely due to chance?" Which step?',opts:STEP_OPTS,ans:3,exp:'"Genuine tendency vs chance" is the inference question — Step 4, where the p-value lives.',src:'Ch. 1 quiz review, slide 6 (E)'},
+{id:'q_s3',topic:'steps',type:'mc',q:'Sleep study: "What is the researcher hoping about the teens in this study in order to generalize the results to all teens? Is there a cause-and-effect relationship?" Which step?',opts:STEP_OPTS,ans:4,exp:'Generalizing and cause-and-effect are the two conclusion questions of Step 5.',src:'Ch. 1 quiz review, slide 6 (C)'},
+{id:'q_s4',topic:'steps',type:'mc',q:'Sleep study: "What are some of the limitations of the study and how could they be addressed in future studies?" Which step?',opts:STEP_OPTS,ans:5,exp:'Limitations and next studies = look back and ahead.',src:'Ch. 1 quiz review, slide 6 (D)'},
+{id:'q_s5',topic:'steps',type:'mc',q:'Sleep study: "What are the observational units? How were they obtained? What are the variables and how are they classified?" Which step?',opts:STEP_OPTS,ans:1,exp:'Choosing units and defining variables is designing the study and collecting data.',src:'Ch. 1 quiz review, slide 6 (B)'},
+{id:'q_s6',topic:'steps',type:'order',q:'Put the six steps of a statistical investigation in order.',items:['Ask a research question','Design a study and collect data','Explore the data','Draw inferences beyond the data','Formulate conclusions','Look back and ahead'],exp:'Ask → Design/collect → Explore → Infer → Conclude → Look back and ahead.',src:'1.1 slide 18'},
+{id:'q_s7',topic:'steps',type:'mc',q:'A <b>smaller</b> p-value means…',opts:['Weaker evidence of a genuine tendency','Stronger evidence of a genuine tendency','The sample was smaller','The effect must be caused by the treatment'],ans:1,exp:'The p-value measures the strength of a tendency; smaller = stronger evidence. Cause-and-effect is a separate (Step 5) question.',src:'1.1 slide 26'},
+{id:'q_s8',topic:'steps',type:'mc',q:'"Do college freshmen send more texts, on average, than college seniors?" What kind of research question is this?',opts:RQ_OPTS,ans:1,exp:'A response (texts) compared across groups defined by a categorical variable (year in school).',src:'1.1 slide 16'},
+{id:'q_s9',topic:'steps',type:'mc',q:'"Does the time of day of the first text message impact the number of text messages sent in a day?" What kind of research question?',opts:RQ_OPTS,ans:2,exp:'Two variables measured on the same students, asking whether one relates to the other.',src:'1.1 slide 16'},
+{id:'q_s10',topic:'steps',type:'mc',q:'"What proportion of students\' most recent text messages are incoming?" What kind of research question?',opts:RQ_OPTS,ans:0,exp:'One variable, one group — looking for a pattern (a proportion).',src:'1.1 slide 16'},
+{id:'q_s11',topic:'steps',type:'mc',q:'Which of these is NOT something Step 1 typically involves?',opts:['Comparing groups','Asking how two characteristics are related','Surveying people\'s opinions','Deciding whether the result generalizes to a population'],ans:3,exp:'Generalizing is Step 5. Step 1 confirms the question can be addressed by collecting data.',src:'1.1 slide 18'},
+// --- Mean vs median ---
+{id:'q_c1',topic:'center',type:'num',q:'Find the mean of <span class="data">6, 12, 15, 8, 4</span>',ans:9,tol:0.01,exp:'(6 + 12 + 15 + 8 + 4) / 5 = 45 / 5 = 9.',src:'1.2 slide 8'},
+{id:'q_c2',topic:'center',type:'num',q:'Find the median of <span class="data">6, 12, 15, 8, 4, 9</span>',ans:8.5,tol:0.01,exp:'Order: 4, 6, 8, 9, 12, 15. Even count → average the middle two: (8 + 9) / 2 = 8.5.',src:'1.2 slide 8'},
+{id:'q_c3',topic:'center',type:'num',q:'Find the median of <span class="data">6, 12, 15, 8, 4</span>',ans:8,tol:0.01,exp:'Order: 4, 6, 8, 12, 15 → the middle value is 8. (Not 15, the middle of the unordered list.)',src:'1.2 slide 8'},
+{id:'q_c4',topic:'center',type:'mc',q:'On a histogram, the <b>mean</b> is the…',opts:['Tallest bar','Balance point','Point with 50% of the data on each side','Widest bar'],ans:1,exp:'Mean = balance point. The 50/50 point is the median; the tallest bar is the mode.',src:'1.2 slide 8'},
+{id:'q_c5',topic:'center',type:'mc',q:'In a <b>right-skewed</b> distribution, how do the mean and median compare?',opts:['Mean > median','Mean < median','Mean = median','Cannot tell'],ans:0,exp:'The long right tail pulls the balance point (mean) to the right of the median.',src:'1.2 slide 9'},
+{id:'q_c6',topic:'center',type:'mc',q:'Income of Americans: what shape, and which measure of center is better?',opts:['Right skewed; median','Right skewed; mean','Left skewed; mean','Symmetric; mean'],ans:0,exp:'A few very large incomes make a long right tail; the median resists them.',src:'1.2 slide 23'},
+{id:'q_c7',topic:'center',type:'mc',q:'GPA of high-school students: what shape, and how do mean and median compare?',opts:['Left skewed; mean < median','Left skewed; mean > median','Right skewed; mean > median','Symmetric; mean = median'],ans:0,exp:'GPAs bunch near the 4.0 ceiling with a tail toward low values → left skewed → mean pulled below the median.',src:'1.2 slide 23'},
+{id:'q_c8',topic:'center',type:'mc',q:'ACT scores: shape, and is SD or IQR the better measure of spread?',opts:['Roughly symmetric; SD is fine','Roughly symmetric; IQR only','Right skewed; IQR','Left skewed; SD'],ans:0,exp:'Standardized test scores are roughly bell-shaped, so mean and SD work well.',src:'1.2 slide 23'},
+{id:'q_c9',topic:'center',type:'mc',q:'One very large value is added to a dataset. Which measure of center changes the most?',opts:['Mean','Median','Both change equally','Neither changes'],ans:0,exp:'The mean is pulled toward the outlier; the median is resistant (it only cares how many values are on each side).',src:'1.2 slide 22'},
+{id:'q_c10',topic:'center',type:'gen',gen(){const a=genList(5,2,30,true);return {type:'num',q:`Find the <b>mean</b> of <span class="data">${list(a)}</span>`,ans:mean(a),tol:0.01,exp:`Sum = ${a.reduce((s,x)=>s+x,0)}; divide by 5 → ${mean(a)}.`};},src:'Generated · method from 1.2 slide 8'},
+{id:'q_c11',topic:'center',type:'gen',gen(){const a=genList(6,1,40);const s=a.slice().sort((x,y)=>x-y);return {type:'num',q:`Find the <b>median</b> of <span class="data">${list(a)}</span>`,ans:median(a),tol:0.01,exp:`Order: ${list(s)}. Even count → average the middle two: (${s[2]} + ${s[3]}) / 2 = ${median(a)}.`};},src:'Generated · method from 1.2 slide 8'},
+{id:'q_c12',topic:'center',type:'gen',gen(){const a=genList(7,1,40);const s=a.slice().sort((x,y)=>x-y);return {type:'num',q:`Find the <b>median</b> of <span class="data">${list(a)}</span>`,ans:median(a),tol:0.01,exp:`Order: ${list(s)}. Odd count → the 4th value, ${median(a)}.`};},src:'Generated · method from 1.2 slide 8'},
+// --- SD, IQR & range ---
+{id:'q_p1',topic:'spread',type:'mc',q:'What is the SD of <span class="data">−7, −7, −7, −7, −7</span>?',opts:['−7','0','7','49','Something else'],ans:1,exp:'Every value equals the mean, so every deviation is 0 and the SD is 0. An SD is never negative.',src:'1.2 slide 12 (Check Your Understanding)'},
+{id:'q_p2',topic:'spread',type:'num',q:'The sum of all the deviations from the mean is always…',ans:0,tol:0,exp:'Deviations above the mean (positive) exactly cancel those below (negative), because the mean balances the data.',src:'1.2 slide 11'},
+{id:'q_p3',topic:'spread',type:'num',q:'Find the <b>range</b> of <span class="data">4, 6, 7, 8, 11, 12, 15</span>',ans:11,tol:0.01,exp:'Range = largest − smallest = 15 − 4 = 11.',src:'1.2 slide 10'},
+{id:'q_p4',topic:'spread',type:'num',q:'Find the <b>IQR</b> of <span class="data">4, 6, 7, 8, 11, 12, 15</span>',ans:6,tol:0.01,exp:'Lower half 4, 6, 7 → Q1 = 6. Upper half 11, 12, 15 → Q3 = 12. IQR = 12 − 6 = 6.',src:'1.2 slide 10'},
+{id:'q_p5',topic:'spread',type:'num',q:'Find the <b>SD</b> of <span class="data">4, 6, 7, 8, 11, 12, 15</span> using the class method (round to 2 decimals).',ans:3.55,tol:0.02,exp:'Mean 9; deviations −5, −3, −2, −1, 2, 3, 6; squares 25, 9, 4, 1, 4, 9, 36 → sum 88; 88 / 7 = 12.57; √12.57 ≈ 3.55.',src:'1.2 slides 10 & 15'},
+{id:'q_p6',topic:'spread',type:'order',q:'Put the steps for calculating the SD in order.',items:['Find the mean of the observations','Calculate the deviations from the mean','Square the deviations','Take the mean of the squared deviations','Take the square root'],exp:'Mean → deviations → square → average → square root.',src:'1.2 slide 15'},
+{id:'q_p7',topic:'spread',type:'mc',q:'Super Bowl anthems: mean 108.465 s, SD 20.477 s. Which is the correct interpretation of the SD?',opts:['Anthem lengths typically differ from the mean of about 108.5 s by about 20.5 s','95% of anthems are within 20.5 s of the mean','The longest anthem is 20.5 s longer than the shortest','Half of the anthems are longer than 20.5 s'],ans:0,exp:'The SD is the typical distance of observations from the mean. "95% within 20.5 s" confuses the SD with the 2-SD rule.',src:'1.2 slide 16'},
+{id:'q_p8',topic:'spread',type:'mc',q:'Which measure of spread is <b>resistant</b> to extreme values?',opts:['Standard deviation','Range','Interquartile range','All are equally affected'],ans:2,exp:'The IQR uses only the middle half of the data. SD squares every deviation (very sensitive) and the range uses the two most extreme values.',src:'1.2 slide 22; quiz review slide 10'},
+{id:'q_p9',topic:'spread',type:'mc',q:'An observation that is <b>below</b> the mean has a deviation that is…',opts:['Positive','Negative','Zero','Equal to the SD'],ans:1,exp:'Deviation = observation − mean, so below the mean gives a negative number.',src:'1.2 slide 11'},
+{id:'q_p10',topic:'spread',type:'mc',q:'A standard deviation close to 0 tells you that…',opts:['The data values are close to the mean','The mean is close to 0','The data are skewed','There are many outliers'],ans:0,exp:'Low SD = little spread about the mean. The value of the mean itself is irrelevant.',src:'1.2 slide 10'},
+{id:'q_p11',topic:'spread',type:'gen',gen(){const a=genList(7,1,40);const s=a.slice().sort((x,y)=>x-y);return {type:'num',q:`Find the <b>range</b> of <span class="data">${list(a)}</span>`,ans:s[6]-s[0],tol:0.01,exp:`Largest ${s[6]} − smallest ${s[0]} = ${s[6]-s[0]}.`};},src:'Generated · method from 1.2 slide 10'},
+{id:'q_p12',topic:'spread',type:'gen',gen(){const a=genList(7,1,40);const s=a.slice().sort((x,y)=>x-y);const [q1,q3]=quartiles(a);return {type:'num',q:`Find the <b>IQR</b> of <span class="data">${list(a)}</span>`,ans:q3-q1,tol:0.01,exp:`Order: ${list(s)}. Lower half ${list(s.slice(0,3))} → Q1 = ${q1}. Upper half ${list(s.slice(4))} → Q3 = ${q3}. IQR = ${q3} − ${q1} = ${q3-q1}.`};},src:'Generated · method from 1.2 slide 10'},
+{id:'q_p13',topic:'spread',type:'gen',gen(){const a=genList(5,1,20,true);const m=mean(a),dev=a.map(x=>x-m),sq=dev.map(x=>x*x),sum=sq.reduce((s,x)=>s+x,0);return {type:'num',q:`Find the <b>SD</b> of <span class="data">${list(a)}</span> using the class method (round to 2 decimals).`,ans:sdPop(a),tol:0.02,exp:`Mean = ${m}. Deviations: ${list(dev)}. Squares: ${list(sq)} (sum ${sum}). Mean of squares = ${sum} / 5 = ${r2(sum/5)}. √${r2(sum/5)} ≈ ${r2(sdPop(a))}.`};},src:'Generated · method from 1.2 slide 15'},
+// --- Empirical rule & unusual ---
+{id:'q_r1',topic:'rule',type:'num',q:'In a symmetric distribution, about what <b>percent</b> of observations fall within 1 SD of the mean?',ans:68,tol:0.5,exp:'68–95–99.7: about 68% within 1 SD.',src:'1.2 slide 18'},
+{id:'q_r2',topic:'rule',type:'num',q:'About what <b>percent</b> of observations fall within 2 SDs of the mean (symmetric distribution)?',ans:95,tol:0.5,exp:'About 95% within 2 SDs — so about 5% are in the tails.',src:'1.2 slide 18'},
+{id:'q_r3',topic:'rule',type:'num',q:'About what <b>percent</b> fall within 3 SDs of the mean?',ans:99.7,tol:0.2,exp:'About 99.7% — almost everything.',src:'1.2 slide 18'},
+{id:'q_r4',topic:'rule',type:'mc',q:'One way the slides define an "unusual" observation:',opts:['More than 1 SD from the mean','More than 2 SDs from the mean','Any value above the mean','The largest value in the data'],ans:1,exp:'Beyond 2 SDs happens less than about 5% of the time — the 5% in the tails.',src:'1.2 slides 19–20'},
+{id:'q_r5',topic:'rule',type:'num',q:'Anthems: mean 108.465 s, SD 20.477 s. An anthem lasting <b>155 s</b> is how many SDs above the mean? (round to 1 decimal)',ans:2.3,tol:0.06,exp:'(155 − 108.465) / 20.477 = 46.5 / 20.5 ≈ 2.3 SDs — more than 2, so it would be considered unusual.',src:'1.2 slides 17–19'},
+{id:'q_r6',topic:'rule',type:'mc',q:'Anthems: mean 108.465 s, SD 20.477 s. Best guess for the length of the next anthem, give or take how much?',opts:['About 108 s, give or take about 20 s','About 108 s, give or take about 41 s','About 88 s, give or take about 20 s','About 129 s, give or take about 20 s'],ans:0,exp:'Best guess = mean; give or take = one SD.',src:'1.2 slide 21'},
+{id:'q_r7',topic:'rule',type:'mc',q:'Anthems: mean 108.465 s, SD 20.477 s. Which interval holds roughly 95% of anthem lengths?',opts:['88.0 s to 128.9 s','67.5 s to 149.4 s','47.0 s to 169.9 s','98.2 s to 118.7 s'],ans:1,exp:'Mean ± 2 SD = 108.465 ± 40.954 → 67.5 to 149.4 s. (88–129 is ± 1 SD → about 68%.)',src:'1.2 slides 17–18'},
+{id:'q_r8',topic:'rule',type:'mc',q:'Roughly how often does an observation fall more than 2 SDs from the mean in a symmetric distribution?',opts:['About 32% of the time','About 5% of the time','About 0.3% of the time','Never'],ans:1,exp:'100% − 95% = 5%, split between the two tails.',src:'1.2 slide 19'},
+{id:'q_r9',topic:'rule',type:'gen',gen(){const m=rnd(40,120),sd=rnd(4,15),k=[1.5,2,2.5,3,1,-1.5,-2,-2.5][rnd(0,7)],x=r2(m+k*sd);return {type:'num',q:`A symmetric distribution has mean ${m} and SD ${sd}. How many SDs from the mean is the value <b>${x}</b>? (enter a positive number, 1 decimal)`,ans:Math.abs(k),tol:0.06,exp:`(${x} − ${m}) / ${sd} = ${r2((x-m)/sd)} → ${Math.abs(k)} SDs ${k>0?'above':'below'} the mean.${Math.abs(k)>2?' More than 2 SDs → unusual.':' Within 2 SDs → not unusual.'}`};},src:'Generated · 2-SD rule from 1.2 slide 19'},
+{id:'q_r10',topic:'rule',type:'gen',gen(){const m=rnd(50,150),sd=rnd(5,20);return {type:'mc',q:`A symmetric distribution has mean ${m} and SD ${sd}. About 95% of observations fall between…`,opts:[`${m-sd} and ${m+sd}`,`${m-2*sd} and ${m+2*sd}`,`${m-3*sd} and ${m+3*sd}`,`${m-sd/2} and ${m+sd/2}`],ans:1,exp:`Mean ± 2 SD = ${m} ± ${2*sd} → ${m-2*sd} to ${m+2*sd}.`};},src:'Generated · empirical rule from 1.2 slide 18'},
+// --- Graphs & comparing ---
+{id:'q_g1',topic:'graphs',type:'mc',q:'Which graph is appropriate for a <b>categorical</b> variable?',opts:['Bar graph','Histogram','Dotplot','Scatterplot'],ans:0,exp:'Categorical → bar graph (bars don\'t touch). Quantitative → dotplot or histogram.',src:'1.2 slide 3'},
+{id:'q_g2',topic:'graphs',type:'mc',q:'In a dotplot, each dot represents…',opts:['One observational unit','One variable','One bin of values','The mean'],ans:0,exp:'Dotplots show every individual unit. Histogram blocks can contain several units.',src:'1.2 slide 3'},
+{id:'q_g3',topic:'graphs',type:'mc',q:'Dotplots of 28 days of average temperature in three cities: Lincoln\'s dots spread from about 12° to 75°, Sedona\'s are bunched tightly, SLO\'s are centered farthest to the right. Which city has the largest <b>standard deviation</b>?',opts:['Lincoln','Sedona','SLO','Cannot tell'],ans:0,exp:'Largest spread = most spread out, least bunched near the center → Lincoln.',src:'Ch. 1 quiz review, slides 12–13'},
+{id:'q_g4',topic:'graphs',type:'mc',q:'Same three cities. Which has the largest <b>mean</b> temperature?',opts:['Lincoln','Sedona','SLO','Cannot tell'],ans:2,exp:'The center of SLO\'s data is farthest to the right on the number line.',src:'Ch. 1 quiz review, slides 12–13'},
+{id:'q_g5',topic:'graphs',type:'num',q:'SLO had 9 of its 28 days at 72° or higher. What <b>proportion</b> is that? (2 decimals)',ans:0.32,tol:0.006,exp:'9 / 28 = 0.32. Count the dots at or above 72 and divide by 28.',src:'Ch. 1 quiz review, slide 13'},
+{id:'q_g6',topic:'graphs',type:'mc',q:'In those temperature dotplots, what is the observational unit?',opts:['A city','A day','A degree','A month'],ans:1,exp:'Each dot is one day\'s average temperature; the three cities are groups being compared.',src:'Ch. 1 quiz review, slide 12'},
+{id:'q_g7',topic:'graphs',type:'mc',q:'What is on the horizontal axis of a histogram of a quantitative variable?',opts:['Frequency of observational units','The variable\'s values (a number line with units)','The names of the observational units','The categories of the variable'],ans:1,exp:'Horizontal = the variable with units; vertical = number or percent of observational units.',src:'1.2 slide 3; quiz review slide 7'},
+{id:'q_g8',topic:'graphs',type:'mc',q:'Comparing two histograms, one distribution is "more variable" than the other if it…',opts:['Has a taller peak','Is spread more widely along the axis','Has a larger mean','Has more observational units'],ans:1,exp:'Variability is width along the axis, not height or center.',src:'1.2 objectives 1.2.4'},
+// --- Probability ---
+{id:'q_b1',topic:'prob',type:'mc',q:'Which is a correct <b>interpretation</b> of "the probability of picking the door with the car is 1/3"?',opts:['In thousands of rounds of picking one of 3 doors, the contestant is expected to pick the car about 1/3 of the time','If you play 3 rounds, you will win exactly once','The next pick has a 1/3 chance, so it is unlikely to be the car','One of every three contestants wins a car'],ans:0,exp:'An interpretation describes the long-run proportion over many repetitions. Options 2 and 4 promise exact short-run results; option 3 judges likelihood instead of interpreting.',src:'1.3 slide 8'},
+{id:'q_b2',topic:'prob',type:'num',q:'Kerrich tossed a coin 10,000 times and got 5,067 heads. What proportion of tosses were heads? (2 decimals)',ans:0.51,tol:0.006,exp:'5,067 / 10,000 = 0.5067 ≈ 0.51 — close to 0.5 but not exactly, because chance variability remains even after 10,000 tosses.',src:'1.3 slide 4'},
+{id:'q_b3',topic:'prob',type:'mc',q:'Kerrich\'s 0.5067 differs from 0.5. The best description is:',opts:['The coin was clearly biased','A long-run proportion estimates the probability; chance variability keeps it from being exact','10,000 tosses is not a long run','The probability of heads is 0.5067'],ans:1,exp:'The observed proportion (a statistic) approaches the probability (a parameter) as repetitions grow, but rarely equals it exactly.',src:'1.3 slide 4; quiz review slide 15'},
+{id:'q_b4',topic:'prob',type:'mc',q:'A probability must always be…',opts:['Between −1 and 1','Between 0 and 1','Greater than 1','A whole number'],ans:1,exp:'0 (never) to 1 (always); also writable as 0%–100% or a fraction.',src:'1.3 slide 4'},
+{id:'q_b5',topic:'prob',type:'mc',q:'"There is a 20% chance of rain today" means:',opts:['It will not rain today','In the long run, about 20% of days with weather like today\'s have rain','It will rain for 20% of the day','20% of the area will get rain'],ans:1,exp:'Probability = long-run proportion of days with a similar weather structure. Whether 20% is "likely" is a separate judgment from what it means.',src:'1.3 slide 3'},
+{id:'q_b6',topic:'prob',type:'mc',q:'Which best defines a <b>random process</b>?',opts:['A process whose result can never be predicted, even in the long run','A repeatable process whose individual result is unknown in advance but which shows a predictable pattern in the long run','Any process involving a computer','A process that always gives the same result'],ans:1,exp:'Uncertain in the short run, predictable pattern in the long run — that is what lets us define probabilities.',src:'1.3 slide 5'},
+{id:'q_b7',topic:'prob',type:'mc',q:'Which of these is NOT a random process?',opts:['Tossing a coin','Rolling a die','Spinning a spinner','Computing the mean of a fixed list of five numbers'],ans:3,exp:'The mean of a fixed list is the same every time — no uncertainty in the individual result.',src:'Ch. 1 quiz review, slide 14'},
+{id:'q_b8',topic:'prob',type:'mc',q:'The symbols π and μ represent…',opts:['Statistics computed from a sample','Parameters: the long-run / true values','Probabilities that must equal 0.5','Sample sizes'],ans:1,exp:'π (proportion) and μ (mean) are parameters. p̂ and x̄ are the statistics from a sample that estimate them.',src:'Ch. 1 quiz review, slides 14–15'},
+{id:'q_b9',topic:'prob',type:'text',q:'A number that summarizes the results of a sample is called a… (one word)',ans:['statistic','a statistic','statistics'],hint:'one word',exp:'Statistic. Sample = the units data are collected on; sample size = how many.',src:'1.3 slide 20'},
+{id:'q_b10',topic:'prob',type:'mc',q:'What is a <b>simulation</b>?',opts:['A mathematical proof of a probability','An artificial re-creation of a random process','A survey of many people','A graph of a distribution'],ans:1,exp:'We re-create the random process (with cards, dice, or a computer) and repeat it to see long-run proportions.',src:'1.3 slide 5'},
+// --- Simulation & repetitions ---
+{id:'q_m1',topic:'sim',type:'order',q:'Put the steps for finding a long-run probability by simulation in order.',items:['Identify the random process (roll 2 dice and take the sum)','Simulate: use a computer to roll the dice and observe the sum','Repeat the simulation many, many times (usually thousands)','Long run: proportions seem stable and stop changing','Count the 7s and divide by the number of repetitions (long-run proportion)','The long-run proportion is the probability of a sum of 7'],exp:'Identify → simulate → repeat → reach the long run → compute the proportion → that proportion is the probability.',src:'1.3 slide 16; quiz review slide 17'},
+{id:'q_m2',topic:'sim',type:'mc',q:'Increasing the number of repetitions in a simulation…',opts:['Makes the approximate probability more accurate (closer to the true probability)','Makes it more likely to hit the exact probability','Has no effect on accuracy','Changes the true probability'],ans:0,exp:'More repetitions → closer. But hitting the exact value becomes LESS likely.',src:'1.3 slide 18; quiz review slide 18'},
+{id:'q_m3',topic:'sim',type:'mc',q:'Getting <b>exactly 50%</b> heads is more likely with…',opts:['10 tosses','10,000 tosses','Equally likely either way','Impossible either way'],ans:0,exp:'Exactly 5 of 10 is fairly common; exactly 5,000 of 10,000 is rare. Accuracy improves with more tosses, exactness does not.',src:'1.3 slide 18; quiz review slide 18'},
+{id:'q_m4',topic:'sim',type:'num',q:'Two dice were rolled 20,000 times by simulation. About what proportion of rolls summed to <b>7</b>? (2 decimals)',ans:0.17,tol:0.01,exp:'6 of the 36 equally likely pairs sum to 7 → 6/36 = 0.1667 ≈ 0.17.',src:'1.3 slide 15'},
+{id:'q_m5',topic:'sim',type:'mc',q:'What is the most likely sum when rolling two dice?',opts:['6','7','8','12'],ans:1,exp:'Seven has the most combinations (6 of 36).',src:'1.3 slide 19'},
+{id:'q_m6',topic:'sim',type:'mc',q:'Monty Hall: in the long run, "stay" and "switch" win about…',opts:['Stay 1/2, switch 1/2','Stay 1/3, switch 2/3','Stay 2/3, switch 1/3','Stay 1/3, switch 1/3'],ans:1,exp:'Your first pick is right 1/3 of the time. Switching wins whenever the first pick was wrong (2/3).',src:'1.3 slide 7'},
+{id:'q_m7',topic:'sim',type:'mc',q:'Which die assignment correctly simulates picking one of 3 doors (1 car, 2 goats)?',opts:['1 = car; 2, 3, 4, 5, 6 = goat','1–2 = car door; 3–4 = goat door; 5–6 = goat door','1–3 = car; 4–6 = goat','Even = car; odd = goat'],ans:1,exp:'Each door must have probability 1/3, so each gets two of the six faces. "1 = car" gives 1/6; "1–3 = car" gives 1/2.',src:'1.3 slide 13'},
+{id:'q_m8',topic:'sim',type:'mc',q:'Simulating with 3 cards (Jack = car, 7 = goat, 10 = goat), the contestant picks a face-down card many times. The estimated probability of winning the car is…',opts:['The number of times the Jack was picked','The proportion of picks that were the Jack','Always exactly 1/3','The number of repetitions'],ans:1,exp:'Probability ≈ long-run proportion = (times Jack picked) ÷ (total picks).',src:'1.3 slide 12; quiz review slide 16'},
+{id:'q_m9',topic:'sim',type:'mc',q:'When has "the long run" been reached in a simulation?',opts:['After exactly 100 repetitions','When the proportions seem stable and are no longer changing much from repetition to repetition','When the proportion equals the true probability exactly','After one repetition of each outcome'],ans:1,exp:'Stability of the running proportion is the signal — not a fixed count.',src:'1.3 slide 16'},
+{id:'q_m10',topic:'sim',type:'mc',q:'Which physical device would NOT correctly simulate a 1/3 chance?',opts:['A spinner with 3 equal sectors','3 tickets in a box (car, goat, goat)','A die with faces split into 3 equal pairs','A coin flip'],ans:3,exp:'A coin has two equally likely outcomes (1/2 each) — it cannot represent 1/3 without extra rules.',src:'1.3 slides 9–13'},
+];
+const Q_BY_ID=Object.fromEntries(QBANK.map(q=>[q.id,q]));
+
+/* ============================================================
+   SCHEDULER — FSRS-4.5 with default parameters (same as GEOG guide)
+============================================================ */
+const W=[0.4872,1.4003,3.7145,13.8206,5.1618,1.2298,0.8975,0.0010,1.54575,0.1192,1.01925,1.9395,0.11,0.29605,2.2698,0.2315,2.9898];
+const DAY=864e5, TARGET_R=0.9;
+const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+function cs(id){return state.cards[id];}
+function retrievability(c,now){
+  if(!c||!c.s)return 0;
+  const t=Math.max(0,(now-c.last)/DAY);
+  return Math.pow(1+t/(9*c.s),-1);
+}
+function isDue(id,now){const c=cs(id);return !!c&&retrievability(c,now)<TARGET_R;}
+function isNew(id){return !cs(id);}
+function nextState(prev,g,now){
+  let c;
+  if(!prev){
+    c={s:W[g-1],d:clamp(W[4]-(g-3)*W[5],1,10),reps:0,lapses:0};
+  }else{
+    c=Object.assign({},prev);
+    const R=retrievability(c,now);
+    if(g===1){
+      c.lapses++;
+      const s=W[11]*Math.pow(c.d,-W[12])*(Math.pow(c.s+1,W[13])-1)*Math.exp(W[14]*(1-R));
+      c.s=clamp(s,0.3,c.s);
+    }else{
+      const hard=g===2?W[15]:1, easy=g===4?W[16]:1;
+      let f=1+Math.exp(W[8])*(11-c.d)*Math.pow(c.s,-W[9])*(Math.exp(W[10]*(1-R))-1)*hard*easy;
+      f=Math.max(f,g===2?1.0:g===3?1.15:1.4);
+      c.s=clamp(c.s*f,0.3,3650);
+    }
+    const d=c.d-W[6]*(g-3);
+    c.d=clamp(W[7]*W[4]+(1-W[7])*d,1,10);
+  }
+  c.reps++;c.last=now;c.due=now+c.s*DAY;
+  return c;
+}
+function rate(id,g,now){
+  now=now||Date.now();
+  const c=nextState(cs(id),g,now);
+  state.cards[id]=c;save();
+  return c;
+}
+function previewInterval(id,g){return nextState(cs(id),g,Date.now()).s;}
+function stageOf(id){
+  const c=cs(id);if(!c)return 'new';
+  if(c.s<7)return 'learning';if(c.s<30)return 'known';return 'mastered';
+}
+function fmtDays(d){
+  if(d<1)return '<1 day';if(d<1.5)return '1 day';if(d<30)return Math.round(d)+' days';
+  if(d<365)return Math.round(d/30*10)/10+' mo';return Math.round(d/365*10)/10+' yr';
+}
+function deckCards(deck){return deck==='all'?CARDS:CARDS.filter(c=>c.deck===deck);}
+function deckMastery(deck){
+  const cards=deckCards(deck);
+  return cards.reduce((a,c)=>a+Math.min(1,(cs(c.id)?cs(c.id).s:0)/30),0)/cards.length;
+}
+function dueCount(deck){const now=Date.now();return deckCards(deck).filter(c=>isDue(c.id,now)).length;}
+function newCount(deck){return deckCards(deck).filter(c=>isNew(c.id)).length;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function ansHtml(a){return Array.isArray(a)?'<ol>'+a.map(s=>'<li>'+s+'</li>').join('')+'</ol>':a;}
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+
+/* ============================================================
+   RENDER: PROGRESS + HOME
+============================================================ */
+function renderProgress(){
+  const m=Math.round(deckMastery('all')*100);
+  document.getElementById('overallProg').style.width=m+'%';
+  const due=dueCount('all');
+  const b=document.getElementById('dueBadge');
+  b.style.display=due?'inline-block':'none';b.textContent=due;
+}
+function renderHome(){
+  const due=dueCount('all'),nw=newCount('all');
+  const learning=CARDS.filter(c=>stageOf(c.id)==='learning').length;
+  const sticking=CARDS.filter(c=>stageOf(c.id)==='mastered'||stageOf(c.id)==='known').length;
+  document.getElementById('homeStats').innerHTML=
+    `<div class="stat due"><b>${due}</b>due now</div><div class="stat"><b>${nw}</b>new</div><div class="stat"><b>${learning}</b>learning</div><div class="stat"><b>${sticking}</b>sticking<br>(7+ days)</div>`;
+  const nextDue=CARDS.map(c=>cs(c.id)).filter(c=>c&&c.due>Date.now()).sort((a,b)=>a.due-b.due)[0];
+  let hint='';
+  if(due)hint=`${due} card${due>1?'s':''} ha${due>1?'ve':'s'} slipped below 90% predicted recall — a short review now beats a long one later.`;
+  else if(nw)hint=`Nothing is due. Start the ${nw} new card${nw>1?'s':''}, or warm up with a practice set.`;
+  else if(nextDue)hint=`All caught up. Next card comes back in ${fmtDays((nextDue.due-Date.now())/DAY)}.`;
+  document.getElementById('homeHint').textContent=hint;
+  document.getElementById('homeQCount').textContent=QBANK.length+' questions';
+  document.getElementById('deckTiles').innerHTML=DECKS.map(d=>{
+    const due=dueCount(d.id),nw=newCount(d.id);
+    return `<div class="tile" onclick="startCards('${d.id}','due')"><div class="ic">${d.icon}</div><div class="t">${d.title}</div>
+      <div class="d">${deckCards(d.id).length} cards · ${due?due+' due':nw?nw+' new':'up to date'}</div>
+      <div class="meter"><i style="width:${Math.round(deckMastery(d.id)*100)}%"></i></div></div>`;
+  }).join('');
+}
+
+/* ============================================================
+   RENDER: NOTES
+============================================================ */
+function renderNotes(){
+  const LAB={x:'Explain',c:'Watch out',t:'Tip',e:'Try it'};
+  document.getElementById('notesBody').innerHTML=NOTES.map(l=>`<div class="lect"><h3>${l.title}</h3>`+
+    l.items.map(it=>{
+      if(it.n)return `<div class="note"><span class="lab">From the slides</span>${it.n}</div>`;
+      const k=Object.keys(LAB).find(k=>it[k]);
+      const body=it[k]+(k==='e'?`<div class="rev" onclick="this.parentElement.classList.toggle('show')">Reveal answer ▾</div><div class="hid">${it.ans}</div>`:'');
+      return `<div class="ann ${k}"><span class="lab">${LAB[k]}</span>${body}</div>`;
+    }).join('')+'</div>').join('');
+  const cb=document.getElementById('notesOnly');
+  cb.checked=state.notesOnly;document.body.classList.toggle('notesonly',state.notesOnly);
+  cb.onchange=()=>{state.notesOnly=cb.checked;document.body.classList.toggle('notesonly',cb.checked);save();};
+}
+
+/* ============================================================
+   FLASHCARDS
+============================================================ */
+let curDeck='all', curMode='due', session=null;
+function renderCardPills(){
+  document.getElementById('cardPills').innerHTML=[{id:'all',title:'All'},...DECKS].map(d=>
+    `<span class="pill ${curDeck===d.id?'on':''}" onclick="setDeck('${d.id}')">${d.title}${dueCount(d.id)?' <span class="badge">'+dueCount(d.id)+'</span>':''}</span>`).join('');
+  document.getElementById('modePills').innerHTML=[['due','Due + new'],['all','Whole deck']].map(([m,l])=>
+    `<span class="pill ${curMode===m?'on':''}" onclick="setMode('${m}')">${l}</span>`).join('');
+}
+function setDeck(d){curDeck=d;session=null;renderCardStart();}
+function setMode(m){curMode=m;session=null;renderCardStart();}
+function startCards(deck,mode){curDeck=deck;curMode=mode;session=null;go('cards');beginSession();}
+function buildQueue(){
+  const now=Date.now(),cards=deckCards(curDeck);
+  if(curMode==='all')return shuffle(cards.map(c=>c.id));
+  const due=cards.filter(c=>isDue(c.id,now)).sort((a,b)=>retrievability(cs(a.id),now)-retrievability(cs(b.id),now)).map(c=>c.id);
+  const fresh=cards.filter(c=>isNew(c.id)).map(c=>c.id);
+  return due.concat(fresh);
+}
+function renderCardStart(){
+  renderCardPills();
+  const q=buildQueue(),label=curDeck==='all'?'All decks':DECK_BY_ID[curDeck].title;
+  document.getElementById('deckLabel').textContent=label;
+  document.getElementById('deckCount').textContent=`${deckCards(curDeck).length} cards`;
+  const stage=document.getElementById('cardStage');
+  if(!q.length){
+    const next=deckCards(curDeck).map(c=>cs(c.id)).filter(Boolean).sort((a,b)=>a.due-b.due)[0];
+    stage.innerHTML=`<div class="done"><div class="big">🎉</div><h3>Nothing due in ${label}</h3>
+      <p class="muted">${next?'Next card returns in '+fmtDays((next.due-Date.now())/DAY)+'.':''} Reviewing early barely changes the schedule, so practice if you want to.</p>
+      <button class="btn alt" style="margin-top:8px" onclick="setMode('all')">Practice the whole deck anyway</button></div>`;
+    return;
+  }
+  const due=q.filter(id=>!isNew(id)).length,nw=q.length-due;
+  stage.innerHTML=`<div class="done"><div class="big">🃏</div><h3>${q.length} card${q.length>1?'s':''} ready</h3>
+    <p class="muted">${curMode==='all'?'Whole deck, shuffled.':`${due} due · ${nw} new`}</p>
+    <button class="btn" style="margin-top:8px" onclick="beginSession()">Start</button></div>`;
+}
+function beginSession(){
+  const q=buildQueue();
+  if(!q.length){renderCardStart();return;}
+  session={queue:q,done:0,total:q.length,again:0,flipped:false};
+  renderCardPills();renderCard();
+}
+function renderCard(){
+  const s=session;
+  if(!s.queue.length){
+    document.getElementById('cardStage').innerHTML=`<div class="done"><div class="big">✅</div><h3>Session complete</h3>
+      <p class="muted">${s.total} card${s.total>1?'s':''} reviewed · ${s.again} sent back for another look.</p>
+      <div class="btnrow" style="margin-top:8px"><button class="btn alt" onclick="session=null;renderCardStart()">Back to decks</button><button class="btn" onclick="go('practice')">Practice questions</button></div></div>`;
+    session=null;renderCardPills();return;
+  }
+  const id=s.queue[0],c=CARD_BY_ID[id],st=cs(id);
+  document.getElementById('deckCount').textContent=`${s.total-s.queue.length+1} / ${s.total}`;
+  document.getElementById('deckLabel').textContent=DECK_BY_ID[c.deck].title+(st?` · seen ${st.reps}× · ${stageOf(id)}`:' · new');
+  const preview=g=>fmtDays(previewInterval(id,g));
+  document.getElementById('cardStage').innerHTML=`
+    <div class="fcwrap"><div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-face fc-front"><span class="fc-tag">${DECK_BY_ID[c.deck].title}</span><div class="q">${c.q}</div><span class="fc-hint">tap to flip</span></div>
+      <div class="fc-face fc-back"><span class="fc-tag">Answer</span><div class="a">${ansHtml(c.a)}</div>${c.why?`<div class="why"><b>Why it matters:</b> ${c.why}</div>`:''}<span class="fc-hint">tap to flip back</span></div>
+    </div></div>
+    <div class="rate hidden" id="rateRow">
+      <button class="r1" onclick="rateCard(1)">Again<small>${preview(1)}</small></button>
+      <button class="r2" onclick="rateCard(2)">Hard<small>${preview(2)}</small></button>
+      <button class="r3" onclick="rateCard(3)">Good<small>${preview(3)}</small></button>
+      <button class="r4" onclick="rateCard(4)">Easy<small>${preview(4)}</small></button>
+    </div>
+    <p class="muted center" style="margin-top:10px">Flip, then rate how well you recalled it. Numbers show when the card would return.</p>`;
+}
+function flipCard(){
+  const el=document.getElementById('flashcard');el.classList.toggle('flip');
+  session.flipped=true;document.getElementById('rateRow').classList.remove('hidden');
+}
+function rateCard(g){
+  const id=session.queue.shift();
+  rate(id,g);
+  if(g===1){session.again++;session.queue.splice(Math.min(3,session.queue.length),0,id);session.total++;}
+  renderCard();
+}
+
+/* ============================================================
+   LEARN MODE (from flashcards)
+============================================================ */
+let learnDeck='all', learn=null;
+function renderLearnPills(){
+  document.getElementById('learnPills').innerHTML=[{id:'all',title:'All'},...DECKS].map(d=>
+    `<span class="pill ${learnDeck===d.id?'on':''}" onclick="learnDeck='${d.id}';learn=null;renderLearnStart()">${d.title}</span>`).join('');
+}
+function renderLearnStart(){
+  renderLearnPills();
+  const cards=deckCards(learnDeck),now=Date.now();
+  const due=cards.filter(c=>isDue(c.id,now)).length,nw=cards.filter(c=>isNew(c.id)).length;
+  document.getElementById('learnStage').innerHTML=`<div class="done"><div class="big">🧠</div><h3>${learnDeck==='all'?'All decks':DECK_BY_ID[learnDeck].title}</h3>
+    <p class="muted">${cards.length} cards · ${due} due · ${nw} new. A round is up to 10 questions, due and new cards first.</p>
+    <button class="btn" style="margin-top:8px" onclick="beginLearn()">Start a round</button></div>`;
+}
+function beginLearn(){
+  const now=Date.now(),cards=deckCards(learnDeck);
+  const due=shuffle(cards.filter(c=>isDue(c.id,now))),fresh=cards.filter(c=>isNew(c.id)),rest=shuffle(cards.filter(c=>!isDue(c.id,now)&&!isNew(c.id)));
+  const q=due.concat(fresh,rest).slice(0,10).map(c=>c.id);
+  learn={queue:q,total:q.length,i:0,right:0};
+  renderLearnQ();
+}
+function learnFormat(id){
+  const c=CARD_BY_ID[id],st=cs(id);
+  if(Array.isArray(c.a))return 'steps';
+  return (!st||st.s<3)?'mcq':'write';
+}
+function renderLearnQ(){
+  const L=learn,stage=document.getElementById('learnStage');
+  if(L.i>=L.queue.length){
+    stage.innerHTML=`<div class="done"><div class="big">${L.right===L.total?'🏆':'👍'}</div><h3>${L.right} / ${L.total} on the first try</h3>
+      <p class="muted">Results feed the same schedule as the flashcards — misses come back sooner.</p>
+      <div class="btnrow" style="margin-top:8px"><button class="btn alt" onclick="learn=null;renderLearnStart()">Done</button><button class="btn" onclick="beginLearn()">Another round</button></div></div>`;
+    learn=null;return;
+  }
+  const id=L.queue[L.i],c=CARD_BY_ID[id],fmt=learnFormat(id);
+  const head=`<div class="lprog"><i style="width:${Math.round(L.i/L.total*100)}%"></i></div>
+    <div class="lq"><div class="eyebrow">${L.i+1} / ${L.total} · ${DECK_BY_ID[c.deck].title} · ${fmt==='mcq'?'Multiple choice':fmt==='steps'?'Put the steps in order':'Write it from memory'}</div><div class="prompt">${c.q}</div>`;
+  if(fmt==='mcq'){
+    const pool=CARDS.filter(o=>o.id!==id&&!Array.isArray(o.a));
+    const same=shuffle(pool.filter(o=>o.deck===c.deck)),other=shuffle(pool.filter(o=>o.deck!==c.deck));
+    const distract=same.concat(other).slice(0,3).map(o=>o.a);
+    const opts=shuffle([c.a,...distract]);
+    stage.innerHTML=head+`<div class="opts" id="opts">${opts.map(o=>`<button class="opt" data-ok="${o===c.a}" onclick="answerMcq(this)">${o}</button>`).join('')}</div><div id="fb"></div></div>`;
+  }else if(fmt==='steps'){
+    const steps=c.a.map((s,i)=>({s,i}));
+    L.stepNext=0;L.stepMiss=0;
+    stage.innerHTML=head+`<p class="muted" style="margin:-4px 0 10px">Tap the steps in the correct order.</p><div class="opts steps" id="opts">${shuffle(steps).map(o=>`<button class="opt" data-i="${o.i}" onclick="answerStep(this)"><span class="n">?</span><span>${o.s}</span></button>`).join('')}</div><div id="fb"></div></div>`;
+  }else{
+    stage.innerHTML=head+`<textarea class="write" id="writeBox" placeholder="Type your answer, then check…"></textarea>
+      <button class="btn" style="margin-top:10px" onclick="checkWrite()">Check answer</button><div id="fb"></div></div>`;
+    setTimeout(()=>document.getElementById('writeBox').focus(),50);
+  }
+}
+function feedbackHtml(ok,c,extra){
+  return `<div class="feedback ${ok?'ok':'no'}"><span class="lab">${ok?'Correct':'Not quite'}</span><div class="ans">${ansHtml(c.a)}</div>${c.why?`<div class="why"><b>Why:</b> ${c.why}</div>`:''}${extra||''}</div>`;
+}
+function answerMcq(btn){
+  const id=learn.queue[learn.i],c=CARD_BY_ID[id];
+  const ok=btn.dataset.ok==='true';
+  document.querySelectorAll('#opts .opt').forEach(b=>{b.disabled=true;if(b.dataset.ok==='true')b.classList.add('ok');else if(b===btn)b.classList.add('no');else b.classList.add('dim');});
+  if(ok)learn.right++;
+  rate(id,ok?3:1);
+  document.getElementById('fb').innerHTML=feedbackHtml(ok,c,`<button class="btn" style="margin-top:10px" onclick="learn.i++;renderLearnQ()">Continue →</button>`);
+}
+function answerStep(btn){
+  const L=learn,id=L.queue[L.i],c=CARD_BY_ID[id];
+  const i=+btn.dataset.i;
+  if(btn.classList.contains('ok'))return;
+  if(i===L.stepNext){
+    btn.classList.add('ok');btn.querySelector('.n').textContent=L.stepNext+1;L.stepNext++;
+    if(L.stepNext===c.a.length){
+      const g=L.stepMiss===0?3:L.stepMiss<=2?2:1;
+      if(L.stepMiss===0)L.right++;
+      rate(id,g);
+      document.getElementById('fb').innerHTML=feedbackHtml(L.stepMiss===0,c,`<p class="muted" style="margin:8px 0 0">${L.stepMiss} wrong tap${L.stepMiss===1?'':'s'}.</p><button class="btn" style="margin-top:10px" onclick="learn.i++;renderLearnQ()">Continue →</button>`);
+    }
+  }else{
+    L.stepMiss++;btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');
+  }
+}
+function checkWrite(){
+  const id=learn.queue[learn.i],c=CARD_BY_ID[id];
+  const typed=document.getElementById('writeBox').value.trim();
+  document.getElementById('writeBox').disabled=true;
+  document.querySelector('#view-learn .lq .btn').style.display='none';
+  document.getElementById('fb').innerHTML=`<div class="feedback ok" style="background:#f6f3fb;border-color:#d6cbe8"><span class="lab" style="color:var(--navy2)">Model answer</span><div class="ans">${ansHtml(c.a)}</div>${c.why?`<div class="why"><b>Why:</b> ${c.why}</div>`:''}
+    ${typed?`<p class="muted" style="margin:8px 0 0">You wrote: “${esc(typed)}”</p>`:''}
+    <p style="margin:10px 0 6px;font-weight:700">How close were you?</p>
+    <div class="rate"><button class="r1" onclick="gradeWrite(1)">Missed it</button><button class="r2" onclick="gradeWrite(2)">Partly</button><button class="r3" onclick="gradeWrite(3)">Got it</button><button class="r4" onclick="gradeWrite(4)">Nailed it</button></div></div>`;
+}
+function gradeWrite(g){
+  const id=learn.queue[learn.i];
+  if(g>=3)learn.right++;
+  rate(id,g);learn.i++;renderLearnQ();
+}
+
+/* ============================================================
+   PRACTICE — question bank by concept
+============================================================ */
+let practice=null, lastMissed=[];
+function qStats(topic){
+  const qs=QBANK.filter(q=>q.topic===topic);
+  const tried=qs.filter(q=>state.q[q.id]&&state.q[q.id].tries).length;
+  return {n:qs.length,tried,best:state.best[topic]};
+}
+function renderPracticeStart(){
+  const stage=document.getElementById('practiceStage');
+  const totalTried=Object.values(state.q).filter(r=>r.tries).length;
+  stage.innerHTML=`<div class="card"><h3>Mixed set</h3><p class="muted" style="margin:4px 0 10px">10 questions drawn across all concepts — the closest thing to the quiz. ${totalTried?`You've attempted ${totalTried} of ${QBANK.length} distinct questions.`:''}</p>
+    <button class="btn" onclick="startPractice('mix')">Start a mixed set of 10</button></div>
+    <h2 class="sec" style="font-size:16px;margin-top:6px">By concept</h2>`+
+    CONCEPTS.map(c=>{const s=qStats(c.id);return `<div class="ptile" onclick="startPractice('${c.id}')"><div class="ic">${c.icon}</div><div>
+      <div class="t">${c.title}</div><div class="tricky"><b>Tricky:</b> ${c.tricky}</div>
+      <div class="meta"><span>${s.n} questions</span>${s.best!=null?`<span class="best">best ${s.best}%</span>`:''}${s.tried?`<span>${s.tried} tried</span>`:''}</div></div></div>`;}).join('');
+}
+function instantiate(item){
+  if(item.type==='gen'){const g=item.gen();return Object.assign({id:item.id,topic:item.topic,src:item.src},g);}
+  return Object.assign({},item);
+}
+function startPractice(topic,ids){
+  let items;
+  if(ids)items=ids.map(id=>Q_BY_ID[id]);
+  else if(topic==='mix'){
+    // Take at least one from each concept, then fill to 10 at random.
+    const perConcept=CONCEPTS.map(c=>shuffle(QBANK.filter(q=>q.topic===c.id))[0]);
+    const rest=shuffle(QBANK.filter(q=>!perConcept.includes(q)));
+    items=shuffle(perConcept.concat(rest).slice(0,10));
+  }else items=shuffle(QBANK.filter(q=>q.topic===topic));
+  practice={topic,queue:items.map(instantiate),i:0,right:0,missed:[]};
+  go('practice');renderPQ();
+}
+function renderPQ(){
+  const P=practice,stage=document.getElementById('practiceStage');
+  if(P.i>=P.queue.length){
+    const pct=Math.round(P.right/P.queue.length*100);
+    if(P.topic!=='mix'&&(state.best[P.topic]==null||pct>state.best[P.topic])){state.best[P.topic]=pct;save();}
+    lastMissed=P.missed.map(m=>m.id);
+    stage.innerHTML=`<div class="done"><div class="scorebig ${pct>=70?'pass':'fail'}">${pct}%</div><h3>${P.right} / ${P.queue.length} correct</h3>
+      <p class="muted">${pct===100?'Clean sweep.':pct>=70?'Solid — retry the misses until they are automatic.':'Read the explanations, then retry the missed ones.'}</p>
+      ${P.missed.length?`<ul class="missed">${P.missed.map(m=>`<li>❌ ${m.q.replace(/<span class="data">.*?<\/span>/,'…')}</li>`).join('')}</ul>`:''}
+      <div class="btnrow" style="margin-top:12px"><button class="btn alt" onclick="practice=null;renderPracticeStart()">All concepts</button>
+      ${P.missed.length?`<button class="btn" onclick="startPractice('${P.topic}',lastMissed)">Retry missed (${P.missed.length})</button>`:`<button class="btn" onclick="startPractice('${P.topic}')">Go again</button>`}</div></div>`;
+    practice=null;return;
+  }
+  const q=P.queue[P.i],con=CONCEPT_BY_ID[q.topic];
+  const kind={mc:'Multiple choice',num:'Enter a number',text:'Type your answer',order:'Put in order'}[q.type];
+  const head=`<div class="lprog"><i style="width:${Math.round(P.i/P.queue.length*100)}%"></i></div>
+    <div class="lq"><div class="eyebrow">${P.i+1} / ${P.queue.length} · ${con.title} · ${kind}</div><div class="prompt">${q.q}</div>`;
+  if(q.type==='mc'){
+    const order=shuffle(q.opts.map((_,i)=>i));
+    stage.innerHTML=head+`<div class="opts" id="opts">${order.map((oi,k)=>`<button class="opt" data-ok="${oi===q.ans}" onclick="pAnswerMc(this)"><span class="letter">${'ABCDE'[k]}</span>${q.opts[oi]}</button>`).join('')}</div><div id="fb"></div></div>`;
+  }else if(q.type==='num'||q.type==='text'){
+    stage.innerHTML=head+`<div class="answerrow"><input id="pIn" type="${q.type==='num'?'number':'text'}" ${q.type==='num'?'step="any" inputmode="decimal"':'autocapitalize="none" autocomplete="off"'} placeholder="${q.type==='num'?'Your answer':'Type here'}" onkeydown="if(event.key==='Enter')pCheckInput()"><button class="btn" onclick="pCheckInput()">Check</button></div>
+      <div class="inhint">${q.type==='num'?(q.tol?`Answers within ±${q.tol} are accepted.`:'Exact answer.'):(q.hint||'Spelling matters, capitalization does not.')}</div><div id="fb"></div></div>`;
+    setTimeout(()=>document.getElementById('pIn').focus(),50);
+  }else if(q.type==='order'){
+    P.stepNext=0;P.stepMiss=0;P.stepDone=false;
+    stage.innerHTML=head+`<p class="muted" style="margin:-4px 0 10px">Tap the items in the correct order. No wrong taps = correct.</p><div class="opts steps" id="opts">${shuffle(q.items.map((s,i)=>({s,i}))).map(o=>`<button class="opt" data-i="${o.i}" onclick="pAnswerStep(this)"><span class="n">?</span><span>${o.s}</span></button>`).join('')}</div><div id="fb"></div></div>`;
+  }
+}
+function pRecord(ok){
+  const P=practice,q=P.queue[P.i];
+  const r=state.q[q.id]||(state.q[q.id]={tries:0,right:0});r.tries++;if(ok)r.right++;
+  if(ok)P.right++;else P.missed.push(q);
+  save();
+}
+function pFeedback(ok,q,extra){
+  const ansTxt=q.type==='mc'?q.opts[q.ans]:q.type==='order'?ansHtml(q.items):q.type==='text'?q.ans[0]:(Number.isInteger(q.ans)?q.ans:r2(q.ans));
+  document.getElementById('fb').innerHTML=`<div class="feedback ${ok?'ok':'no'}"><span class="lab">${ok?'Correct':'Not quite'}</span><div class="ans">${ansTxt}</div><div class="why">${q.exp}</div>${q.src?`<div class="src">Source: ${q.src}</div>`:''}${extra||''}
+    <button class="btn" style="margin-top:10px" onclick="practice.i++;renderPQ()">Continue →</button></div>`;
+}
+function pAnswerMc(btn){
+  const q=practice.queue[practice.i],ok=btn.dataset.ok==='true';
+  document.querySelectorAll('#opts .opt').forEach(b=>{b.disabled=true;if(b.dataset.ok==='true')b.classList.add('ok');else if(b===btn)b.classList.add('no');else b.classList.add('dim');});
+  pRecord(ok);pFeedback(ok,q);
+}
+function pCheckInput(){
+  const q=practice.queue[practice.i],inp=document.getElementById('pIn');
+  if(inp.disabled)return;
+  const raw=inp.value.trim();if(!raw)return;
+  let ok;
+  if(q.type==='num'){const v=parseFloat(raw.replace(/,/g,''));ok=!isNaN(v)&&Math.abs(v-q.ans)<=(q.tol||0)+1e-9;}
+  else{const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();ok=q.ans.some(a=>norm(a)===norm(raw));}
+  inp.disabled=true;document.querySelector('#view-practice .answerrow .btn').disabled=true;
+  pRecord(ok);pFeedback(ok,q,`<p class="muted" style="margin:8px 0 0">You entered: ${esc(raw)}</p>`);
+}
+function pAnswerStep(btn){
+  const P=practice,q=P.queue[P.i],i=+btn.dataset.i;
+  if(btn.classList.contains('ok')||P.stepDone)return;
+  if(i===P.stepNext){
+    btn.classList.add('ok');btn.querySelector('.n').textContent=P.stepNext+1;P.stepNext++;
+    if(P.stepNext===q.items.length){P.stepDone=true;const ok=P.stepMiss===0;pRecord(ok);pFeedback(ok,q,`<p class="muted" style="margin:8px 0 0">${P.stepMiss} wrong tap${P.stepMiss===1?'':'s'}.</p>`);}
+  }else{P.stepMiss++;btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');}
+}
+
+/* ============================================================
+   BOOT
+============================================================ */
+function renderAll(){renderProgress();renderHome();renderNotes();renderCardStart();renderLearnStart();renderPracticeStart();}
+renderAll();
+</script>
+<script src="../shared/topics.js"></script>
+</body>
+</html>
